@@ -7,15 +7,22 @@
     <title>添加新的病人资料</title>
     <link rel="stylesheet" href="<?php echo ($staticPath); ?>/layui/css/layui.css">
     <style media="screen">
-        /* 关闭iframe线条 */
-        body{border:0px;}
-        /* 关闭iframe的左边间距 */
-        .layui-container{margin-left:0px;}
+        .layui-container{ border: 1px solid #ccc;}
     </style>
 </head>
 <body>
-<p><?php echo ($item); ?></p>
 <div class="layui-container">
+    <div class="layui-row">
+      <div class="layui-col-md12">
+          <div class="layui-card">
+            <div class="layui-card-header layui-bg-blue"><?php echo ($item); ?></div>
+            <div class="layui-card-body">
+                <p>提示: </p>
+                <p>1. 姓名必须填写; 2. 电话号码必须填写; 3. 未尽资料填写于备注中; </p>
+            </div>
+          </div>
+      </div>
+  </div>
     <form class="layui-form" action="<?php echo U('Admin/Index/index/id/' . $id);?>" method="post">
         <div class="layui-form-item">
           <label class="layui-form-label">姓名</label>
@@ -43,7 +50,7 @@
         <div class="layui-input-inline">
           <select name="diseases" lay-verify="required">
             <!-- foreach 病种选择 -->
-
+            <?php if(is_array($filedData)): foreach($filedData as $k=>$vo): ?><option value="<?php echo ($k); ?>"><?php echo ($vo['diseases']); ?></option><?php endforeach; endif; ?>
 
           </select>
         </div>
@@ -52,7 +59,6 @@
         <label class="layui-form-label">就诊来源</label>
         <div class="layui-input-inline">
           <select name="fromAddress" lay-verify="required">
-            <!-- foreach 病种选择 -->
             <option value="0">网络</option>
             <option value="1">电话</option>
             <option value="2">QQ</option>
@@ -74,7 +80,7 @@
         <div class="layui-form-mid layui-word-aux">可选(默认为其他市)</div>
       </div>
       <div class="layui-form-item">
-        <label class="layui-form-label">是男是女？</label>
+        <label class="layui-form-label">是男是女?</label>
         <div class="layui-input-block">
           <input type="radio" name="sex" value="男" title="男" checked>
           <input type="radio" name="sex" value="女" title="女">
@@ -83,7 +89,7 @@
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">咨询内容</label>
         <div class="layui-input-block">
-          <textarea name="desc" placeholder="请输入内容" required lay-verify="required" class="layui-textarea"></textarea>
+          <textarea name="desc1" placeholder="请输入内容" required lay-verify="required" class="layui-textarea"></textarea>
         </div>
       </div>
       <div class="layui-form-item">
@@ -102,7 +108,7 @@
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-          <textarea name="desc" placeholder="其他备注信息" class="layui-textarea"></textarea>
+          <textarea name="desc2" placeholder="其他备注信息" class="layui-textarea"></textarea>
         </div>
       </div>
       <div class="layui-form-item">
@@ -120,8 +126,7 @@
           </select>
         </div>
       </div>
-</div>
-<div class="layui-container">
+
         <div class="layui-form-item">
             <label class="layui-form-label">赴约时间</label>
             <div class="layui-inline">
@@ -156,9 +161,8 @@ window.onload = function () {
 
             //监听提交
             form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
+                // layer.msg(JSON.stringify(data.field));
+            });
     });
 }
 </script>

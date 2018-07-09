@@ -66,7 +66,7 @@ class IndexController extends Controller {
             $tommor = ['预计' => '2'];
             $toDay = ['总共' => '6', '已到' => '0', '未到' => '6'];
             $prevDay = ['总共' => '6', '已到' => '0', '未到' => '6'];
-            $currentMoth = ['总共' => '41', '已到' => '20', '未到' => '21'];
+            $currentMonth = ['总共' => '41', '已到' => '20', '未到' => '21'];
             // 本月到院排行榜
             $nameList = ['邢艳梅' => '10', '周玉波' => '8', '王亚萍' => '3'];
 
@@ -74,7 +74,7 @@ class IndexController extends Controller {
             $this->assign('tommor', $tommor);
             $this->assign('toDay', $toDay);
             $this->assign('prevDay', $prevDay);
-            $this->assign('currentMonth', $currentMoth);
+            $this->assign('currentMonth', $currentMonth);
             $this->assign('nameList', $nameList);
             $this->display();
 
@@ -108,6 +108,12 @@ class IndexController extends Controller {
         /* 判断添加预约信息传值是否为空 */
         if (is_null($id)) return false;
 
+        $user = M('alldiseases');
+        // 查询对应的病种字段
+        $filedData = $user->where("pid = $id")->field("diseases")->select();
+
+        // 把字段发送到前端(病患类型下拉列表)
+        $this->assign('filedData', $filedData);
 
         /* 把获取到的数据添加依据发送前端 */
         $this->assign('id', $id);
@@ -115,31 +121,31 @@ class IndexController extends Controller {
 
         switch ($id) {
             case 1:
-                $this->assign('item', '/ 广元协和医院男科预约信息添加');
+                $this->assign('item', '广元协和医院男科预约信息添加');
                 break;
             case 2:
-                $this->assign('item', '/ 广元协和医院妇科预约信息添加');
+                $this->assign('item', '广元协和医院妇科预约信息添加');
                 break;
             case 3:
-                $this->assign('item', '/ 广元协和不孕不育科预约信息添加');
+                $this->assign('item', '广元协和不孕不育科预约信息添加');
                 break;
             case 4:
-                $this->assign('item', '/ 广元协和医院其他预约信息添加');
+                $this->assign('item', '广元协和医院其他预约信息添加');
                 break;
             case 5:
-                $this->assign('item', '/ 广元协和医院计划生育科预约信息添加');
+                $this->assign('item', '广元协和医院计划生育科预约信息添加');
                 break;
             case 6:
-                $this->assign('item', '/ 广元协和医院肛肠科预约信息添加');
+                $this->assign('item', '广元协和医院肛肠科预约信息添加');
                 break;
             case 7:
-                $this->assign('item', '/ 广元协和医院微创外科预约信息添加');
+                $this->assign('item', '广元协和医院微创外科预约信息添加');
                 break;
             case 8:
-                $this->assign('item', '/ 广元协和医院乳腺科预约信息添加');
+                $this->assign('item', '广元协和医院乳腺科预约信息添加');
                 break;
             default:
-                $this->assign('item', '/ 未选择医院');
+                $this->assign('item', '未选择医院');
                 $this->display();
                 break;
         }

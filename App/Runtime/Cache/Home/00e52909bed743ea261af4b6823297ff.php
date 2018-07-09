@@ -194,18 +194,22 @@
         if (isNaN(index)) { alert("请先选择医院!"); return false;}
         if (tab == 8) {
             /* 页面跳转传递给后台要添加数据的表格id */
-            Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
-            Request.send();
-            Request.onreadystatechange = function () {
-                if (Request.readyState == 4 && Request.status == 200) {
-                    console.log(Request.responseText);
-                    document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            /*
+                Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
+                Request.send();
+                Request.onreadystatechange = function () {
+                    if (Request.readyState == 4 && Request.status == 200) {
+                        console.log(Request.responseText);
+                        document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                    }
                 }
-            }
+            */
+
+            window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
 
         } else {
 
-            Request.open("GET", "<?php echo ('Home/Index/showTab/id/"+ index +"');?>");
+            Request.open("GET", "<?php echo U('Home/Index/showTab/id/"+ index +"');?>");
             Request.send();
             Request.onreadystatechange = function () {
                 if (Request.readyState == 4 && Request.status == 200) {
