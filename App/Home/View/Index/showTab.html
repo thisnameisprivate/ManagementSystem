@@ -11,12 +11,7 @@
     </style>
 </head>
 <body>
-    <table class="layui-table" style="color:#1E9FFF;">
-      <colgroup>
-        <col width="150">
-        <col width="200">
-        <col>
-      </colgroup>
+    <table class="layui-table" style="color:#1E9FFF;" lay-size="sm">
       <thead>
         <tr>
           <th>姓名</th>
@@ -26,11 +21,9 @@
           <th>QQ</th>
           <th>专家号</th>
           <th>咨询内容</th>
-          <th>接待</th>
           <th>预约时间</th>
           <th>病患类型</th>
           <th>媒体来源</th>
-          <th>关键词</th>
           <th>地区</th>
           <th>备注</th>
           <th>客服</th>
@@ -40,6 +33,28 @@
           <th>操作</th>
         </tr>
       </thead>
+      <tbody>
+          <foreach name="data" item="vo" key="k">
+              <tr>
+                  <td>{$vo['name']}</td>
+                  <td>{$vo['sex']}</td>
+                  <td>{$vo['old']}</td>
+                  <td>{$vo['phone']}</td>
+                  <td>{$vo['qq']}</td>
+                  <td>{$vo['expert']}</td>
+                  <td>{$vo['desc1']}</td>
+                  <td>{$vo['oldDate']}</td>
+                  <td>{$vo['diseases']}</td>
+                  <td>{$vo['fromAddress']}</td>
+                  <td>{$vo['switch']}</td>
+                  <td>{$vo['desc2']}</td>
+                  <td>待更改</td>
+                  <td>待更改</td>
+                  <td>{$vo['status']}</td>
+                  <td>{$vo['newDate']}</td>
+              </tr>
+          </foreach>
+      </tbody>
     </table>
 </body>
 <script src="{$staticPath}/layui/layui.js"></script>

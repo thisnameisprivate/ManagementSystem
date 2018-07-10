@@ -152,7 +152,7 @@
 </div>
 <script type="text/javascript">
 
-/* 读取新的医院首页  */
+    /* 读取新的医院首页  */
     function readyHtml (currElement) {
         /* 获取选择科室对象 */
         let ification = document.getElementById('classification');
@@ -193,6 +193,8 @@
 
         if (isNaN(index)) { alert("请先选择医院!"); return false;}
         if (tab == 8) {
+
+            
             /* 页面跳转传递给后台要添加数据的表格id */
             /*
                 Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");

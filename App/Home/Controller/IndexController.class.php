@@ -96,10 +96,74 @@ class IndexController extends Controller {
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
+
+
+        /* 根据发送的id查询表单 */
+        switch ($id) {
+            case 1:
+                $user = M('nk');
+                break;
+            case 2:
+                $user = M('fk');
+                break;
+            case 3:
+                $user = M('byby');
+                break;
+            case 4:
+                $user = M('other');
+                break;
+            case 5:
+                $user = M('jhsy');
+                break;
+            case 6:
+                $user = M('gck');
+                break;
+            case 7:
+                $user = M('wcwk');
+                break;
+            case 8:
+                $user = M('rxk');
+                break;
+            default:
+                echo "找不到表格,可能是表格id未找到";
+                break;
+        }
+
+        /* 查询详情表数据 */
+        $data = $user->select();
+
+
+        /* 查询id对应的病种表单 */
+        $diseases = $user->table("alldiseases")->where("pid = $id")->field("diseases")->select();
+
+        for ($i = 0; $i < count($data); $i ++) {
+            $address = $user->table("fromaddress")->where("pid = {$data[$i]['fromAddress']}")->select();
+            $status = $user->table("status")->where("pid = {$data[$i]['status']}")->select();
+            /* 替换以数字表示的病种数据 */
+            $data[$i]['diseases'] = $diseases[$data[$i]['diseases']]['diseases'];
+
+            /* 替换以数字表示的来源数据 */
+            $data[$i]['fromAddress'] = $address[0]['fromaddress'];
+
+            /* 替换以数字表示的状态数据 */
+            $data[$i]['status'] = $status[0]['status'];
+
+            /* 替换是否为本市的switch字符 */
+            if ($data[$i]['switch'] == 'on') {
+                $data[$i]['switch'] = '本市';
+            } else {
+                $data[$i]['switch'] = '其他';
+            }
+        }
+
+        /* 发送整理过后的数据到前端 */
+        $this->assign('data', $data);
         $this->display();
+
     }
 
-    public function insertShow ($id = null) {
+    public function insertShow ($id = null)
+    {
 
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
@@ -110,10 +174,18 @@ class IndexController extends Controller {
 
         $user = M('alldiseases');
         // 查询对应的病种字段
-        $filedData = $user->where("pid = $id")->field("diseases")->select();
+        $diseases = $user->where("pid = $id")->field("diseases")->select();
 
-        // 把字段发送到前端(病患类型下拉列表)
-        $this->assign('filedData', $filedData);
+        // 查询来源下拉列表
+        $address = $user->table('fromaddress')->select();
+
+        // 查询状态下拉列表
+        $status = $user->table('status')->select();
+
+        // 把字段发送到前端
+        $this->assign('diseases', $diseases);
+        $this->assign('address', $address);
+        $this->assign('status', $status);
 
         /* 把获取到的数据添加依据发送前端 */
         $this->assign('id', $id);
@@ -152,4 +224,5 @@ class IndexController extends Controller {
 
         $this->display();
     }
+
 }

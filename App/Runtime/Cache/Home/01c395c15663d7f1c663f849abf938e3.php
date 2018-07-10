@@ -43,15 +43,21 @@
         <div class="layui-input-inline">
           <input type="number" name="phone" required lay-verify="required" placeholder="请输入电话" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-form-mid layui-word-aux">必填</div>
+        <div class="layui-form-mid layui-word-aux">必填(如果没有请填null)</div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">QQ</label>
+        <div class="layui-input-inline">
+          <input type="number" name="qq" required lay-verify="required" placeholder="请输入QQ" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">必填(如果没有请填null)</div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">病患类型</label>
         <div class="layui-input-inline">
           <select name="diseases" lay-verify="required">
             <!-- foreach 病种选择 -->
-            <?php if(is_array($filedData)): foreach($filedData as $k=>$vo): ?><option value="<?php echo ($k); ?>"><?php echo ($vo['diseases']); ?></option><?php endforeach; endif; ?>
-
+            <?php if(is_array($diseases)): foreach($diseases as $k=>$vo): ?><option value="<?php echo ($k); ?>"><?php echo ($vo['diseases']); ?></option><?php endforeach; endif; ?>
           </select>
         </div>
       </div>
@@ -59,15 +65,8 @@
         <label class="layui-form-label">就诊来源</label>
         <div class="layui-input-inline">
           <select name="fromAddress" lay-verify="required">
-            <option value="0">网络</option>
-            <option value="1">电话</option>
-            <option value="2">QQ</option>
-            <option value="3">营销QQ</option>
-            <option value="4">Wechat</option>
-            <option value="5">公众号</option>
-            <option value="6">陌陌</option>
-            <option value="7">直播</option>
-            <option value="8">黔医通</option>
+            <!-- 来源渠道选择 -->
+            <?php if(is_array($address)): foreach($address as $k=>$vo): ?><option value="<?php echo ($k); ?>"><?php echo ($vo['fromaddress']); ?></option><?php endforeach; endif; ?>
           </select>
         </div>
       </div>
@@ -116,13 +115,7 @@
         <div class="layui-input-inline">
           <select name="status" lay-verify="required">
             <!-- foreach 病种选择 -->
-            <option value="0">等待</option>
-            <option value="1">已到</option>
-            <option value="2">未到</option>
-            <option value="3">预约未定</option>
-            <option value="4">全流失</option>
-            <option value="5">半流失</option>
-            <option value="6">已诊治</option>
+            <?php if(is_array($status)): foreach($status as $k=>$vo): ?><option value="<?php echo ($k); ?>"><?php echo ($vo['status']); ?></option><?php endforeach; endif; ?>
           </select>
         </div>
       </div>

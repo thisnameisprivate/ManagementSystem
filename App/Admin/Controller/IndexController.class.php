@@ -11,6 +11,8 @@ class IndexController extends Controller {
     * */
     public function index ($id = null)
     {
+
+        var_dump($_POST);
         if (is_null($id)) return false;
 
         /* 根据前端发送的值选择表单添加数据 */
@@ -44,6 +46,8 @@ class IndexController extends Controller {
                 break;
         }
 
-        
+
+        $result = $user->add($_POST);
+        if ($result) $insertId = $result;
     }
 }

@@ -11,12 +11,7 @@
     </style>
 </head>
 <body>
-    <table class="layui-table" style="color:#1E9FFF;">
-      <colgroup>
-        <col width="150">
-        <col width="200">
-        <col>
-      </colgroup>
+    <table class="layui-table" style="color:#1E9FFF;" lay-size="sm">
       <thead>
         <tr>
           <th>姓名</th>
@@ -26,11 +21,9 @@
           <th>QQ</th>
           <th>专家号</th>
           <th>咨询内容</th>
-          <th>接待</th>
           <th>预约时间</th>
           <th>病患类型</th>
           <th>媒体来源</th>
-          <th>关键词</th>
           <th>地区</th>
           <th>备注</th>
           <th>客服</th>
@@ -40,6 +33,26 @@
           <th>操作</th>
         </tr>
       </thead>
+      <tbody>
+          <?php if(is_array($data)): foreach($data as $k=>$vo): ?><tr>
+                  <td><?php echo ($vo['name']); ?></td>
+                  <td><?php echo ($vo['sex']); ?></td>
+                  <td><?php echo ($vo['old']); ?></td>
+                  <td><?php echo ($vo['phone']); ?></td>
+                  <td><?php echo ($vo['qq']); ?></td>
+                  <td><?php echo ($vo['expert']); ?></td>
+                  <td><?php echo ($vo['desc1']); ?></td>
+                  <td><?php echo ($vo['oldDate']); ?></td>
+                  <td><?php echo ($vo['diseases']); ?></td>
+                  <td><?php echo ($vo['fromAddress']); ?></td>
+                  <td><?php echo ($vo['switch']); ?></td>
+                  <td><?php echo ($vo['desc2']); ?></td>
+                  <td>待更改</td>
+                  <td>待更改</td>
+                  <td><?php echo ($vo['status']); ?></td>
+                  <td><?php echo ($vo['newDate']); ?></td>
+              </tr><?php endforeach; endif; ?>
+      </tbody>
     </table>
 </body>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
