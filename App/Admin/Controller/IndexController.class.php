@@ -49,5 +49,6 @@ class IndexController extends Controller {
 
         $result = $user->add($_POST);
         if ($result) $insertId = $result;
+        print_r($insertId);
     }
 }

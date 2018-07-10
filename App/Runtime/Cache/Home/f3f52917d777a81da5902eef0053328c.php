@@ -7,11 +7,11 @@
     <title>广元协和医院新媒体</title>
     <link rel="stylesheet" href="<?php echo ($staticPath); ?>/layui/css/layui.css">
     <style media="screen">
-        /* .ovhid{white-space: nowrap;text-overflow: ellipsis;overflow: hidden;} 超出隐藏 */
+        .over{width: 100px; overflow:hidden;}
     </style>
 </head>
 <body>
-    <table class="layui-table" style="color:#1E9FFF;" lay-size="sm">
+    <table class="layui-table" style="table-layout: fixed;" lay-size="sm">
       <thead>
         <tr>
           <th>姓名</th>
@@ -41,16 +41,21 @@
                   <td><?php echo ($vo['phone']); ?></td>
                   <td><?php echo ($vo['qq']); ?></td>
                   <td><?php echo ($vo['expert']); ?></td>
-                  <td><?php echo ($vo['desc1']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc1']); ?></td>
                   <td><?php echo ($vo['oldDate']); ?></td>
                   <td><?php echo ($vo['diseases']); ?></td>
                   <td><?php echo ($vo['fromAddress']); ?></td>
                   <td><?php echo ($vo['switch']); ?></td>
-                  <td><?php echo ($vo['desc2']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc2']); ?></td>
                   <td>待更改</td>
                   <td>待更改</td>
                   <td><?php echo ($vo['status']); ?></td>
                   <td><?php echo ($vo['newDate']); ?></td>
+                  <td>
+                      <a href="javascript:;" title="查看详情" class="layui-icon layui-icon-form" style="color:#1E9FFF;"></a>
+                      <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit" style="color:#FFB800;"></a>
+                      <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete" style="color:#FF5722;"></a>
+                  </td>
               </tr><?php endforeach; endif; ?>
       </tbody>
     </table>

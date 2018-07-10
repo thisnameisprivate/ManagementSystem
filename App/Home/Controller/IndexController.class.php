@@ -130,15 +130,18 @@ class IndexController extends Controller {
         }
 
         /* 查询详情表数据 */
-        $data = $user->select();
+        $data = $user->order('id desc')->select();
 
 
         /* 查询id对应的病种表单 */
         $diseases = $user->table("alldiseases")->where("pid = $id")->field("diseases")->select();
 
         for ($i = 0; $i < count($data); $i ++) {
+
+            /* 查询id对应的表单 */
             $address = $user->table("fromaddress")->where("pid = {$data[$i]['fromAddress']}")->select();
             $status = $user->table("status")->where("pid = {$data[$i]['status']}")->select();
+
             /* 替换以数字表示的病种数据 */
             $data[$i]['diseases'] = $diseases[$data[$i]['diseases']]['diseases'];
 
