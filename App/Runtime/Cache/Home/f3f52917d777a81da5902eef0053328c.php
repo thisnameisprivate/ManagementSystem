@@ -7,7 +7,7 @@
     <title>广元协和医院新媒体</title>
     <link rel="stylesheet" href="<?php echo ($staticPath); ?>/layui/css/layui.css">
     <style media="screen">
-        .over{width: 100px; overflow:hidden;}
+        .over{width:100px; overflow:hidden;}
     </style>
 </head>
 <body>
@@ -59,6 +59,22 @@
               </tr><?php endforeach; endif; ?>
       </tbody>
     </table>
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-xs layui-btn-primary">
+            <i class="layui-icon"><?php echo ($prev); ?></i>
+        </button>
+        <button class="layui-btn layui-btn-xs layui-btn-primary">
+            <i class="layui-icon"><?php echo ($next); ?></i>
+        </button>
+        <button class="layui-btn layui-btn-xs layui-btn-primary">
+            <i class="layui-icon">第<?php echo ($pageIndex); ?>/<?php echo ($total_pages); ?>页</i>
+        </button>
+        <button class="layui-btn layui-btn-xs layui-btn-primary">
+            <i class="layui-icon">每页<?php echo ($pageSize); ?>条</i>
+        </button>
+        <button class="layui-btn layui-btn-xs layui-btn-primary">
+            <i class="layui-icon">共<?php echo ($dataCount); ?>条</i>
+        </button>
 </body>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 </html>

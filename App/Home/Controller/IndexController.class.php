@@ -91,7 +91,7 @@ class IndexController extends Controller {
     *  param id int default null
     */
 
-    public function showTab ($id = null)
+    public function showTab ($id = null, $pageIndex = 1)
     {
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
@@ -129,14 +129,32 @@ class IndexController extends Controller {
                 break;
         }
 
-        /* 查询详情表数据 */
-        $data = $user->order('id desc')->select();
+        /* 分页查询详情表数据 */
+        $pageSize = 1;
+        $data = $user->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+
+
+        /* 计算显示总条数等 */
+        $dataCount = $user->count("id");
+        $total_pages = ceil($dataCount/$pageSize);
+
+
+        /* 上一页，下一页拼接 */
+        // $next = "<a href=". $_SERVER['PHP_SELF'] . '\/pageIndex/' . ($pageIndex+1) .">下一页</a>";
+        // $prev = "<a href=". $_SERVER['PHP_SELF'] . '\/pageIndex/' . ($pageIndex-1) .">上一页</a>";
+
+        /* 读取分页配置信息 */
+        $pagePath = C(PAGE_SELF);
+
+        $next = "<a href=". $pagePath . '/id/' . $id . '/pageIndex/' . ($pageIndex + 1) .">下一页</a>";
+        $prev = "<a href=". $pagePath . '/id/' . $id . '/pageIndex/' . ($pageIndex - 1) .">上一页</a>";
 
 
         /* 查询id对应的病种表单 */
         $diseases = $user->table("alldiseases")->where("pid = $id")->field("diseases")->select();
-
+        static $c = 0;
         for ($i = 0; $i < count($data); $i ++) {
+            $c ++;
 
             /* 查询id对应的表单 */
             $address = $user->table("fromaddress")->where("pid = {$data[$i]['fromAddress']}")->select();
@@ -160,6 +178,13 @@ class IndexController extends Controller {
         }
 
         /* 发送整理过后的数据到前端 */
+        $this->assign('dataCount', $dataCount);
+        $this->assign('pageIndex', $pageIndex);
+        $this->assign('total_pages', $total_pages);
+        $this->assign('pageSize', $pageSize);
+        $this->assign('pageIndex', $pageIndex);
+        $this->assign('next', $next);
+        $this->assign('prev', $prev);
         $this->assign('data', $data);
         $this->display();
 
