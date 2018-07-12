@@ -11,6 +11,13 @@
     </style>
 </head>
 <body>
+    <div class="layui-card">
+      <div class="layui-card-header table" table="{$table}">{$tableFont} - 预约列表</div>
+      <div class="layui-card-body">
+        统计数据:</br>
+        总共: {$dataCount} 条&nbsp;&nbsp;&nbsp;已到: {$arrival}&nbsp;&nbsp;&nbsp;未到: {$notArrival}
+      </div>
+    </div>
     <table class="layui-table" style="table-layout: fixed;" lay-size="sm">
       <thead>
         <tr>
@@ -35,7 +42,7 @@
       </thead>
       <tbody>
           <foreach name="data" item="vo" key="k">
-              <tr>
+              <tr class="rowData" Index="{$vo['id']}">
                   <td>{$vo['name']}</td>
                   <td>{$vo['sex']}</td>
                   <td>{$vo['old']}</td>
@@ -53,30 +60,44 @@
                   <td>{$vo['status']}</td>
                   <td>{$vo['newDate']}</td>
                   <td>
-                      <a href="javascript:;" title="查看详情" class="layui-icon layui-icon-form" style="color:#1E9FFF;"></a>
-                      <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit" style="color:#FFB800;"></a>
-                      <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete" style="color:#FF5722;"></a>
+                      <a href="javascript:;" title="查看详情" class="layui-icon layui-icon-form more" style="color:#1E9FFF;"></a>
+                      <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit update" style="color:#FFB800;"></a>
+                      <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete delete" style="color:#FF5722;"></a>
                   </td>
               </tr>
           </foreach>
       </tbody>
     </table>
-    <div class="layui-btn-group">
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">{$prev}</i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">{$next}</i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">第{$pageIndex}/{$total_pages}页</i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">每页{$pageSize}条</i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">共{$dataCount}条</i>
-        </button>
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md8">&nbsp;</div>
+            <div class="layui-btn-group layui-col-md4">
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">{$home? $home : "首页"}</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">{$prev? $prev : "上一页"}</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">{$next? $next : "下一页"}</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">{$last_page? $last_page : "尾页"}</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">第{$pageIndex}/{$total_pages}页</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">每页{$pageSize}条</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">共{$dataCount}条</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="pageIndex" style="display:none;">{$pageIndex}</div>
 </body>
 <script src="{$staticPath}/layui/layui.js"></script>
 </html>

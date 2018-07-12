@@ -217,9 +217,171 @@
                 if (Request.readyState == 4 && Request.status == 200) {
                     // iframe加载新的数据页面
                     document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+
+                    /* 在数据加载完成之后调用数据对象的方法 */
+                    getCountRow();
                 }
             }
         }
+    }
+
+
+    /*  删除数据,修改数据，查看详情 */
+    function getCountRow () {
+
+        /* 获取当前查询的科室找出病种 */
+        let pid = document.getElementsByClassName('active')[0].getAttribute('index');
+
+        /* 获取当前页面数据的总条书的父级元素 :)其实我也不想，贼他妈麻烦 */
+        let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName("rowData");
+        /* 获取当前页码 */
+        let pageIndex = parseInt(document.getElementById('page').contentWindow.document.getElementsByClassName('pageIndex')[0].innerText);
+        /* 获取当前表 */
+        let table = document.getElementById('page').contentWindow.document.getElementsByClassName('table')[0];
+
+
+        /* 获取每行对象的update, delete, more 点击事件 */
+        let countRowIndex = 16;
+        for (var i = 0; i < countRow.length; i ++) {
+            /*
+            * 给每行的update, delete, more 添加点击事件。
+            * countRow[0].children[16].children.length 此处可以写 < 3 , 不要问我为什么。
+            * 我也不知道在干什么。
+            *
+             */
+            for (var c = 0; c < countRow[0].children[16].children.length; c ++) {
+                countRow[i].children[countRowIndex].children[c].index = i;
+            }
+
+            /* 查看当前这条详情页面 */
+            countRow[i].children[countRowIndex].children[0].onclick = function () {
+                // 当前点击的条数在数据库的id
+                let id = parseInt(countRow[this.index].getAttribute('index'));
+                let tableName = table.getAttribute('table');
+
+                /* 获取当前ID所对应的信息数据 */
+                let Request = new XMLHttpRequest();
+                Request.open("GET", "{:U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"')}");
+                Request.send();
+                Request.onreadystatechange = function () {
+                    if (Request.readyState == 4 && Request.status) {
+                        document.getElementById("page").contentWindow.document.body.innerHTML = Request.responseText;
+                    }
+                }
+            }
+
+            /* 修改当前这条信息 */
+            countRow[i].children[countRowIndex].children[1].onclick = function () {
+                console.log("点击了第" + this.index + "条 update 按钮");
+            }
+
+            /* 删除当前点击这条数据 */
+            countRow[i].children[countRowIndex].children[2].onclick = function () {
+                console.log("点击了第" + this.index + "条 delete 按钮");
+                // 当前点击的条数在数据库的id
+                let id = parseInt(countRow[this.index].getAttribute('index'));
+                let tableName = table.getAttribute('table');
+
+                /* 删除当前ID所对应的信息数据 */
+                let Request = new XMLHttpRequest();
+                Request.open("GET", "{:U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"')}");
+                Request.send();
+                Request.onreadystatechange = function () {
+                    if (Request.readyState == 4 && Request.status) {
+                        // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                        alert("删除数据成功ID为:" + id);
+                    }
+                }
+            }
+        }
+
+        /* 当iframe页面加载新数据的时候会执行,从新获取对象 */
+        document.getElementById('page').onload = function () {
+
+            /* 获取当前页面数据的总条书的父级元素 :)其实我也不想，贼他妈麻烦 */
+            let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName("rowData");
+            /* 获取当前页码 */
+            let pageIndex = parseInt(document.getElementById('page').contentWindow.document.getElementsByClassName('pageIndex')[0].innerText);
+            /* 获取当前表 */
+            let table = document.getElementById('page').contentWindow.document.getElementsByClassName('table')[0];
+
+
+            /* 获取每行对象的update, delete, more 点击事件 */
+            let countRowIndex = 16;
+            for (var i = 0; i < countRow.length; i ++) {
+                /*
+                * 给每行的update, delete, more 添加点击事件。
+                * countRow[0].children[16].children.length 此处可以写 < 3 , 不要问我为什么。
+                * 我也不知道在干什么。
+                *
+                 */
+                for (var c = 0; c < countRow[0].children[16].children.length; c ++) {
+                    countRow[i].children[countRowIndex].children[c].index = i;
+                }
+
+                /* 查看当前这条详情页面 */
+                countRow[i].children[countRowIndex].children[0].onclick = function () {
+                    // 当前点击的条数在数据库的id
+                    let id = parseInt(countRow[this.index].getAttribute('index'));
+                    let tableName = table.getAttribute('table');
+
+                    /* 获取当前ID所对应的信息数据 */
+                    let Request = new XMLHttpRequest();
+                    Request.open("GET", "{:U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"')}");
+                    Request.send();
+                    Request.onreadystatechange = function () {
+                        if (Request.readyState == 4 && Request.status) {
+                            document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                        }
+                    }
+                }
+
+                /* 修改当前这条信息 */
+                countRow[i].children[countRowIndex].children[1].onclick = function () {
+                    console.log("点击了第" + this.index + "条 update 按钮");
+                }
+
+                /* 删除当前点击这条数据 */
+                countRow[i].children[countRowIndex].children[2].onclick = function () {
+                    // 当前点击的条数在数据库的id
+                    let id = parseInt(countRow[this.index].getAttribute('index'));
+                    let tableName = table.getAttribute('table');
+
+                    /* 删除当前ID所对应的信息数据 */
+                    let Request = new XMLHttpRequest();
+                    Request.open("GET", "{:U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"')}");
+                    Request.send();
+                    Request.onreadystatechange = function () {
+                        if (Request.readyState == 4 && Request.status) {
+                            // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            alert("删除数据成功ID为:" + id);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // console.log(countRow[0].children[16].children[2]);
+        /*
+
+
+        for (var i = 0; i < countRow.length; i ++) {
+            countRow[i].children[16].children[0].onclick = function () {
+                console.log("点击了第" + this +"more");
+            }
+            countRow[i].children[16].children[1].onclick = function () {
+                console.log("点击了第" + this +"update");
+            }
+            countRow[i].children[16].children[2].onclick = function () {
+                console.log("点击了第" + this +"delete");
+            }
+        }
+
+
+        */
+
+
     }
 </script>
 <script src="{$staticPath}/layui/layui.js"></script>

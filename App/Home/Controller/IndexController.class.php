@@ -102,35 +102,53 @@ class IndexController extends Controller {
         switch ($id) {
             case 1:
                 $user = M('nk');
+                $this->assign('table', 'nk');
+                $this->assign('tableFont', '广元协和医院男科');
                 break;
             case 2:
                 $user = M('fk');
+                $this->assign('table', 'fk');
+                $this->assign('tableFont', '广元协和医院妇科');
                 break;
             case 3:
                 $user = M('byby');
+                $this->assign('table', 'byby');
+                $this->assign('tableFont', '广元协和医院不孕不育');
                 break;
             case 4:
                 $user = M('other');
+                $this->assign('table', 'other');
+                $this->assign('tableFont', '广元协和医院其他');
                 break;
             case 5:
                 $user = M('jhsy');
+                $this->assign('table', 'jhsy');
+                $this->assign('tableFont', '广元协和医院计划生育');
                 break;
             case 6:
                 $user = M('gck');
+                $this->assign('table', 'gck');
+                $this->assign('tableFont', '广元协和医院肛肠科');
                 break;
             case 7:
                 $user = M('wcwk');
+                $this->assign('table', 'wcwk');
+                $this->assign('tableFont', '广元协和医院微创外科');
                 break;
             case 8:
                 $user = M('rxk');
+                $this->assign('table', 'rxk');
                 break;
             default:
                 echo "找不到表格,可能是表格id未找到";
                 break;
         }
+        /* 查询已到和未到 */
+        $arrival = $user->where("status = 1")->count('id');
+        $notArrival = $user->where("status != 1")->count('id');
 
         /* 分页查询详情表数据 */
-        $pageSize = 1;
+        $pageSize = 3;
         $data = $user->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
 
 
@@ -139,22 +157,29 @@ class IndexController extends Controller {
         $total_pages = ceil($dataCount/$pageSize);
 
 
-        /* 上一页，下一页拼接 */
-        // $next = "<a href=". $_SERVER['PHP_SELF'] . '\/pageIndex/' . ($pageIndex+1) .">下一页</a>";
-        // $prev = "<a href=". $_SERVER['PHP_SELF'] . '\/pageIndex/' . ($pageIndex-1) .">上一页</a>";
-
         /* 读取分页配置信息 */
+        /* PAGE_SELF => 'http://localhost/ThinkPHP/index.php/Home/Index/showTab' config 定义 */
         $pagePath = C(PAGE_SELF);
 
-        $next = "<a href=". $pagePath . '/id/' . $id . '/pageIndex/' . ($pageIndex + 1) .">下一页</a>";
-        $prev = "<a href=". $pagePath . '/id/' . $id . '/pageIndex/' . ($pageIndex - 1) .">上一页</a>";
+        /* 分页逻辑 */
+        if ($pageIndex > 1) {
+            $prev = "<a href=". $pagePath . '/id/' . $id . '/pageIndex/' . ($pageIndex - 1) .">上一页</a>";
+            $home = "<a href=". $pagePath . '/id/' . $id . "/pageIndex/1>首页</a>";
+        }
+
+        if ($pageIndex < $total_pages) {
+            $next = "<a href=". $pagePath . '/id/' . $id . '/pageIndex/' . ($pageIndex + 1) .">下一页</a>";
+            $last_page = "<a href=" . $pagePath . '/id/' . $id . '/pageIndex/' . $total_pages .">尾页</a>";
+        }
+
 
 
         /* 查询id对应的病种表单 */
         $diseases = $user->table("alldiseases")->where("pid = $id")->field("diseases")->select();
-        static $c = 0;
+
+
+        /* 遍历数据替换数组中的数字发送到前端 */
         for ($i = 0; $i < count($data); $i ++) {
-            $c ++;
 
             /* 查询id对应的表单 */
             $address = $user->table("fromaddress")->where("pid = {$data[$i]['fromAddress']}")->select();
@@ -177,7 +202,10 @@ class IndexController extends Controller {
             }
         }
 
+
         /* 发送整理过后的数据到前端 */
+        $this->assign('arrival', $arrival);
+        $this->assign('notArrival', $notArrival);
         $this->assign('dataCount', $dataCount);
         $this->assign('pageIndex', $pageIndex);
         $this->assign('total_pages', $total_pages);
@@ -185,6 +213,8 @@ class IndexController extends Controller {
         $this->assign('pageIndex', $pageIndex);
         $this->assign('next', $next);
         $this->assign('prev', $prev);
+        $this->assign('home', $home);
+        $this->assign('last_page', $last_page);
         $this->assign('data', $data);
         $this->display();
 

@@ -11,6 +11,13 @@
     </style>
 </head>
 <body>
+    <div class="layui-card">
+      <div class="layui-card-header table" table="<?php echo ($table); ?>"><?php echo ($tableFont); ?> - 预约列表</div>
+      <div class="layui-card-body">
+        统计数据:</br>
+        总共: <?php echo ($dataCount); ?> 条&nbsp;&nbsp;&nbsp;已到: <?php echo ($arrival); ?>&nbsp;&nbsp;&nbsp;未到: <?php echo ($notArrival); ?>
+      </div>
+    </div>
     <table class="layui-table" style="table-layout: fixed;" lay-size="sm">
       <thead>
         <tr>
@@ -34,7 +41,7 @@
         </tr>
       </thead>
       <tbody>
-          <?php if(is_array($data)): foreach($data as $k=>$vo): ?><tr>
+          <?php if(is_array($data)): foreach($data as $k=>$vo): ?><tr class="rowData" Index="<?php echo ($vo['id']); ?>">
                   <td><?php echo ($vo['name']); ?></td>
                   <td><?php echo ($vo['sex']); ?></td>
                   <td><?php echo ($vo['old']); ?></td>
@@ -52,29 +59,43 @@
                   <td><?php echo ($vo['status']); ?></td>
                   <td><?php echo ($vo['newDate']); ?></td>
                   <td>
-                      <a href="javascript:;" title="查看详情" class="layui-icon layui-icon-form" style="color:#1E9FFF;"></a>
-                      <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit" style="color:#FFB800;"></a>
-                      <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete" style="color:#FF5722;"></a>
+                      <a href="javascript:;" title="查看详情" class="layui-icon layui-icon-form more" style="color:#1E9FFF;"></a>
+                      <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit update" style="color:#FFB800;"></a>
+                      <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete delete" style="color:#FF5722;"></a>
                   </td>
               </tr><?php endforeach; endif; ?>
       </tbody>
     </table>
-    <div class="layui-btn-group">
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon"><?php echo ($prev); ?></i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon"><?php echo ($next); ?></i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">第<?php echo ($pageIndex); ?>/<?php echo ($total_pages); ?>页</i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">每页<?php echo ($pageSize); ?>条</i>
-        </button>
-        <button class="layui-btn layui-btn-xs layui-btn-primary">
-            <i class="layui-icon">共<?php echo ($dataCount); ?>条</i>
-        </button>
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md8">&nbsp;</div>
+            <div class="layui-btn-group layui-col-md4">
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon"><?php echo ($home? $home : "首页"); ?></i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon"><?php echo ($prev? $prev : "上一页"); ?></i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon"><?php echo ($next? $next : "下一页"); ?></i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon"><?php echo ($last_page? $last_page : "尾页"); ?></i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">第<?php echo ($pageIndex); ?>/<?php echo ($total_pages); ?>页</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">每页<?php echo ($pageSize); ?>条</i>
+                </button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">
+                    <i class="layui-icon">共<?php echo ($dataCount); ?>条</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="pageIndex" style="display:none;"><?php echo ($pageIndex); ?></div>
 </body>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 </html>
