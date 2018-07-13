@@ -19,7 +19,7 @@ class IndexController extends Controller {
     /*
     *  @医院选择iframe显示
     *  param id int 1-8 default null
-    *  Home/View/Index/ready.html
+    *  $this->display();
     */
     public function ready ($id = null)
     {
@@ -88,7 +88,9 @@ class IndexController extends Controller {
     /*
     *  @预约详细页面显示
     *  comment表单查询
-    *  param id int default null
+    *  @param int $id 根据id选择表单 default null
+    *  @param int $pageIndex 当前页 default 1
+    *  $this->display();
     */
 
     public function showTab ($id = null, $pageIndex = 1)
@@ -148,7 +150,7 @@ class IndexController extends Controller {
         $notArrival = $user->where("status != 1")->count('id');
 
         /* 分页查询详情表数据 */
-        $pageSize = 3;
+        $pageSize = 50;
         $data = $user->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
 
 
@@ -219,6 +221,12 @@ class IndexController extends Controller {
         $this->display();
 
     }
+
+    /*
+    *  添加信息
+    *  @param int $id 当前选择的医院对应下标
+    *  $this->display();
+    */
 
     public function insertShow ($id = null)
     {

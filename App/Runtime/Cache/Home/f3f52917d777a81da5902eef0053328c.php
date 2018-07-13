@@ -11,14 +11,14 @@
     </style>
 </head>
 <body>
-    <div class="layui-card">
+    <div class="layui-card layui-anim layui-anim-up">
       <div class="layui-card-header table" table="<?php echo ($table); ?>"><?php echo ($tableFont); ?> - 预约列表</div>
       <div class="layui-card-body">
         统计数据:</br>
         总共: <?php echo ($dataCount); ?> 条&nbsp;&nbsp;&nbsp;已到: <?php echo ($arrival); ?>&nbsp;&nbsp;&nbsp;未到: <?php echo ($notArrival); ?>
       </div>
     </div>
-    <table class="layui-table" style="table-layout: fixed;" lay-size="sm">
+    <table class="layui-table layui-anim layui-anim-up" style="table-layout: fixed;" lay-size="sm">
       <thead>
         <tr>
           <th>姓名</th>
@@ -67,8 +67,8 @@
       </tbody>
     </table>
 
-    <div class="layui-container">
-        <div class="layui-row">
+    <!-- <div class="layui-container"> -->
+        <div class="layui-row layui-anim layui-anim-up">
             <div class="layui-col-md8">&nbsp;</div>
             <div class="layui-btn-group layui-col-md4">
                 <button class="layui-btn layui-btn-xs layui-btn-primary">
@@ -94,7 +94,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     <div class="pageIndex" style="display:none;"><?php echo ($pageIndex); ?></div>
 </body>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>

@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-    <div class="layui-container">
+    <div class="layui-container layui-anim layui-anim-up">
         <div class="layui-row">
           <div class="layui-col-md12">
               <div class="layui-card">
