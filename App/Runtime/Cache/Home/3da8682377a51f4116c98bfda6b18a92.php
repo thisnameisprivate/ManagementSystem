@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>广元协和医院预新媒体</title>
-  <link rel="stylesheet" href="{$staticPath}/layui/css/layui.css">
+  <link rel="stylesheet" href="<?php echo ($staticPath); ?>/layui/css/layui.css">
   <style media="screen">
       iframe{border:0px;}
   </style>
@@ -33,7 +33,7 @@
       <li class="layui-nav-item">
         <a href="javascript:;">
           <img src="https://avatars0.githubusercontent.com/u/40999381?s=460&v=4" class="layui-nav-img">
-          {$username}
+          admin
         </a>
         <dl class="layui-nav-child">
           <dd class="layui-anim layui-anim-scaleSpring"><a href="https://github.com/thisnameisprivate" target="_blank">基本资料</a></dd>
@@ -49,7 +49,7 @@
           <dd class="layui-anim layui-anim-scaleSpring"><a href="">admin<span class="layui-badge-dot layui-bg-blue"></span></a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="javascript:;" onclick="loginOut();">注销</a></li>
+      <li class="layui-nav-item"><a href="">注销</a></li>
     </ul>
   </div>
 
@@ -61,7 +61,7 @@
           <a class="" href="javascript:;"><span class="layui-icon layui-icon-list">&nbsp;&nbsp;</span>病人预约管理</a>
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">预约登记列表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">预约病人搜索</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="readytab(this);">预约病人搜索</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">重复病人查询</a></dd>
             <dd><a class="active" href="javascript:;" onclick="detailReport(this);">客服明细报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">月趋势报表</a></dd>
@@ -140,7 +140,7 @@
 
   <div class="layui-body" style="overflow:hidden;">
     <!-- 内容主体区域 -->
-    <iframe id="page" src="{:U('Home/Index/ready')}" width="100%;" height="100%;"></iframe>
+    <iframe id="page" src="<?php echo U('Home/Index/ready');?>" width="100%;" height="100%;"></iframe>
 
     </div>
   </div>
@@ -173,7 +173,7 @@
 
 
         let Request = new XMLHttpRequest();
-        Request.open("GET", "{:U('Home/Index/ready/id/"+ id +"')}");
+        Request.open("GET", "<?php echo U('Home/Index/ready/id/"+ id +"');?>");
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
@@ -195,7 +195,7 @@
 
         // 发送请求显示该科室明细
         let Request = new XMLHttpRequest();
-        Request.open("GET", "{:U('Home/Curd/detailReport/pid/"+ pid +"')}");
+        Request.open("GET", "<?php echo U('Home/Curd/detailReport/pid/"+ pid +"');?>");
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
@@ -225,7 +225,7 @@
 
             /* 页面跳转传递给后台要添加数据的表格id */
             /*
-                Request.open("GET", "{:U('Home/Index/insertShow/id/"+ index +"')}");
+                Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status == 200) {
@@ -235,11 +235,11 @@
                 }
             */
 
-            window.open("{:U('Home/Index/insertShow/id/"+ index +"')}");
+            window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
 
         } else {
 
-            Request.open("GET", "{:U('Home/Index/showTab/id/"+ index +"')}");
+            Request.open("GET", "<?php echo U('Home/Index/showTab/id/"+ index +"');?>");
             Request.send();
             Request.onreadystatechange = function () {
                 if (Request.readyState == 4 && Request.status == 200) {
@@ -292,7 +292,7 @@
 
                 /* 获取当前ID所对应的信息数据 */
                 let Request = new XMLHttpRequest();
-                Request.open("GET", "{:U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"')}");
+                Request.open("GET", "<?php echo U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status) {
@@ -309,13 +309,13 @@
 
                 /* 修改当前ID所对应的数据信息 */
                 let Request = new XMLHttpRequest();
-                Request.open('GET', "{:U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"')}");
+                Request.open('GET', "<?php echo U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status) {
                         // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                         // 跳转至新页面修改信息
-                        window.open("{:U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"/pageIndex/"+ pageIndex +"')}");
+                        window.open("<?php echo U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"/pageIndex/"+ pageIndex +"');?>");
                     }
                 }
             }
@@ -328,7 +328,7 @@
 
                 /* 删除当前ID所对应的信息数据 */
                 let Request = new XMLHttpRequest();
-                Request.open("GET", "{:U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"')}");
+                Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status) {
@@ -374,7 +374,7 @@
 
                     /* 获取当前ID所对应的信息数据 */
                     let Request = new XMLHttpRequest();
-                    Request.open("GET", "{:U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"')}");
+                    Request.open("GET", "<?php echo U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
                         if (Request.readyState == 4 && Request.status) {
@@ -390,7 +390,7 @@
 
                     /* 请求修改当前对应的信息数据 */
                     let Request = new XMLHttpRequest();
-                    Request.open('GET', "{:U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"')}");
+                    Request.open('GET', "<?php echo U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
                         if (Request.readyState == 4 && Request.status) {
@@ -407,7 +407,7 @@
 
                     /* 删除当前ID所对应的信息数据 */
                     let Request = new XMLHttpRequest();
-                    Request.open("GET", "{:U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"')}");
+                    Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
                         if (Request.readyState == 4 && Request.status) {
@@ -441,47 +441,8 @@
 
 
     }
-
-    /*
-    *
-    *    注销当前用户
-    **/
-    function loginOut () {
-
-        let Request = new XMLHttpRequest();
-        Request.open("GET", "{:U('Home/Index/loginOut')}");
-        Request.send();
-        Request.onreadystatechange = function () {
-            if (Request.readyState == 4 && Request.status == 200) {
-                let result = parseInt(Request.responseText);
-                if (result == 1) window.location.href = "{:U('Home/Index/login')}";
-            }
-        }
-    }
-
-    /*
-    *  预约病人查询
-    *  @param object searchIndex
-    *
-    * */
-
-    function searchPeople (searchIndex) {
-        let index = parseInt(searchIndex.getAttribute('index'));
-        let Request = new XMLHttpRequest();
-
-        if (isNaN(index)) { alert("请先选择医院!"); return false;}
-
-        // 发送请求
-        Request.open("GET", "{:U('Home/Index/search/id/"+ index +"')}");
-        Request.send();
-        Request.onreadystatechange = function () {
-            if (Request.readyState == 4 && Request.status == 200) {
-                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-            }
-        }
-    }
 </script>
-<script src="{$staticPath}/layui/layui.js"></script>
+<script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 <script>
     layui.use('element', function(){
       var element = layui.element;

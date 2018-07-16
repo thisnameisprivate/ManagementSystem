@@ -22,7 +22,7 @@
             </div>
           </div>
       </div>
-  </div>
+    </div>
     <form class="layui-form" action="<?php echo U('Admin/Index/index/id/' . $id);?>" method="post">
         <div class="layui-form-item">
           <label class="layui-form-label">姓名</label>

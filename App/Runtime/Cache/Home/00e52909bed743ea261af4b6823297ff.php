@@ -33,7 +33,7 @@
       <li class="layui-nav-item">
         <a href="javascript:;">
           <img src="https://avatars0.githubusercontent.com/u/40999381?s=460&v=4" class="layui-nav-img">
-          admin
+          <?php echo ($username); ?>
         </a>
         <dl class="layui-nav-child">
           <dd class="layui-anim layui-anim-scaleSpring"><a href="https://github.com/thisnameisprivate" target="_blank">基本资料</a></dd>
@@ -49,7 +49,7 @@
           <dd class="layui-anim layui-anim-scaleSpring"><a href="">admin<span class="layui-badge-dot layui-bg-blue"></span></a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="">注销</a></li>
+      <li class="layui-nav-item"><a href="javascript:;" onclick="loginOut();">注销</a></li>
     </ul>
   </div>
 
@@ -58,10 +58,10 @@
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree"  lay-filter="test">
         <li class="layui-nav-item layui-nav-itemed">
-          <a class="" href="javascript:;">病人预约管理</a>
+          <a class="" href="javascript:;"><span class="layui-icon layui-icon-list">&nbsp;&nbsp;</span>病人预约管理</a>
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">预约登记列表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">预约病人搜索</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">预约病人搜索</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">重复病人查询</a></dd>
             <dd><a class="active" href="javascript:;" onclick="detailReport(this);">客服明细报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">月趋势报表</a></dd>
@@ -72,7 +72,7 @@
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">访客数据统计</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-chart">&nbsp;&nbsp;</span>访客数据统计</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">数据明细（网络）</a></dd>
             <dd><a href="javascript:;">医院项目设置（网络）</a></dd>
@@ -81,14 +81,14 @@
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">网站挂号管理</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-chart-screen">&nbsp;&nbsp;</span>网站挂号管理</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">网站挂号列表</a></dd>
             <dd><a href="javascript:;">网站挂号设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">数据列表</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-form">&nbsp;&nbsp;</span>数据列表</a>
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">总体报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">性别</a></dd>
@@ -101,7 +101,7 @@
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">设置</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-set-sm">&nbsp;&nbsp;</span>设置</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">医生设置</a></dd>
             <dd><a href="javascript:;">疾病设置</a></dd>
@@ -111,7 +111,7 @@
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">我的资料</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-user">&nbsp;&nbsp;</span>我的资料</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">修改我的资料</a></dd>
             <dd><a href="javascript:;">修改密码</a></dd>
@@ -119,7 +119,7 @@
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">系统管理</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-app">&nbsp;&nbsp;</span>系统管理</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">人员管理</a></dd>
             <dd><a href="javascript:;">权限管理</a></dd>
@@ -128,7 +128,7 @@
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">日志记录</a>
+          <a href="javascript:;"><span class="layui-icon layui-icon-log">&nbsp;&nbsp;</span>日志记录</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">操作日志</a></dd>
             <dd><a href="javascript:;">登录错误日志</a></dd>
@@ -440,6 +440,45 @@
         */
 
 
+    }
+
+    /*
+    *
+    *    注销当前用户
+    **/
+    function loginOut () {
+
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "<?php echo U('Home/Index/loginOut');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                let result = parseInt(Request.responseText);
+                if (result == 1) window.location.href = "<?php echo U('Home/Index/login');?>";
+            }
+        }
+    }
+
+    /*
+    *  预约病人查询
+    *  @param object searchIndex
+    *
+    * */
+
+    function searchPeople (searchIndex) {
+        let index = parseInt(searchIndex.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+
+        if (isNaN(index)) { alert("请先选择医院!"); return false;}
+
+        // 发送请求
+        Request.open("GET", "<?php echo U('Home/Index/search/id/"+ index +"');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            }
+        }
     }
 </script>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
