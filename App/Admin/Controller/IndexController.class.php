@@ -12,8 +12,8 @@ class IndexController extends Controller {
     public function index ($id = null)
     {
 
-        var_dump($_POST);
         if (is_null($id)) return false;
+        $newData = $_POST;
 
         /* 根据前端发送的值选择表单添加数据 */
         switch ($id) {
@@ -46,9 +46,20 @@ class IndexController extends Controller {
                 break;
         }
 
+        // 从cookie中读取当前客服(用户)
+        if (cookie('username') != null) {
+            $newData['custService'] = cookie('username');
+        } else {
+            $this->error("请先登录", U("Home/Index/login"), 1);
+        }
 
-        $result = $user->add($_POST);
-        if ($result) $insertId = $result;
-        print_r($insertId);
+
+        $result = $user->add($newData);
+        if ($result) {
+            echo "<p style='color:red;'>添加成功</p>";
+            var_dump($result);
+        } else {
+            echo "<p style='color:red;'>添加失败</p>";
+        }
     }
 }

@@ -11,18 +11,18 @@
     </style>
 </head>
 <body>
-    <div class="layui-card">
+    <div class="layui-card layui-anim layui-anim-up">
       <div class="layui-card-header"><?php echo ($tableFont); ?> - 病人搜索</div>
       <div class="layui-card-body">
         <p>提示:</p>
-        <p>搜索项为必填字段【一般为病人的姓名或者ID】否则可能查询不到该信息</p>
+        <p>搜索项为必填字段【一般为病人的姓名】否则可能查询不到该信息</p>
       </div>
     </div>
-    <form class="layui-form" action="<?php echo U('Home/Index/checkPeople/table/' . $table);?>" method="post">
+    <form class="layui-form layui-card layui-anim layui-anim-up" action="<?php echo U('Home/Index/checkPeople/table/' . $table . '/id/'. $id);?>" method="post">
         <div class="layui-form-item">
           <label class="layui-form-label">关键词</label>
           <div class="layui-input-inline">
-            <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名/ID" autocomplete="off" class="layui-input">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
           </div>
           <div class="layui-form-mid layui-word-aux">必填</div>
         </div>

@@ -62,10 +62,10 @@
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">预约登记列表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">预约病人搜索</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">重复病人查询</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">重复病人查询</a></dd>
             <dd><a class="active" href="javascript:;" onclick="detailReport(this);">客服明细报表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">月趋势报表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">自定义图像报表</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthData(this);">月趋势报表</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthData(this);">自定义图像报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">导出病人数据</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">数据横向对比</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">添加新的病人资料</a></dd>
@@ -189,7 +189,6 @@
     *
     **/
     function detailReport (detailReport) {
-        console.log(detailReport.getAttribute('index'));
         // 根据对象获取到对应科室pid
         let pid = parseInt(detailReport.getAttribute('index'));
 
@@ -247,7 +246,7 @@
                     document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
 
                     /* 在数据加载完成之后调用数据对象的方法 */
-                    getCountRow();
+                    getCountRow(currElement);
                 }
             }
         }
@@ -258,7 +257,7 @@
      *    删除数据,修改数据，查看详情
      *
      * */
-    function getCountRow () {
+    function getCountRow (currElement) {
 
         /* 获取当前查询的科室找出病种 */
         let pid = document.getElementsByClassName('active')[0].getAttribute('index');
@@ -334,6 +333,7 @@
                     if (Request.readyState == 4 && Request.status) {
                         // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                         alert("删除数据成功ID为:" + id);
+                        readytab(currElement);
                     }
                 }
             }
@@ -385,16 +385,19 @@
 
                 /* 修改当前这条信息 */
                 countRow[i].children[countRowIndex].children[1].onclick = function () {
+                    // 当前点击条数在数据库的id
                     let id = parseInt(countRow[this.index].getAttribute('index'));
                     let tableName = table.getAttribute('table');
 
-                    /* 请求修改当前对应的信息数据 */
+                    /* 修改当前ID所对应的数据信息 */
                     let Request = new XMLHttpRequest();
                     Request.open('GET', "<?php echo U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
                         if (Request.readyState == 4 && Request.status) {
-                            document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            // 跳转至新页面修改信息
+                            window.open("<?php echo U('Home/Curd/update/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"/pageIndex/"+ pageIndex +"');?>");
                         }
                     }
                 }
@@ -413,6 +416,7 @@
                         if (Request.readyState == 4 && Request.status) {
                             // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                             alert("删除数据成功ID为:" + id);
+                            readytab(currElement);
                         }
                     }
                 }
@@ -460,7 +464,7 @@
     }
 
     /*
-    *  预约病人查询
+    *  预约病人查询，重复病人查询
     *  @param object searchIndex
     *
     * */
@@ -473,6 +477,28 @@
 
         // 发送请求
         Request.open("GET", "<?php echo U('Home/Index/search/id/"+ index +"');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            }
+        }
+
+        /* 在数据加载完成之后调用数据对象的方法 */
+        document.getElementById('page').onload = function () {
+            getCountRow();
+        }
+    }
+
+    /*
+    *
+    *  月趋势报表，自定义图像报表
+    *
+    **/
+
+    function monthData (monthData) {
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "<?php echo U('Home/Index/monthData');?>");
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {

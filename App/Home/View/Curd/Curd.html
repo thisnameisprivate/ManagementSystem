@@ -43,7 +43,8 @@
                           <tr><td>媒体来源: {$vo['fromAddress']}</td></tr>
                           <tr><td>赴约状态: {$vo['status']}</td></tr>
                           <tr><td>赴约时间: {$vo['newDate'] ? $vo['newDate'] : "未赴约"}</td></tr>
-                          <tr><td>添加人: 待更改</td></tr>
+                          <tr><td>添加人: {$vo['custService']}</td></tr>
+                          <tr><td>资料添加时间: {$vo['currentTime']}</td></tr>
                       </foreach>
                   </tbody>
                 </table>

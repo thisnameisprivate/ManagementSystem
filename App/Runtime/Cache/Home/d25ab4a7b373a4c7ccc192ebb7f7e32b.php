@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="layui-card layui-anim layui-anim-up">
-      <div class="layui-card-header table" table="<?php echo ($table); ?>"><?php echo ($tableFont); ?> - 预约列表</div>
+      <div class="layui-card-header table" table="<?php echo ($table); ?>"><?php echo ($field); ?> - 预约列表</div>
       <div class="layui-card-body">
         统计数据:</br>
         总共: <?php echo ($dataCount); ?> 条&nbsp;&nbsp;&nbsp;已到: <?php echo ($arrival); ?>&nbsp;&nbsp;&nbsp;未到: <?php echo ($notArrival); ?>
@@ -34,14 +34,14 @@
           <th>地区</th>
           <th>备注</th>
           <th>客服</th>
-          <th>回访</th>
+          <th>回访时间</th>
           <th>赴约情况</th>
           <th>添加时间</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
-          <?php if(is_array($data)): foreach($data as $k=>$vo): ?><tr class="rowData" Index="<?php echo ($vo['id']); ?>">
+          <?php if(is_array($result)): foreach($result as $k=>$vo): ?><tr class="rowData" Index="<?php echo ($vo['id']); ?>">
                   <td><?php echo ($vo['name']); ?></td>
                   <td><?php echo ($vo['sex']); ?></td>
                   <td><?php echo ($vo['old']); ?></td>
@@ -50,7 +50,7 @@
                   <td><?php echo ($vo['expert']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc1']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['oldDate']); ?></td>
-                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['diseases']); ?></td>
+                  <td><?php echo ($vo['diseases']); ?></td>
                   <td><?php echo ($vo['fromAddress']); ?></td>
                   <td><?php echo ($vo['switch']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc2']); ?></td>

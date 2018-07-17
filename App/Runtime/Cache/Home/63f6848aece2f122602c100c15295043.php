@@ -42,7 +42,8 @@
                           <tr><td>媒体来源: <?php echo ($vo['fromAddress']); ?></td></tr>
                           <tr><td>赴约状态: <?php echo ($vo['status']); ?></td></tr>
                           <tr><td>赴约时间: <?php echo ($vo['newDate'] ? $vo['newDate'] : "未赴约"); ?></td></tr>
-                          <tr><td>添加人: 待更改</td></tr><?php endforeach; endif; ?>
+                          <tr><td>添加人: <?php echo ($vo['custService']); ?></td></tr>
+                          <tr><td>资料添加时间: <?php echo ($vo['currentTime']); ?></td></tr><?php endforeach; endif; ?>
                   </tbody>
                 </table>
             </div>

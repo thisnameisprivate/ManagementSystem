@@ -45,7 +45,7 @@
       var form = layui.form;
 
       form.on('submit(formDemo)', function(data){
-        layer.msg(JSON.stringify(data.field));
+        // layer.msg(JSON.stringify(data.field));
       });
     });
 </script>

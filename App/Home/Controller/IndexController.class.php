@@ -432,45 +432,132 @@ class IndexController extends Controller {
                 echo "找不到表格,可能是表格id未找到";
                 break;
         }
+
+        /* id还是要传过去后面搜索功能病种查询要用到 */
+
+        $this->assign('id', $id);
         $this->display();
     }
 
 
     /*
     *
-    *   搜索病人信息
+    *   搜索病人信息，重复病人查询
     *   @param string $table 要查询的表格
-    *
+    *   @parma int $id 科室下标对应的病种
+    *   @param string $field 第一次为post表单提交,分页中为get请求提交作为参数
+    *   @param int $pageIndex 当前页
+    *   return 指定条件的分页
     * */
 
-    public function checkPeople ($table)
+    public function checkPeople ($field = null, $table, $id = null, $pageIndex = 1)
     {
+
         // 判断是否为post提交请求
-        if (IS_POST ) {
+        if (IS_POST) {
             $field = $_POST['name'];
-        } else {
-            return false;
         }
 
-        if ( ! is_null($field)) {
+        if (is_null($id)) return false;
 
-            // 如果是数字则直接查询id为$field的值
-            if (is_numeric($field)) {
-                $user = M($table);
-                $result = $user->where("id = $field")->select();
-            }
+        // 根据字段值查询数据
+        if (is_string($field)) {
+            $user = M($table);
 
-            // 如果是字符串则查询名字为$field的值
-            if (is_string($field)) {
-                $user = M($table);
-                $result = $user->where("name = '$field'")->select();
-            }
+            $staticPath = C(STATIC_PATH);
+            $this->assign('staticPath', $staticPath);
+        }
+
+        /* 分页查询详情表数据 */
+        $pageSize = 50;
+        $result = $user->where("name = '$field'")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+
+
+        /* 查询符合要求的总数 */
+        $dataCount = $user->where("name = '$field'")->count();
+        $total_pages = ceil($dataCount/$pageSize);
+
+
+        /* 读取分页配置信息 */
+        /* PAGE_SELF => 'http://localhost/ThinkPHP/index.php/Home/Index/showTab' config 定义 */
+        $pagePath = C(PAGE_SEARCH);
+
+        /* 分页逻辑 */
+        if ($pageIndex > 1) {
+            $prev = "<a href=". $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . '/pageIndex/' . ($pageIndex - 1) .">上一页</a>";
+            $home = "<a href=". $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . "/pageIndex/1>首页</a>";
+        }
+
+        if ($pageIndex < $total_pages) {
+            $next = "<a href=". $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . '/pageIndex/' . ($pageIndex + 1) .">下一页</a>";
+            $last_page = "<a href=" . $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . '/pageIndex/' . $total_pages .">尾页</a>";
         }
 
 
-        // code ing
-        // 如果 $result 结果集里面有值则返回前端
+        /* 查询符合要求的已到数量 */
+        $arrival = $user->where("name = '$field' and status = 1")->count();
 
+        /* 查询未到的数量 */
+        $notArrival = $user->where("name = '$field' and status != 1")->count();
+
+
+        /* 查询id对应的病种表单 */
+        $diseases = $user->table("alldiseases")->where("pid = $id")->field("diseases")->select();
+
+
+        /* 遍历数据替换数组中的数字发送到前端 */
+        for ($i = 0; $i < count($result); $i ++) {
+
+            /* 查询id对应的表单 */
+            $address = $user->table("fromaddress")->where("pid = {$result[$i]['fromAddress']}")->select();
+            $status = $user->table("status")->where("pid = {$result[$i]['status']}")->select();
+
+            /* 替换以数字表示的病种数据 */
+            $result[$i]['diseases'] = $diseases[$result[$i]['diseases']]['diseases'];
+
+            /* 替换以数字表示的来源数据 */
+            $result[$i]['fromAddress'] = $address[0]['fromaddress'];
+
+            /* 替换以数字表示的状态数据 */
+            $result[$i]['status'] = $status[0]['status'];
+
+            /* 替换是否为本市的switch字符 */
+            if ($result[$i]['switch'] == 'on') {
+                $result[$i]['switch'] = '本市';
+            } else {
+                $result[$i]['switch'] = '其他';
+            }
+        }
+
+        /* 发送最新信息到前端 */
+        $this->assign('dataCount', $dataCount);
+        $this->assign('pageIndex', $pageIndex);
+        $this->assign('total_pages', $total_pages);
+        $this->assign('pageSize', $pageSize);
+        $this->assign('pageIndex', $pageIndex);
+        $this->assign('next', $next);
+        $this->assign('prev', $prev);
+        $this->assign('home', $home);
+        $this->assign('last_page', $last_page);
+        $this->assign('arrival', $arrival);
+        $this->assign('notArrival', $notArrival);
+        $this->assign('result', $result);
+        $this->assign('field', $field);
+        $this->assign('table', $table);
+        $this->display();
     }
 
+    /*
+    *
+    *   月趋势报表，自定义图像报表
+    *
+    **/
+
+    public function monthData ()
+    {
+        /* 传入js/css资源文件路径 */
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+        $this->display();
+    }
 }
