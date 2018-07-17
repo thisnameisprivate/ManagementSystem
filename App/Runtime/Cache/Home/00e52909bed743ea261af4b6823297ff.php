@@ -330,7 +330,7 @@
                 Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
-                    if (Request.readyState == 4 && Request.status) {
+                    if (Request.readyState == 4 && Request.status == 200) {
                         // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                         alert("删除数据成功ID为:" + id);
                         readytab(currElement);
@@ -413,7 +413,7 @@
                     Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
-                        if (Request.readyState == 4 && Request.status) {
+                        if (Request.readyState == 4 && Request.status == 200) {
                             // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                             alert("删除数据成功ID为:" + id);
                             readytab(currElement);

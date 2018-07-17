@@ -42,11 +42,11 @@
       </thead>
       <tbody>
           <?php if(is_array($data)): foreach($data as $k=>$vo): ?><tr class="rowData" Index="<?php echo ($vo['id']); ?>">
-                  <td><?php echo ($vo['name']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['name']); ?></td>
                   <td><?php echo ($vo['sex']); ?></td>
                   <td><?php echo ($vo['old']); ?></td>
-                  <td><?php echo ($vo['phone']); ?></td>
-                  <td><?php echo ($vo['qq']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['phone']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['qq']); ?></td>
                   <td><?php echo ($vo['expert']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc1']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['oldDate']); ?></td>

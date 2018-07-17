@@ -29,30 +29,11 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-green layui-anim layui-anim-up">挂号数据统计</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                <p>
-                    明日:
-                    <foreach name="tommor" item="vo" key="k">
-                        {$k} : {$vo}
-                    </foreach>
-                </p>
-                <p>
-                    今日:
-                    <foreach name="toDay" item="vo" key="k">
-                         {$k} : {$vo}&nbsp;&nbsp;&nbsp;
-                    </foreach>
-                </p>
-                <p>
-                    昨日:
-                    <foreach name="prevDay" item="vo" key="k">
-                         {$k} : {$vo}&nbsp;&nbsp;&nbsp;
-                    </foreach>
-                </p>
-                <p>
-                    本月:
-                    <foreach name="currentMonth" item="vo" key="k">
-                         {$k} : {$vo}&nbsp;&nbsp;&nbsp;
-                    </foreach>
-                </p>
+                <p>明日:&nbsp;&nbsp;预计: {$result['tommorday'][0]['count']}</p>
+                <p>今日:&nbsp;&nbsp;总共: {$result['terday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['terdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['terdayOutArrived'][0]['count']}</p>
+                <p>昨天:&nbsp;&nbsp;总共: {$result['yesterday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterdayOutArrived'][0]['count']}</p>
+                <p>本月:&nbsp;&nbsp;总共: {$result['currMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['currMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['currMonthOutArrived'][0]['count']}</p>
+                <p>上月:&nbsp;&nbsp;总共: {$result['yesterMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterMonthOutArrived'][0]['count']}</p>
               </div>
             </div>
         </div>

@@ -92,27 +92,35 @@ class IndexController extends Controller {
         /* 判断当前选择的医院 */
         switch ($id) {
             case 1:
+                $result = $this->checkCountData('nk');
                 $this->assign('item', '/ 广元协和医院男科');
                 break;
             case 2:
+                $result = $this->checkCountData('fk');
                 $this->assign('item', '/ 广元协和医院妇科');
                 break;
             case 3:
+                $result = $this->checkCountData('byby');
                 $this->assign('item', '/ 广元协和不孕不育科');
                 break;
             case 4:
+                $result = $this->checkCountData('other');
                 $this->assign('item', '/ 广元协和医院其他');
                 break;
             case 5:
+                $result = $this->checkCountData('jhsy');
                 $this->assign('item', '/ 广元协和医院计划生育科');
                 break;
             case 6:
+                $result = $this->checkCountData('gck');
                 $this->assign('item', '/ 广元协和医院肛肠科');
                 break;
             case 7:
+                $result = $this->checkCountData('wcwk');
                 $this->assign('item', '/ 广元协和医院微创外科');
                 break;
             case 8:
+                $result = $this->checkCountData('rxk');
                 $this->assign('item', '/ 广元协和医院乳腺科');
                 break;
             default:
@@ -121,24 +129,9 @@ class IndexController extends Controller {
                 break;
         }
 
-        /* 模拟数据 */
         if ($id) {
-            $tommor = ['预计' => '2'];
-            $toDay = ['总共' => '6', '已到' => '0', '未到' => '6'];
-            $prevDay = ['总共' => '6', '已到' => '0', '未到' => '6'];
-            $currentMonth = ['总共' => '41', '已到' => '20', '未到' => '21'];
-            // 本月到院排行榜
-            $nameList = ['邢艳梅' => '10', '周玉波' => '8', '王亚萍' => '3'];
-
-
-            $this->assign('tommor', $tommor);
-            $this->assign('toDay', $toDay);
-            $this->assign('prevDay', $prevDay);
-            $this->assign('currentMonth', $currentMonth);
-            $this->assign('nameList', $nameList);
+            $this->assign('result', $result);
             $this->display();
-
-
         } else {
 
             return false;
@@ -393,44 +386,53 @@ class IndexController extends Controller {
                 $this->assign('table', 'nk');
                 $this->assign('tableFont', '广元协和医院男科');
                 break;
+
             case 2:
 
                 $this->assign('table', 'fk');
                 $this->assign('tableFont', '广元协和医院妇科');
                 break;
+
             case 3:
 
                 $this->assign('table', 'byby');
                 $this->assign('tableFont', '广元协和医院不孕不育');
                 break;
+
             case 4:
 
                 $this->assign('table', 'other');
                 $this->assign('tableFont', '广元协和医院其他');
                 break;
+
             case 5:
 
                 $this->assign('table', 'jhsy');
                 $this->assign('tableFont', '广元协和医院计划生育');
                 break;
+
             case 6:
 
                 $this->assign('table', 'gck');
                 $this->assign('tableFont', '广元协和医院肛肠科');
                 break;
+
             case 7:
 
                 $this->assign('table', 'wcwk');
                 $this->assign('tableFont', '广元协和医院微创外科');
                 break;
+
             case 8:
 
                 $this->assign('table', 'rxk');
                 $this->assign('tableFont', '广元协和医院乳腺科');
                 break;
+
             default:
                 echo "找不到表格,可能是表格id未找到";
                 break;
+
         }
 
         /* id还是要传过去后面搜索功能病种查询要用到 */
@@ -559,5 +561,77 @@ class IndexController extends Controller {
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
         $this->display();
+    }
+
+    /*
+    *
+    *   首页信息展示封装
+    *   @param string $table 要查询的表 default null
+    *   return array $dataCount 二维数组
+    **/
+
+    public function checkCountData ($table = null)
+    {
+        if (is_null($table)) return false;
+        /* 声明一个数组接收值 */
+        $dataCount = [];
+
+        /* 实例化一个空的Model对象 */
+        $Model = new \Think\Model();
+
+        /* 获取今天的信息 */
+        // 今日总共
+        $terday = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(oldDate) = to_days(now())");
+        // 今日已到
+        $terdayArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status = 1");
+        // 今日未到
+        $terdayOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status != 1");
+
+
+        /* 获取昨天的信息 */
+        // 昨天总共
+        $yesterday = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1");
+        // 昨天已到
+        $yesterdayArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1");
+        // 昨日未到
+        $yesterdayOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status != 1");
+
+
+        /* 获取明天的信息 */
+        // 明天预计
+        $tommorday = $Model->query("SELECT COUNT(*) as count FROM $table WHERE TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1");
+
+        /* 获取本月信息 */
+        // 本月总共
+        $currMonth = $Model->query("SELECT COUNT(*) as count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
+        // 本月已到
+        $currMonthArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status = 1");
+        // 本月未到
+        $currMonthOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status != 1");
+
+        /* 查询上月信息 */
+        // 上月总共
+        $yesterMonth = $Model->query("SELECT COUNT(*) as count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1");
+        // 上月已到
+        $yesterMonthArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status = 1");
+        // 上月未到
+        $yesterMonthOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status != 1");
+
+        // 整理数据到数组
+        $dataCount['terday'] = $terday;
+        $dataCount['terdayArrived'] = $terdayArrived;
+        $dataCount['terdayOutArrived'] = $terdayOutArrived;
+        $dataCount['yesterday'] = $yesterday;
+        $dataCount['yesterdayArrived'] = $yesterdayArrived;
+        $dataCount['yesterdayOutArrived'] = $yesterdayOutArrived;
+        $dataCount['currMonth'] = $currMonth;
+        $dataCount['currMonthArrived'] = $currMonthArrived;
+        $dataCount['currMonthOutArrived'] = $currMonthOutArrived;
+        $dataCount['yesterMonth'] = $yesterMonth;
+        $dataCount['yesterMonthArrived'] = $yesterMonthArrived;
+        $dataCount['yesterMonthOutArrived'] = $yesterMonthOutArrived;
+
+        if ($dataCount) return $dataCount;
+
     }
 }

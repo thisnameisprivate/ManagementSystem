@@ -29,22 +29,11 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-green layui-anim layui-anim-up">挂号数据统计</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                <p>
-                    明日:
-                    <?php if(is_array($tommor)): foreach($tommor as $k=>$vo): echo ($k); ?> : <?php echo ($vo); endforeach; endif; ?>
-                </p>
-                <p>
-                    今日:
-                    <?php if(is_array($toDay)): foreach($toDay as $k=>$vo): echo ($k); ?> : <?php echo ($vo); ?>&nbsp;&nbsp;&nbsp;<?php endforeach; endif; ?>
-                </p>
-                <p>
-                    昨日:
-                    <?php if(is_array($prevDay)): foreach($prevDay as $k=>$vo): echo ($k); ?> : <?php echo ($vo); ?>&nbsp;&nbsp;&nbsp;<?php endforeach; endif; ?>
-                </p>
-                <p>
-                    本月:
-                    <?php if(is_array($currentMonth)): foreach($currentMonth as $k=>$vo): echo ($k); ?> : <?php echo ($vo); ?>&nbsp;&nbsp;&nbsp;<?php endforeach; endif; ?>
-                </p>
+                <p>明日:&nbsp;&nbsp;预计: <?php echo ($result['tommorday'][0]['count']); ?></p>
+                <p>今日:&nbsp;&nbsp;总共: <?php echo ($result['terday'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;已到: <?php echo ($result['terdayArrived'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;未到: <?php echo ($result['terdayOutArrived'][0]['count']); ?></p>
+                <p>昨天:&nbsp;&nbsp;总共: <?php echo ($result['yesterday'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;已到: <?php echo ($result['yesterdayArrived'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;未到: <?php echo ($result['yesterdayOutArrived'][0]['count']); ?></p>
+                <p>本月:&nbsp;&nbsp;总共: <?php echo ($result['currMonth'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;已到: <?php echo ($result['currMonthArrived'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;未到: <?php echo ($result['currMonthOutArrived'][0]['count']); ?></p>
+                <p>上月:&nbsp;&nbsp;总共: <?php echo ($result['yesterMonth'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;已到: <?php echo ($result['yesterMonthArrived'][0]['count']); ?>&nbsp;&nbsp;&nbsp;&nbsp;未到: <?php echo ($result['yesterMonthOutArrived'][0]['count']); ?></p>
               </div>
             </div>
         </div>
