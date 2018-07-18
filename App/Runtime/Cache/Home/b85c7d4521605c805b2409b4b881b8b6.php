@@ -18,7 +18,7 @@
                 <div class="layui-form-item">
                   <label class="layui-form-label"><span class="layui-icon layui-icon-user"></span></label>
                   <div class="layui-input-inline">
-                    <input type="username" name="username" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                    <input type="text" name="username" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
                   </div>
                   <div class="layui-form-mid layui-word-aux"></div>
                 </div>

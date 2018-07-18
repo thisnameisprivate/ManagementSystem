@@ -37,10 +37,11 @@
         </a>
         <dl class="layui-nav-child">
           <dd class="layui-anim layui-anim-scaleSpring"><a href="https://github.com/thisnameisprivate" target="_blank">基本资料</a></dd>
-          <dd class="layui-anim layui-anim-scaleSpring"><a href="">安全设置</a></dd>
+          <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="systeminfo(this);">安全设置</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item">
+      <!--
+       <li class="layui-nav-item">
         <a href="javascript:;">在线用户</a>
         <dl class="layui-nav-child">
           <dd class="layui-anim layui-anim-scaleSpring"><a href="">林鸿斌<span class="layui-badge-dot"></span></a></dd>
@@ -49,6 +50,7 @@
           <dd class="layui-anim layui-anim-scaleSpring"><a href="">admin<span class="layui-badge-dot layui-bg-blue"></span></a></dd>
         </dl>
       </li>
+       -->
       <li class="layui-nav-item"><a href="javascript:;" onclick="loginOut();">注销</a></li>
     </ul>
   </div>
@@ -122,7 +124,7 @@
           <a href="javascript:;"><span class="layui-icon layui-icon-app">&nbsp;&nbsp;</span>系统管理</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">人员管理</a></dd>
-            <dd><a href="javascript:;">权限管理</a></dd>
+            <dd><a href="javascript:;" onclick="systemPeople(this);">权限管理</a></dd>
             <dd><a href="javascript:;">医院列表</a></dd>
             <dd><a href="javascript:;">通知列表</a></dd>
           </dl>
@@ -149,7 +151,6 @@
     <!-- 底部固定区域 -->
      <a href="javascript:;" title="发布日期: 2018/8/1日:) Github: https://github.com/thisnameisprivate"><span class="layui-icon layui-icon-website layui-anim layui-anim-fadein layui-anim-loop"></span>&nbsp;&nbsp;&nbsp;广元协和医院预约管理系统 ©</a>
   </div>
-</div>
 <script type="text/javascript">
 
     /* 读取新的医院首页  */
@@ -497,12 +498,41 @@
     **/
 
     function monthData (monthData) {
+        xmlhttpReceive('monthData');
+    }
+
+    /*
+     * 修改个人资料
+     */
+
+    function systeminfo () {
+        xmlhttpReceive('systeminfo');
+    }
+
+    /*
+    *   人员管理
+    * */
+
+    function systemPeople () {
+        xmlhttpReceive('systemPeople');
+        // 在加载完成之后重新获取页面元素
+        let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName("rowData");
+
+        console.log(countRow);
+        // countRow[i].children[countRowIndex].children[c].index = i;
+
+        console.log(countRow[0].lastChild('td').childNodes);
+    }
+    /*
+    *  ajax 封装
+    * */
+    function xmlhttpReceive (func) {
         let Request = new XMLHttpRequest();
-        Request.open("GET", "<?php echo U('Home/Index/monthData');?>");
+        Request.open("GET", "<?php echo U('Home/Index/"+ func +"');?>");
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                    document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
             }
         }
     }

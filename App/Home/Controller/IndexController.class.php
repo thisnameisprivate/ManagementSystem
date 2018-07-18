@@ -581,46 +581,47 @@ class IndexController extends Controller {
 
         /* 获取今天的信息 */
         // 今日总共
-        $terday = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(oldDate) = to_days(now())");
+        $terday = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE to_days(oldDate) = to_days(now())");
         // 今日已到
-        $terdayArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status = 1");
+        $terdayArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status = 1");
         // 今日未到
-        $terdayOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status != 1");
+        $terdayOutArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status != 1");
 
 
         /* 获取昨天的信息 */
         // 昨天总共
-        $yesterday = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1");
+        $yesterday = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1");
         // 昨天已到
-        $yesterdayArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1");
+        $yesterdayArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1");
         // 昨日未到
-        $yesterdayOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status != 1");
+        $yesterdayOutArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status != 1");
 
 
         /* 获取明天的信息 */
         // 明天预计
-        $tommorday = $Model->query("SELECT COUNT(*) as count FROM $table WHERE TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1");
+        $tommorday = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1");
 
         /* 获取本月信息 */
         // 本月总共
-        $currMonth = $Model->query("SELECT COUNT(*) as count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
+        $currMonth = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
         // 本月已到
-        $currMonthArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status = 1");
+        $currMonthArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status = 1");
         // 本月未到
-        $currMonthOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status != 1");
+        $currMonthOutArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status != 1");
 
         /* 查询上月信息 */
         // 上月总共
-        $yesterMonth = $Model->query("SELECT COUNT(*) as count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1");
+        $yesterMonth = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1");
         // 上月已到
-        $yesterMonthArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status = 1");
+        $yesterMonthArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status = 1");
         // 上月未到
-        $yesterMonthOutArrived = $Model->query("SELECT COUNT(*) as count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status != 1");
+        $yesterMonthOutArrived = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status != 1");
 
         // 整理数据到数组
         $dataCount['terday'] = $terday;
         $dataCount['terdayArrived'] = $terdayArrived;
         $dataCount['terdayOutArrived'] = $terdayOutArrived;
+        $dataCount['tommorday'] = $tommorday;
         $dataCount['yesterday'] = $yesterday;
         $dataCount['yesterdayArrived'] = $yesterdayArrived;
         $dataCount['yesterdayOutArrived'] = $yesterdayOutArrived;
@@ -631,7 +632,93 @@ class IndexController extends Controller {
         $dataCount['yesterMonthArrived'] = $yesterMonthArrived;
         $dataCount['yesterMonthOutArrived'] = $yesterMonthOutArrived;
 
+        // 数据->数组 :)  返回二维数组
         if ($dataCount) return $dataCount;
+    }
 
+    /**
+     *  安全设置
+     *
+     *
+     */
+
+    public function systeminfo ()
+    {
+        /* 传入js/css资源文件路径 */
+        $staticPath = C(STATIC_PATH);
+        $this->assign("staticPath", $staticPath);
+
+        /* 读取cookie */
+        $username = cookie('username');
+        if ($username) {
+            $this->assign('username', $username);
+            $this->display();
+        } else {
+            // 跳转至登录页面
+            $this->error("请先登录", U("Home/Index/login"), 1);
+        }
+    }
+
+    /*
+     *  修改个人资料
+     *
+     * */
+
+    public function changePass ()
+    {
+        if (is_null($_POST)) return false;
+
+        // 实例化表
+        $user = M('user');
+        // 读取cookie
+        $username = cookie('username');
+
+        if ( ! $username) {
+            // 跳转至登录页面
+            $this->error("请重新登录，cookie过期", U("Home/Index/login"), 1);
+        }
+        // 查询cookie对应的账号信息
+        $result = $user->where("username = '$username'")->find();
+
+        // 判断是否查询到该用户的值
+        if ($result) {
+            $data['password'] = md5($_POST['password']);
+            $result = $user->where("username = '$username'")->save($data);
+
+            if ($result) {
+                $this->success("修改成功", U("Home/Index/systeminfo"), 1);
+            }
+
+        } else {
+            $this->error("修改失败", U("Home/Index/systeminfo"));
+        }
+    }
+
+    /*
+     *
+     *  人员管理
+     */
+
+    public function systemPeople ()
+    {
+
+        /* 传入js/css资源文件路径 */
+        $staticPath = C(STATIC_PATH);
+        $this->assign("staticPath", $staticPath);
+        /* 读取当前用户 */
+        $username = cookie('username');
+
+        if ( ! $username) {
+            // 跳转至登录页面
+            $this->error("请重新登录，cookie过期", U("Home/Index/login"), 1);
+        }
+
+        /* 查询所有用户 */
+        $user = M('user');
+        $result = $user->select();
+
+        $this->assign('result', $result);
+        $this->assign('username', $username);
+        $this->display();
     }
 }
