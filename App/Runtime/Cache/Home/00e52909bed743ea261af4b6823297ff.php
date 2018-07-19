@@ -514,14 +514,48 @@
     * */
 
     function systemPeople () {
-        xmlhttpReceive('systemPeople');
-        // 在加载完成之后重新获取页面元素
-        let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName("rowData");
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "<?php echo U('Home/Index/systemPeople');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                // iframe 加载完成后执行
+                let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName('rowData');
+                /* 获取每行对象的update, delete, more 点击事件 */
+                let countRowIndex = 5;
+                for (var i = 0; i < countRow.length; i ++) {
+                    /*
+                    * 给每行的update, delete, more 添加点击事件。
+                    * countRow[0].children[16].children.length 此处可以写 < 3 , 不要问我为什么。
+                    * 我也不知道在干什么。
+                    *
+                     */
+                    for (var c = 0; c < countRow[0].children[countRowIndex].children.length; c ++) {
+                        countRow[i].children[countRowIndex].children[c].index = i;
+                    }
 
-        console.log(countRow);
-        // countRow[i].children[countRowIndex].children[c].index = i;
 
-        console.log(countRow[0].lastChild('td').childNodes);
+                    /* 修改当前这条信息 */
+                    countRow[i].children[countRowIndex].children[0].onclick = function () {
+                        let id = parseInt(countRow[this.index].getAttribute('index'));
+                        let Request = new XMLHttpRequest();
+                        Request.open("GET", "<?php echo U('Home/Index/updatePeople/id/"+ id +"');?>");
+                        Request.send();
+                        Request.onreadystatechange = function () {
+                            if (Request.readyState == 4 && Request.status == 200) {
+                                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            }
+                        }
+                    }
+
+                    /* 删除当前点击这条数据 */
+                    countRow[i].children[countRowIndex].children[1].onclick = function () {
+                        console.log(this);
+                    }
+                }
+            }
+        }
     }
     /*
     *  ajax 封装

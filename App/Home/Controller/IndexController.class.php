@@ -697,9 +697,10 @@ class IndexController extends Controller {
     /*
      *
      *  人员管理
+     *  @param int $pageindex default 1
      */
 
-    public function systemPeople ()
+    public function systemPeople ($pageindex = 1)
     {
 
         /* 传入js/css资源文件路径 */
@@ -719,6 +720,55 @@ class IndexController extends Controller {
 
         $this->assign('result', $result);
         $this->assign('username', $username);
+        $this->assign('pageIndex', $pageindex);
         $this->display();
+    }
+
+    /*
+     *   修改人员信息显示页, 默认查询表格为user
+     *
+     *   @param int id 要删除的id default null
+     * */
+
+    public function updatePeople ($id = null)
+    {
+        if(is_null($id)) return false;
+
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        // 实例化表
+        $user = M('user');
+        $result = $user->where("id = '$id'")->select();
+        // 读取当前用户cookie
+        $username = cookie('username');
+        $this->assign('username', $username);
+        $this->assign('id', $id);
+
+        if ($result) {
+            $this->assign('result', $result);
+        }
+
+        $this->display();
+    }
+
+    /*
+     *
+     *  修改信息执行逻辑
+     *  @param int id  要修改的ID default null
+     * */
+
+    public function updateSoure ($id = null)
+    {
+        if ( ! $_POST) return false;
+        if (is_null($id)) return false;
+
+
+        $userData = $_POST;
+        // 实例化表
+        $user = M('user');
+        $result = $user->where("id = '$id")->select();
+        print_r($result);
     }
 }
