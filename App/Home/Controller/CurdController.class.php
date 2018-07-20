@@ -70,6 +70,18 @@ class CurdController extends Controller {
 
     public function delete ($id = null, $table = null)
     {
+        $username = cookie('username');
+        if (is_null($username)) {
+            $this->error("cookie时效过期,请重新登录", U("Home/Index/longin"), 1);
+        }
+
+        // 实例化管理员表
+        /*
+         * $user = M('user');
+        $result = $uesr->where("username = '$username'")->getFiled("deletedata")->select();
+        print_r($result);
+        exit;
+         * */
         if (is_null($id)) return false;
         if (is_null($table)) return false;
         $user = M($table);
@@ -197,27 +209,43 @@ class CurdController extends Controller {
         switch ($pid) {
             case 1:
                 $this->assign('item', '广元协和医院男科 网络部 客服预约情况');
+                $result = $this->checkCountData('nk');
+                $this->assign('result', $result);
                 break;
             case 2:
                 $this->assign('item', '广元协和医院妇科 网络部 客服预约情况');
+                $result = $this->checkCountData('fk');
+                $this->assign('result', $result);
                 break;
             case 3:
                 $this->assign('item', '广元协和不孕不育科 网络部 客服预约情况');
+                $result = $this->checkCountData('byby');
+                $this->assign('result', $result);
                 break;
             case 4:
                 $this->assign('item', '广元协和医院其他 网络部 客服预约情况');
+                $result = $this->checkCountData('other');
+                $this->assign('result', $result);
                 break;
             case 5:
                 $this->assign('item', '广元协和医院计划生育科 网络部 客服预约情况');
+                $result = $this->checkCountData('jhsy');
+                $this->assign('result', $result);
                 break;
             case 6:
                 $this->assign('item', '广元协和医院肛肠科 网络部 客服预约情况');
+                $result = $this->checkCountData('gck');
+                $this->assign('result', $result);
                 break;
             case 7:
                 $this->assign('item', '广元协和医院微创外科 网络部 客服预约情况');
+                $result = $this->checkCountData('wcwk');
+                $this->assign('result', $result);
                 break;
             case 8:
                 $this->assign('item', '广元协和医院乳腺科 网络部 客服预约情况');
+                $result= $this->checkCountData('rxk');
+                $this->assign('result', $result);
                 break;
             default:
                 $this->assign('item', '未选择医院');
@@ -225,5 +253,100 @@ class CurdController extends Controller {
                 break;
         }
         $this->display();
+    }
+
+    /*
+ *
+ *  功能打开权限
+ */
+
+    public function system ()
+    {
+        // 读取cookie
+        $username = cookie('username');
+        if (is_null($username)) {
+            $this->error("cookie过期,请重新登录", U("Home/Index/login"));
+        }
+
+        // 实例化成员表
+        $user = M('user');
+        $result = $user->where("username = '$username'")->select();
+    }
+
+    /*
+     *
+     *  客服明细报表方法
+     */
+
+    public function checkCountData ($table = null)
+    {
+        if (is_null($table)) return false;
+        /* 查询所有客服账号 */
+        $user = M('user');
+        $result = $user->field('username')->select();
+//        print_r($result[0]['username']);
+//        exit;
+
+       for ($i = 0; $i < count($result); $i ++) {
+           /* 实例化一个空的Model对象 */
+           $Model = new \Think\Model();
+           /* 获取今天的信息 */
+           // 今日总共
+           $terday = "SELECT COUNT(*) AS count FROM $table WHERE to_days(oldDate) = to_days(now()) AND custService = '{$result[$i]['username']}'";
+           // 今日已到
+           $terdayArrived = "SELECT COUNT(*) AS count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status = 1 AND custService = '{$result[$i]['username']}'";
+           // 今日未到
+           $terdayOutArrived= "SELECT COUNT(*) AS count FROM $table WHERE to_days(oldDate) = to_days(now()) AND status != 1 AND custService = '{$result[$i]['username']}'";
+
+
+           /* 获取昨天的信息 */
+           // 昨天总共
+           $yesterday = "SELECT COUNT(*) AS count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND custService = '{$result[$i]['username']}'";
+           // 昨天已到
+           $yesterdayArrived= "SELECT COUNT(*) AS count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1 AND custService = '{$result[$i]['username']}'";
+           // 昨日未到
+           $yesterdayOutArrived = "SELECT COUNT(*) AS count FROM $table WHERE to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status != 1 AND custService = '{$result[$i]['username']}'";
+
+
+
+           /* 获取本月信息 */
+           // 本月总共
+           $currMonth = "SELECT COUNT(*) AS count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND custService = '{$result[$i]['username']}'";
+           // 本月已到
+           $currMonthArrived = "SELECT COUNT(*) AS count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status = 1 AND custService = '{$result[$i]['username']}'";
+           // 本月未到
+           $currMonthOutArrived = "SELECT COUNT(*) AS count FROM $table WHERE DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status != 1 AND custService = '{$result[$i]['username']}'";
+
+           /* 查询上月信息 */
+           // 上月总共
+           $yesterMonth = "SELECT COUNT(*) AS count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1 AND custService = '{$result[$i]['username']}'";
+           // 上月已到
+           $yesterMonthArrived = "SELECT COUNT(*) AS count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status = 1 AND custService = '{$result[$i]['username']}'";
+           // 上月未到
+           $yesterMonthOutArrived = "SELECT COUNT(*) AS count FROM $table WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status != 1 AND custService = '{$result[$i]['username']}'";
+
+           $result[$i]['terday'] = $Model->query($terday);
+           $result[$i]['terdayArrived'] = $Model->query($terdayArrived);
+           $result[$i]['terdayOutArrived'] = $Model->query($terdayOutArrived);
+
+           $result[$i]['yesterday'] = $Model->query($yesterday);
+           $result[$i]['yesterdayArrived'] = $Model->query($yesterdayArrived);
+           $result[$i]['yesterdayOutArrived'] = $Model->query($yesterdayOutArrived);
+
+           $result[$i]['currMonth'] = $Model->query($currMonth);
+           $result[$i]['currMonthArrived'] = $Model->query($currMonthArrived);
+           $result[$i]['currMonthOutArrived'] = $Model->query($currMonthOutArrived);
+
+           $result[$i]['yesterMonth'] = $Model->query($yesterMonth);
+           $result[$i]['yesterMonthArrived'] = $Model->query($yesterMonthArrived);
+           $result[$i]['yesterMonthOutArrived'] = $Model->query($yesterMonthOutArrived);
+
+       }
+//       print_r($result);
+//        echo count($result);
+        return $result;
+//       var_dump($data[$result[0]['username']['currMoth']['currMonth']]);
+//       var_dump($data[$result[1]['username']['currMoth']]);
+//        if ($data) return $data;
     }
 }

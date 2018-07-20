@@ -700,7 +700,7 @@ class IndexController extends Controller {
      *  @param int $pageindex default 1
      */
 
-    public function systemPeople ($pageindex = 1)
+    public function systemPeople ()
     {
 
         /* 传入js/css资源文件路径 */
@@ -714,14 +714,21 @@ class IndexController extends Controller {
             $this->error("请重新登录，cookie过期", U("Home/Index/login"), 1);
         }
 
+
         /* 查询所有用户 */
         $user = M('user');
-        $result = $user->select();
+        $system = $user->where("username = '$username'")->field("updateuser")->select();
+        // 判断是否有权限查看所有成员
+        if ($system[0]['updateuser'] == 1) {
+            $result = $user->select();
+            $this->assign('result', $result);
+            $this->assign('username', $username);
+            $this->display();
+        } else {
+            // 跳转至错误登录页
+            $this->display("notSystemAccess");
+        }
 
-        $this->assign('result', $result);
-        $this->assign('username', $username);
-        $this->assign('pageIndex', $pageindex);
-        $this->display();
     }
 
     /*
@@ -766,9 +773,101 @@ class IndexController extends Controller {
 
 
         $userData = $_POST;
+
+        // 替换复选项框的字母为数字方便储存
+        for ($i = 0; $i < count($userData['like']); $i ++) {
+            if ($userData['like'][$i] == 'on') {
+                $userData['like'][$i] = 1;
+            } else {
+                $userData['like'][$i] = 0;
+            }
+        }
+
+        //  储存数据准备
+        $data['username'] = $userData['username'];
+        $data['password'] = md5($userData['password']);
+        $data['deletedata'] = $userData['like'][0];
+        $data['updatedata'] = $userData['like'][1];
+        $data['updateuser'] = $userData['like'][2];
+
+
         // 实例化表
         $user = M('user');
-        $result = $user->where("id = '$id")->select();
-        print_r($result);
+//        $result = $user->where("id = '$id'")->select();
+        $result = $user->where("id = '$id'")->save($data);
+        if ($result) {
+            $this->success("修改成功", U("Home/Index/updatePeople/id/$id"));
+        }
     }
+
+
+    /*
+     *
+     *  删除成员信息
+     *  @param id int default null 删除成员信息的id
+     */
+    public function deletePeople ($id = null)
+    {
+        if (is_null($id)) return false;
+
+        // 实例化表
+        $user = M('user');
+        $result = $user->where("id = '$id'")->delete();
+        if ($result) return ture;
+    }
+
+
+    /*
+     *
+     *  登录成员添加页面显示
+     */
+
+    public function systeminsert ()
+    {
+        // 传入js/css资源文件路径
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+        // 读取cookie并判断
+        $username = cookie('username');
+        if (is_null($username)) {
+            $this->assign('请先登录.cookie时效过期', U("Home/Index/login"), 1);
+        } else {
+            $this->assign('username', $username);
+        }
+        $this->display();
+    }
+
+    /*
+     *
+     * 人员信息添加逻辑处理
+     */
+
+    public function peopleInsert ()
+    {
+        if ( ! $_POST) return false;
+        // 实例化表
+        $user = M('user');
+
+
+        // 数据储存准备
+        $data['username'] = $_POST['username'];
+        $data['password'] = md5($_POST['password']);
+        $result = $user->add($data);
+        if ($result) {
+            $this->success("添加成员成功，默认权限仅为登录", U("Home/Index/systeminsert"));
+        }
+    }
+
+
+    /*
+     *
+     *   权限不足打开的模板
+     */
+
+    public function notSystemAccess ()
+    {
+        $this->display();
+    }
+
+
 }

@@ -6,17 +6,16 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{$staticPath}/layui/css/layui.css">
-    <title>修改人员信息权限页面</title>
+    <title>成员信息添加</title>
 </head>
 <body>
 <div class="layui-card layui-anim layui-anim-up">
-    <div class="layui-card-header"><span style="font-weight:700; font-size:1rem; color:#FF5722;"><span class="layui-icon layui-icon-username"></span> {$username}</span>&nbsp;&nbsp;正在进行人员信息修改</div>
+    <div class="layui-card-header"><span style="font-weight:700; font-size:1rem; color:#FF5722;"><span class="layui-icon layui-icon-username"></span> {$username}</span>&nbsp;&nbsp;正在进行人员添加</div>
     <div class="layui-card-body">
 
     </div>
 </div>
-
-<form class="layui-form layui-card layui-anim layui-anim-up" action="{:U('Home/Index/updateSoure/id/' . $id)}" method="post">
+<form class="layui-form layui-card layui-anim layui-anim-up" action="{:U('Home/Index/peopleInsert')}" method="post">
     <div class="layui-form-item">
         <label class="layui-form-label">用户</label>
         <div class="layui-input-inline">
@@ -32,30 +31,12 @@
         <div class="layui-form-mid layui-word-aux">此信息为32位MD5加密，新密码输入数字或字母即可</div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">权限修改</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="like[0]" title="删除预约信息" {$result[0]['deletedata']==1?checked:""}>
-            <input type="checkbox" name="like[1]" title="修改预约信息" {$result[0]['updatedata']==1?checked:""}>
-            <input type="checkbox" name="like[2]" title="修改成员信息" {$result[0]['updateuser']==1?checked:""}>
-        </div>
-    </div>
-    <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
-<script src="{$staticPath}/layui/layui.js"></script>
-<script>
-    layui.use('form', function(){
-        var form = layui.form;
-
-        //监听提交
-        form.on('submit(formDemo)', function(data){
-            // layer.msg(JSON.stringify(data.field));
-        });
-    });
-</script>
 </body>
+<script class="{$staticPath}/layui/layui.js"></script>
 </html>

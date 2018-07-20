@@ -45,42 +45,24 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th>叶慧</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+            <?php if(is_array($result)): foreach($result as $k=>$vo): ?><tr>
+                    <th><?php echo ($vo['username']); ?></th>
+                    <th><?php echo ($vo['terday'][0]['count']); ?></th>
+                    <th><?php echo ($vo['terdayArrived'][0]['count']); ?></th>
+                    <th><?php echo ($vo['terdayOutArrived'][0]['count']); ?></th>
                     <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+                    <th><?php echo ($vo['yesterday'][0]['count']); ?></th>
+                    <th><?php echo ($vo['yesterdayArrived'][0]['count']); ?></th>
+                    <th><?php echo ($vo['yesterdayOutArrived'][0]['count']); ?></th>
                     <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+                    <th><?php echo ($vo['currMonth'][0]['count']); ?></th>
+                    <th><?php echo ($vo['currMonthArrived'][0]['count']); ?></th>
+                    <th><?php echo ($vo['currMonthOutArrived'][0]['count']); ?></th>
                     <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                </tr>
-                <tr>
-                    <th>董鑫</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                </tr>
+                    <th><?php echo ($vo['yesterMonth'][0]['count']); ?></th>
+                    <th><?php echo ($vo['yesterMonthArrived'][0]['count']); ?></th>
+                    <th><?php echo ($vo['yesterMonthOutArrived'][0]['count']); ?></th>
+                </tr><?php endforeach; endif; ?>
             </tbody>
           </table>
       </div>

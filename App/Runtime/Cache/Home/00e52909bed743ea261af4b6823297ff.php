@@ -115,15 +115,15 @@
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-user">&nbsp;&nbsp;</span>我的资料</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改我的资料</a></dd>
-            <dd><a href="javascript:;">修改密码</a></dd>
+            <dd><a href="javascript:;" onclick="systeminfo(this);">修改我的资料</a></dd>
+            <dd><a href="javascript:;" onclick="systeminfo(this)">修改密码</a></dd>
             <dd><a href="javascript:;">选项设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-app">&nbsp;&nbsp;</span>系统管理</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">人员管理</a></dd>
+            <dd><a href="javascript:;" onclick="systeminsert(this);">人员管理</a></dd>
             <dd><a href="javascript:;" onclick="systemPeople(this);">权限管理</a></dd>
             <dd><a href="javascript:;">医院列表</a></dd>
             <dd><a href="javascript:;">通知列表</a></dd>
@@ -326,16 +326,21 @@
                 let id = parseInt(countRow[this.index].getAttribute('index'));
                 let tableName = table.getAttribute('table');
 
-                /* 删除当前ID所对应的信息数据 */
-                let Request = new XMLHttpRequest();
-                Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
-                Request.send();
-                Request.onreadystatechange = function () {
-                    if (Request.readyState == 4 && Request.status == 200) {
-                        // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-                        alert("删除数据成功ID为:" + id);
-                        readytab(currElement);
+                let msg = "你确定要删除此条信息？";
+                if (confirm(msg)) {
+                    /* 删除当前ID所对应的信息数据 */
+                    let Request = new XMLHttpRequest();
+                    Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
+                    Request.send();
+                    Request.onreadystatechange = function () {
+                        if (Request.readyState == 4 && Request.status == 200) {
+                            // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            alert("删除数据成功ID为:" + id);
+                            readytab(currElement);
+                        }
                     }
+                } else {
+                    return false;
                 }
             }
         }
@@ -409,16 +414,21 @@
                     let id = parseInt(countRow[this.index].getAttribute('index'));
                     let tableName = table.getAttribute('table');
 
-                    /* 删除当前ID所对应的信息数据 */
-                    let Request = new XMLHttpRequest();
-                    Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
-                    Request.send();
-                    Request.onreadystatechange = function () {
-                        if (Request.readyState == 4 && Request.status == 200) {
-                            // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-                            alert("删除数据成功ID为:" + id);
-                            readytab(currElement);
+                    let msg = "你确定要删除此条信息？";
+                    if (confirm(msg)) {
+                        /* 删除当前ID所对应的信息数据 */
+                        let Request = new XMLHttpRequest();
+                        Request.open("GET", "<?php echo U('Home/Curd/delete/id/"+ id +"/table/"+ tableName +"');?>");
+                        Request.send();
+                        Request.onreadystatechange = function () {
+                            if (Request.readyState == 4 && Request.status == 200) {
+                                // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                                alert("删除数据成功ID为:" + id);
+                                readytab(currElement);
+                            }
                         }
+                    } else {
+                        return false;
                     }
                 }
             }
@@ -527,7 +537,7 @@
                 for (var i = 0; i < countRow.length; i ++) {
                     /*
                     * 给每行的update, delete, more 添加点击事件。
-                    * countRow[0].children[16].children.length 此处可以写 < 3 , 不要问我为什么。
+                    * countRow[0].children[16].children.length 此处可以写 < 2 , 不要问我为什么。
                     * 我也不知道在干什么。
                     *
                      */
@@ -539,26 +549,41 @@
                     /* 修改当前这条信息 */
                     countRow[i].children[countRowIndex].children[0].onclick = function () {
                         let id = parseInt(countRow[this.index].getAttribute('index'));
-                        let Request = new XMLHttpRequest();
-                        Request.open("GET", "<?php echo U('Home/Index/updatePeople/id/"+ id +"');?>");
-                        Request.send();
-                        Request.onreadystatechange = function () {
-                            if (Request.readyState == 4 && Request.status == 200) {
-                                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-                            }
-                        }
+                        // 跳转至新的页面修改信息
+                        window.open("<?php echo U('Home/Index/updatePeople/id/"+ id +"');?>");
                     }
 
                     /* 删除当前点击这条数据 */
                     countRow[i].children[countRowIndex].children[1].onclick = function () {
-                        console.log(this);
+                        let id = parseInt(countRow[this.index].getAttribute('index'));
+                        let msg = "你确定要删除此成员的信息包括登录信息吗？";
+                        if (confirm(msg) == true) {
+                            let Request = new XMLHttpRequest();
+                            Request.open("GET", "<?php echo U('Home/Index/deletePeople/id/"+ id +"');?>");
+                            Request.send();
+                            Request.onreadystatechange = function () {
+                                if (Request.readyState == 4 && Request.status == 200) {
+                                    alert("删除成功ID为:" + id + ":)");
+                                    systemPeople();
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
+    /*
+    *   人员添加
+    * */
+    function systeminsert ()
+    {
+        xmlhttpReceive('systeminsert');
+    }
     /*
     *  ajax 封装
+    *  显示页面到iframe
     * */
     function xmlhttpReceive (func) {
         let Request = new XMLHttpRequest();
@@ -573,8 +598,10 @@
 </script>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 <script>
-    layui.use('element', function(){
+    layui.use(['element', 'layer'], function(){
       var element = layui.element;
+      var layer = layui.layer;
+      layer.msg("请先选择医院");
     });
 </script>
 </body>

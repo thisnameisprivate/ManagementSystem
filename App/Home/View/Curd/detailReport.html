@@ -45,42 +45,26 @@
               </tr>
             </thead>
             <tbody>
+            <foreach name="result" item="vo" key="k">
                 <tr>
-                    <th>叶慧</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+                    <th>{$vo['username']}</th>
+                    <th>{$vo['terday'][0]['count']}</th>
+                    <th>{$vo['terdayArrived'][0]['count']}</th>
+                    <th>{$vo['terdayOutArrived'][0]['count']}</th>
                     <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+                    <th>{$vo['yesterday'][0]['count']}</th>
+                    <th>{$vo['yesterdayArrived'][0]['count']}</th>
+                    <th>{$vo['yesterdayOutArrived'][0]['count']}</th>
                     <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+                    <th>{$vo['currMonth'][0]['count']}</th>
+                    <th>{$vo['currMonthArrived'][0]['count']}</th>
+                    <th>{$vo['currMonthOutArrived'][0]['count']}</th>
                     <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
+                    <th>{$vo['yesterMonth'][0]['count']}</th>
+                    <th>{$vo['yesterMonthArrived'][0]['count']}</th>
+                    <th>{$vo['yesterMonthOutArrived'][0]['count']}</th>
                 </tr>
-                <tr>
-                    <th>董鑫</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th></th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                    <th>模拟数据</th>
-                </tr>
+            </foreach>
             </tbody>
           </table>
       </div>
