@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo ($staticPath); ?>/layui/css/layui.css">
+    <link rel="icon" href="<?php echo ($staticPath); ?>/images/hospital.ico" type="image/x-icon">
     <title>修改人员信息权限页面</title>
 </head>
 <body>
@@ -36,7 +37,7 @@
         <div class="layui-input-block">
             <input type="checkbox" name="like[0]" title="删除预约信息" <?php echo ($result[0]['deletedata']==1?checked:""); ?>>
             <input type="checkbox" name="like[1]" title="修改预约信息" <?php echo ($result[0]['updatedata']==1?checked:""); ?>>
-            <input type="checkbox" name="like[2]" title="修改个人资料" <?php echo ($result[0]['updateuser']==1?checked:""); ?>>
+            <input type="checkbox" name="like[2]" title="修改成员信息" <?php echo ($result[0]['updateuser']==1?checked:""); ?>>
         </div>
     </div>
     <div class="layui-form-item">

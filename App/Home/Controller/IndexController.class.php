@@ -690,7 +690,7 @@ class IndexController extends Controller {
             }
 
         } else {
-            $this->error("修改失败", U("Home/Index/systeminfo"));
+            $this->error("修改失败", U("Home/Index/systeminfo"), 1);
         }
     }
 
@@ -709,10 +709,12 @@ class IndexController extends Controller {
         /* 读取当前用户 */
         $username = cookie('username');
 
-        if ( ! $username) {
+        /*
+         * if (is_null($username)) {
             // 跳转至登录页面
-            $this->error("请重新登录，cookie过期", U("Home/Index/login"), 1);
+            $this->error("请重新登录", U("Home/Index/login"), 3);
         }
+         * */
 
 
         /* 查询所有用户 */

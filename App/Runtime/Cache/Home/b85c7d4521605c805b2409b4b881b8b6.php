@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="http://localhost/Thinkphp/Public/statics/layui/css/layui.css">
+    <link rel="icon" href="http://localhost/ThinkPHP/Public/statics/images/hospital.ico" type="image/x-icon">
     <title>广元协和医院预约系统登录</title>
     <style media="screen">
         .login-from{position:fixed; top:0; left:0; right:0; bottom:0; margin:auto; height:200px; width:400px;}
@@ -14,7 +15,7 @@
     <!-- 背景画布 -->
     <canvas id="canvas" style="position:absolute;width:100%;height:100%;"></canvas>
         <div class="login-from layui-anim layui-anim-up">
-            <form class="layui-form" action="<?php echo U("Home/Index/logincheck");?>" method="post">
+            <form class="layui-form" action="<?php echo U('Home/Index/logincheck');?>" method="post">
                 <div class="layui-form-item">
                   <label class="layui-form-label"><span class="layui-icon layui-icon-user"></span></label>
                   <div class="layui-input-inline">

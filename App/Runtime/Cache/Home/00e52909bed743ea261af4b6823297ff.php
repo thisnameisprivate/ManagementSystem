@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>广元协和医院预新媒体</title>
   <link rel="stylesheet" href="<?php echo ($staticPath); ?>/layui/css/layui.css">
+    <link rel="icon" href="<?php echo ($staticPath); ?>/images/hospital.ico" type="image/x-icon">
   <style media="screen">
       iframe{border:0px;}
   </style>
@@ -76,10 +77,10 @@
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-chart">&nbsp;&nbsp;</span>访客数据统计</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">数据明细（网络）</a></dd>
-            <dd><a href="javascript:;">医院项目设置（网络）</a></dd>
-            <dd><a href="javascript:;">数据明细（电话）</a></dd>
-            <dd><a href="javascript:;">医院项目设置（电话）</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">数据明细（网络）</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">医院项目设置（网络）</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">数据明细（电话）</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">医院项目设置（电话）</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -105,11 +106,11 @@
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-set-sm">&nbsp;&nbsp;</span>设置</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">医生设置</a></dd>
-            <dd><a href="javascript:;">疾病设置</a></dd>
-            <dd><a href="javascript:;">就诊类型设置</a></dd>
-            <dd><a href="javascript:;">医院科室设置</a></dd>
-            <dd><a href="javascript:;">搜索引擎设置</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">医生设置</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">疾病设置</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">就诊类型设置</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">医院科室设置</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">搜索引擎设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -117,7 +118,7 @@
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" onclick="systeminfo(this);">修改我的资料</a></dd>
             <dd><a href="javascript:;" onclick="systeminfo(this)">修改密码</a></dd>
-            <dd><a href="javascript:;">选项设置</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">选项设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -125,15 +126,15 @@
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" onclick="systeminsert(this);">人员管理</a></dd>
             <dd><a href="javascript:;" onclick="systemPeople(this);">权限管理</a></dd>
-            <dd><a href="javascript:;">医院列表</a></dd>
-            <dd><a href="javascript:;">通知列表</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">医院列表</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">通知列表</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-log">&nbsp;&nbsp;</span>日志记录</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">操作日志</a></dd>
-            <dd><a href="javascript:;">登录错误日志</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">操作日志</a></dd>
+            <dd><a href="javascript:;" onclick="monthData(this);">登录错误日志</a></dd>
           </dl>
         </li>
       </ul>
@@ -192,6 +193,8 @@
     function detailReport (detailReport) {
         // 根据对象获取到对应科室pid
         let pid = parseInt(detailReport.getAttribute('index'));
+
+        console.log(pid);
 
         // 发送请求显示该科室明细
         let Request = new XMLHttpRequest();
