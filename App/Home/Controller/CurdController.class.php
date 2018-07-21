@@ -12,7 +12,9 @@ class CurdController extends Controller {
     *   $this->display() Curd.html
     */
 
-    public function Curd ($id = null, $table = null, $pid = null) {
+    public function Curd ($id = null, $table = null, $pid = null)
+    {
+        $this->access();
 
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
@@ -101,6 +103,7 @@ class CurdController extends Controller {
 
     public function update ($id = null, $table = null, $pid = null, $pageIndex = null)
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
@@ -171,6 +174,7 @@ class CurdController extends Controller {
 
     public function determine ($id = null, $table = null, $pid = null, $pageIndex = null)
     {
+        $this->access();
         if (is_null($id)) return false;
         if (is_null($table)) return false;
         if (is_null($pid)) return false;
@@ -199,6 +203,7 @@ class CurdController extends Controller {
 
     public function detailReport ($pid = null)
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
@@ -262,6 +267,7 @@ class CurdController extends Controller {
 
     public function system ()
     {
+        $this->access();
         // 读取cookie
         $username = cookie('username');
         if (is_null($username)) {
@@ -280,6 +286,7 @@ class CurdController extends Controller {
 
     public function checkCountData ($table = null)
     {
+        $this->access();
         if (is_null($table)) return false;
         /* 查询所有客服账号 */
         $user = M('user');
@@ -348,5 +355,18 @@ class CurdController extends Controller {
 //       var_dump($data[$result[0]['username']['currMoth']['currMonth']]);
 //       var_dump($data[$result[1]['username']['currMoth']]);
 //        if ($data) return $data;
+    }
+
+    /*
+     *
+     *  cookie验证防止直接url路径访问模板
+     */
+
+    public function access ()
+    {
+        $cookieUsername = cookie('username');
+        if (! $cookieUsername) {
+            $this->error('请先登录', U("Home/Index/login"));
+        }
     }
 }

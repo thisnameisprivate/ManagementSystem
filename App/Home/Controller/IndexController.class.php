@@ -83,6 +83,7 @@ class IndexController extends Controller {
     */
     public function ready ($id = null)
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
@@ -148,6 +149,7 @@ class IndexController extends Controller {
 
     public function showTab ($id = null, $pageIndex = 1)
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
@@ -284,6 +286,7 @@ class IndexController extends Controller {
 
     public function insertShow ($id = null)
     {
+        $this->access();
 
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
@@ -375,6 +378,7 @@ class IndexController extends Controller {
 
     public function search ($id)
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign("staticPath", $staticPath);
@@ -454,6 +458,7 @@ class IndexController extends Controller {
 
     public function checkPeople ($field = null, $table, $id = null, $pageIndex = 1)
     {
+        $this->access();
 
         // 判断是否为post提交请求
         if (IS_POST) {
@@ -557,6 +562,7 @@ class IndexController extends Controller {
 
     public function monthData ()
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
@@ -572,6 +578,7 @@ class IndexController extends Controller {
 
     public function checkCountData ($table = null)
     {
+        $this->access();
         if (is_null($table)) return false;
         /* 声明一个数组接收值 */
         $dataCount = [];
@@ -644,6 +651,7 @@ class IndexController extends Controller {
 
     public function systeminfo ()
     {
+        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign("staticPath", $staticPath);
@@ -666,6 +674,7 @@ class IndexController extends Controller {
 
     public function changePass ()
     {
+        $this->access();
         if (is_null($_POST)) return false;
 
         // 实例化表
@@ -702,6 +711,7 @@ class IndexController extends Controller {
 
     public function systemPeople ()
     {
+        $this->access();
 
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
@@ -741,6 +751,7 @@ class IndexController extends Controller {
 
     public function updatePeople ($id = null)
     {
+        $this->access();
         if(is_null($id)) return false;
 
         // 传入js/css资源文件
@@ -770,6 +781,7 @@ class IndexController extends Controller {
 
     public function updateSoure ($id = null)
     {
+        $this->access();
         if ( ! $_POST) return false;
         if (is_null($id)) return false;
 
@@ -810,6 +822,7 @@ class IndexController extends Controller {
      */
     public function deletePeople ($id = null)
     {
+        $this->access();
         if (is_null($id)) return false;
 
         // 实例化表
@@ -826,6 +839,7 @@ class IndexController extends Controller {
 
     public function systeminsert ()
     {
+        $this->access();
         // 传入js/css资源文件路径
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
@@ -846,6 +860,7 @@ class IndexController extends Controller {
 
     public function peopleInsert ()
     {
+        $this->access();
         if ( ! $_POST) return false;
         // 实例化表
         $user = M('user');
@@ -871,5 +886,17 @@ class IndexController extends Controller {
         $this->display();
     }
 
+    /*
+     *
+     *  cookie验证防止直接访问模板文件
+     */
+
+    public function access ()
+    {
+        $cookieUsername = cookie('username');
+        if ( ! $cookieUsername) {
+            $this->error('请先登录', U("Home/Index/login"));
+        }
+    }
 
 }
