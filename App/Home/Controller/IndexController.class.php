@@ -878,17 +878,125 @@ class IndexController extends Controller {
 
     /*
      *   导出病人信息页面
+     *   @param int id
      * */
 
-    public function  exportData()
+    public function  exportData($id = null)
     {
         // 传入js/css资源文件
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
 
-
+        if (is_null($id)) return false;
+        $this->assign('id', $id);
 
         $this->display();
+    }
+
+    /**
+     *
+     * 导出病人信息逻辑操作
+     */
+
+    public function exportCheck ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+        $data = $_POST;
+
+        // 0 不限
+        // 1 已到
+        // 2 未到
+        // 字符串拼接要查询的字段
+        $field = ($data['name']=='on'?'name,': null). ' ' .($data['sex']=='on'?'sex,' : null) . ' ' . ($data['old']=='on'?'old,':null) . ' ' . ($data['phone']?'phone,' : null) . '  ' . ($data['expert']?'expert,' : null) . ' ' . ($data['diseases']?'diseases,' : null) . '  ' . ($data['desc1']?'desc1,' : null) . ' ' . ($data['fromAddress']?'fromAddress,' : null) . ' ' . ($data['desc2']?'desc2,' : null) . ' ' . ($data['custService']?'custService,' : null) . ' ' . ($data['oldDate']?'oldDate,' : null) . ' ' . ($data['currentTime']?'currentTime,' : null);
+        // 选择表格
+        $tableName = $this->selectTableName($id);
+        // 时间
+        $startTime = $data['startDate'];
+        $endTime = $data['endDate'];
+        // 已到未到
+        $arrived = $data['arrival'];
+
+
+        // 实例化Model();
+        $Model = new \Think\Model();
+        // 按到院时间查询
+        if ($data['date'] == 1) {
+
+            // 不限制状态查询
+            if ($arrived == 0) {
+                $sql = "SELECT $field currentTime FROM $tableName WHERE unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+            }
+            // 查询已到
+            if ($arrived == 1) {
+                $sql = "SELECT $field currentTime FROM $tableName WHERE status = 1 AND unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+            }
+            // 查询未到
+            if ($arrived == 2) {
+                $sql = "SELECT $field currentTime FROM $tableName WHERE status != 1 AND unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+            }
+
+        }
+
+        // 按添加时间查询
+        if ($data['date'] == 0) {
+
+            // 不限制查询
+            if ($arrived == 0) {
+                $sql = "SELECT $field currentTime FROM $tableName WHERE unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+            }
+            // 查询已到
+            if ($arrived == 1) {
+                $sql = "SELECT $field currentTime FROM $tableName WHERE status = 1 AND unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+            }
+            // 查询未到
+            if ($arrived == 2) {
+                $sql = "SELECT $field currentTime FROM $tableName WHERE status != 1 AND unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+            }
+
+        }
+
+        // 执行sql
+        $result = $Model->query($sql);
+        if ($result) $this->assign('result', $result);
+
+        $this->display();
+    }
+
+    /**
+     *
+     * 表格选择封装
+     * @param int id 根据id 选择表格
+     * return string 表格名字
+     */
+
+    public function selectTableName ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+
+        /* 根据id 返回对应的表格名 */
+        switch ($id) {
+            case 1:
+                return 'nk';
+            case 2:
+                return 'fk';
+            case 3:
+                return 'byby';
+            case 4:
+                return 'other';
+            case 5:
+                return 'jhsy';
+            case 6:
+                return 'gck';
+            case 7:
+                return 'wcwk';
+            case 8:
+                return 'rxk';
+            default:
+                echo "找不到表格,可能是表格id未找到";
+                break;
+        }
     }
 
 

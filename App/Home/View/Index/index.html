@@ -590,15 +590,17 @@
      * 导出病人数据
      */
 
-    function exportData () {
+    function exportData (currElement) {
+        let index = parseInt(currElement.getAttribute('index'));
         let Request = new XMLHttpRequest();
         Request.open("GET", "{:U('Home/Index/exportData')}");
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                window.open("{:U('Home/Index/exportData/id/"+ index +"')}");
             }
         }
+
     }
     /*
     *  ajax 封装
