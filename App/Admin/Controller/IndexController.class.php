@@ -57,7 +57,6 @@ class IndexController extends Controller {
         $result = $user->add($newData);
         if ($result) {
             echo "<p style='color:red;'>添加成功</p>";
-            var_dump($result);
         } else {
             echo "<p style='color:red;'>添加失败</p>";
         }

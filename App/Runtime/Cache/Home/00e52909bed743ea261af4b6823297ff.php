@@ -69,7 +69,7 @@
             <dd><a class="active" href="javascript:;" onclick="detailReport(this);">客服明细报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">月趋势报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">自定义图像报表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">导出病人数据</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="exportData(this);">导出病人数据</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">数据横向对比</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">添加新的病人资料</a></dd>
           </dl>
@@ -584,6 +584,22 @@
     {
         xmlhttpReceive('systeminsert');
     }
+
+    /**
+     *
+     * 导出病人数据
+     */
+
+    function exportData () {
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "<?php echo U('Home/Index/exportData');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            }
+        }
+    }
     /*
     *  ajax 封装
     *  显示页面到iframe
@@ -598,6 +614,8 @@
             }
         }
     }
+
+
 </script>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 <script>

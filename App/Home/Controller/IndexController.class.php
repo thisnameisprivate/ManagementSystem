@@ -877,6 +877,22 @@ class IndexController extends Controller {
 
 
     /*
+     *   导出病人信息页面
+     * */
+
+    public function  exportData()
+    {
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+
+
+        $this->display();
+    }
+
+
+    /*
      *
      *   权限不足打开的模板
      */
