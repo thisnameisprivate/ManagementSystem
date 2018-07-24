@@ -13,7 +13,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo"><a href="http://localhost/ThinkPHP/index.php/" title="初始化首页" style="color:#009688;"><span class="layui-icon layui-icon-home layui-anim layui-anim-rotate layui-anim-loop"></span>&nbsp;&nbsp;广元协和医院预约挂号</a></div>
+    <div class="layui-logo"><a href="http://localhost/ThinkPHP/index.php/" title="初始化首页" style="color:#009688;"><span class="layui-icon layui-icon-home"></span>&nbsp;&nbsp;广元协和医院预约挂号</a></div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
     </ul>
@@ -70,7 +70,7 @@
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">月趋势报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">自定义图像报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="exportData(this);">导出病人数据</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">数据横向对比</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="contrast(this);">数据横向对比</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">添加新的病人资料</a></dd>
           </dl>
         </li>
@@ -93,7 +93,7 @@
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-form">&nbsp;&nbsp;</span>数据列表</a>
           <dl class="layui-nav-child">
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">总体报表</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="allTable(this);">总体报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">性别</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">年龄</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">病患类型</a></dd>
@@ -194,7 +194,6 @@
         // 根据对象获取到对应科室pid
         let pid = parseInt(detailReport.getAttribute('index'));
 
-        console.log(pid);
 
         // 发送请求显示该科室明细
         let Request = new XMLHttpRequest();
@@ -602,6 +601,32 @@
         }
 
     }
+
+    /*
+    *
+    *  数据横向对比
+    * */
+
+    function contrast (currElement) {
+        xmlhttpReceive('contrast');
+    }
+
+    /*
+    *  数据总体报表
+    * */
+
+    function allTable (currElement) {
+        let index = parseInt(currElement.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "{:U('Home/Index/allTable/id/"+ index +"')}");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            }
+        }
+    }
+
     /*
     *  ajax 封装
     *  显示页面到iframe

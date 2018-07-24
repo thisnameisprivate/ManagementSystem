@@ -888,9 +888,23 @@ class IndexController extends Controller {
         $this->assign('staticPath', $staticPath);
 
         if (is_null($id)) return false;
-        $this->assign('id', $id);
 
-        $this->display();
+        // 读取当前登录用户
+        $username = cookie('username');
+        $user = M('user');
+        $result = $user->where("username = '$username'")->select();
+
+
+        // 检查当前用户权限
+        if ($result[0]['exportdata'] != 1) {
+//            redirect("Home/Index/notSystemAccess");
+            $this->display('notSystemAccess');
+        } else {
+            $this->assign('id', $id);
+
+            $this->display();
+        }
+
     }
 
     /**
@@ -901,6 +915,8 @@ class IndexController extends Controller {
     public function exportCheck ($id = null)
     {
         $this->access();
+
+
         if (is_null($id)) return false;
         $data = $_POST;
 
@@ -999,13 +1015,203 @@ class IndexController extends Controller {
         }
     }
 
+    /*
+     *
+     *  数据横向对比页
+     *  查询近6个月的数据
+     * */
+
+    public function contrast ()
+    {
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        // 这他妈这个页面为什么是权限不足的gif???谁改了老子代码。
+        $this->display('notSystemAccess');
+    }
+
+    /*
+     *
+     *   数据总体报表
+     *   @param int id 根据id选择要查询的表格 default null
+     * */
+
+    public function allTable ($id = null)
+    {
+
+        $this->access();
+
+        if (is_null($id)) return false;
+
+        // 调用表格选择方法
+        $tableName = $this->selectTableName($id);
+        $tableFont = $this->selectFont($id);
+
+        // 声明数组接收
+        $data = array();
+        $month = array();
+
+        // 实例化Model()
+        $Model = new \Think\Model();
+        // 查询今年预约
+        $currYearReser = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 3 AND YEAR(currentTime) = YEAR(NOW())");
+        // 查询今年预到
+        $currYearAdvan = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 0 AND YEAR(currentTime) = YEAR(NOW())");
+        // 查询今年已到
+        $currYearArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 1 AND YEAR(currentTime) = YEAR(NOW())");
+        // 查询今年未到
+        $currYearOutArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 2 AND YEAR(currentTime) = YEAR(NOW())");
+        // 到院比例
+
+        // 查询去年预约
+        $lastYearReser = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 3 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+        // 查询去年预到
+        $lastYearAdvan = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 0 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+        // 查询去年已到
+        $lastYearArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 1 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+        // 查询去年未到
+        $lastYEarOutArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 2 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+
+        // 查询前年预约
+        $beforeYearReser = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 3 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+        // 查询前年预到
+        $beforeYearAdvan = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 0 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+        // 查询前年已到
+        $beforeYearArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 1 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+        // 查询前年已到
+        $beforeYearOutArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 2 AND YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+
+
+        /* 查询数据按月份查询 */
+        // 查询本月数据
+        // 本月预约
+        $currMonthReser = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 3 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 本月预到
+        $currMonthAdvan = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 0 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 本月已到
+        $currMonthArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 1 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 本月未到
+        $currMonthOutArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 2 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+
+
+        // 第1个月预约
+        $oneMonthReser =  $this->monthSelect(3, 1, $tableName);
+        $oneMonthAdvan = $this->monthSelect(0, 1, $tableName);
+        $oneMonthArrival = $this->monthSelect(1, 1, $tableName);
+        $oneMonthOutArrival = $this->monthSelect(2, 1, $tableName);
+
+        // 第2个月预约
+        $twoMonthReser =  $this->monthSelect(3, 2, $tableName);
+        $twoMonthAdvan = $this->monthSelect(0, 2, $tableName);
+        $twoMonthArrival = $this->monthSelect(1, 2, $tableName);
+        $twoMonthOutArrival = $this->monthSelect(2, 2, $tableName);
+
+        // 第3个月预约
+        $threeMonthReser =  $this->monthSelect(3, 3, $tableName);
+        $threeMonthAdvan = $this->monthSelect(0, 3, $tableName);
+        $threeMonthArrival = $this->monthSelect(1, 3, $tableName);
+        $threeMonthOutArrival = $this->monthSelect(2, 3, $tableName);
+
+        // 第4个月预约
+        $fourMonthReser =  $this->monthSelect(3, 4, $tableName);
+        $fourMonthAdvan = $this->monthSelect(0, 4, $tableName);
+        $fourMonthArrival = $this->monthSelect(1, 4, $tableName);
+        $fourMonthOutArrival = $this->monthSelect(2, 4, $tableName);
+
+        // 第5个月预约
+        $fiveMonthReser =  $this->monthSelect(3, 5, $tableName);
+        $fiveMonthAdvan = $this->monthSelect(0, 5, $tableName);
+        $fiveMonthArrival = $this->monthSelect(1, 5, $tableName);
+        $fiveMonthOutArrival = $this->monthSelect(2, 5, $tableName);
+
+        // 第6个月预约
+        $sixMonthReser =  $this->monthSelect(3, 6, $tableName);
+        $sixMonthAdvan = $this->monthSelect(0, 6, $tableName);
+        $sixMonthArrival = $this->monthSelect(1, 6, $tableName);
+        $sixMonthOutArrival = $this->monthSelect(2, 6, $tableName);
+
+
+
+        // 今年信息
+        $data['currYearReser'] = $currYearReser;
+        $data['currYearAdvan'] = $currYearAdvan;
+        $data['currYearArrival'] = $currYearArrival;
+        $data['currYearOutArrival'] = $currYearOutArrival;
+        $data['currYear'] = "今年";
+        // 去年信息
+        $data['lastYearReser'] = $lastYearReser;
+        $data['lastYearAdvan'] = $lastYearAdvan;
+        $data['lastYearArrival'] = $lastYearArrival;
+        $data['lastYearOutArrival'] = $lastYEarOutArrival;
+        $data['lastYear'] = "去年";
+        // 前年信息
+        $data['beforeYearReser'] = $beforeYearReser;
+        $data['beforeYearAdvan'] = $beforeYearAdvan;
+        $data['beforeYearArrival'] = $beforeYearArrival;
+        $data['beforeYearOutArrival'] = $beforeYearOutArrival;
+        $data['beforeYear'] = "前年";
+
+
+        // 月份信息
+        $month['currMonthReser'] = $currMonthReser;
+        $month['currMonthAdvan'] = $currMonthAdvan;
+        $month['currMonthArrival'] = $currMonthArrival;
+        $month['currMonthOutArrival'] = $currMonthOutArrival;
+        $month['currMonth'] = "本月";
+
+        $month['oneMonthReser'] = $oneMonthReser;
+        $month['oneMonthAdvan'] = $oneMonthAdvan;
+        $month['oneMonthArrival'] = $oneMonthArrival;
+        $month['oneMonthOutArrival'] = $oneMonthOutArrival;
+        $month['oneMonth'] = "上月";
+
+        $month['twoMonthReser'] = $twoMonthReser;
+        $month['twoMonthAdvan'] = $twoMonthAdvan;
+        $month['twoMonthArrival'] = $twoMonthArrival;
+        $month['twoMonthOutArrival'] = $twoMonthOutArrival;
+        $month['twoMonth'] = "上上月";
+
+        $month['threeMonthReser'] = $threeMonthReser;
+        $month['threeMonthAdvan'] = $threeMonthAdvan;
+        $month['threeMonthArrival'] = $threeMonthArrival;
+        $month['threeMonthOutArrival'] = $threeMonthOutArrival;
+        $month['threeMonth'] = "上上上月";
+
+        $month['fourMonthReser'] = $fourMonthReser;
+        $month['fourMonthAdvan'] = $fourMonthAdvan;
+        $month['fourMonthArrival'] = $fourMonthArrival;
+        $month['fourMonthOutArrival'] = $fourMonthOutArrival;
+        $month['fourMonth'] = "上上上上月";
+
+
+        $month['fiveMonthReser'] = $fiveMonthReser;
+        $month['fiveMonthAdvan'] = $fiveMonthAdvan;
+        $month['fiveMonthArrival'] = $fiveMonthArrival;
+        $month['fiveMonthOutArrival'] = $fiveMonthOutArrival;
+        $month['fiveMonth'] = "上上上上上月";
+
+        $month['sixMonthReser'] = $sixMonthReser;
+        $month['sixMonthAdvan'] = $sixMonthAdvan;
+        $month['sixMonthArrival'] = $sixMonthArrival;
+        $month['sixMonthOutArrival'] = $sixMonthOutArrival;
+        $month['sixMonth'] = "上上上上上上月";
+
+
+
+        $this->assign('month', $month);
+        $this->assign('tableFont', $tableFont);
+        $this->assign('data', $data);
+        $this->display();
+    }
+
 
     /*
      *
      *   权限不足打开的模板
      */
 
-    public function notSystemAccess ()
+    private function notSystemAccess ()
     {
         $this->display();
     }
@@ -1015,12 +1221,66 @@ class IndexController extends Controller {
      *  cookie验证防止直接访问模板文件
      */
 
-    public function access ()
+    private function access ()
     {
         $cookieUsername = cookie('username');
         if ( ! $cookieUsername) {
             $this->error('请先登录', U("Home/Index/login"));
         }
+    }
+
+    /*
+     *  返回医院名称
+     *  @param int id 选择表单的依据 default null
+     * */
+
+    private function selectFont ($id = null)
+    {
+        if (is_null($id)) return false;
+
+
+        /* 根据id 返回对应的表格名 */
+        switch ($id) {
+            case 1:
+                return '广元协和医院男科';
+            case 2:
+                return '广元协和医院妇科';
+            case 3:
+                return '广元协和医院不孕不育';
+            case 4:
+                return '广元协和医院其他';
+            case 5:
+                return '广元协和医院计划生育';
+            case 6:
+                return '广元协和医院肛肠科';
+            case 7:
+                return '广元协和医院微创外科';
+            case 8:
+                return '广元协和医院乳腺科';
+            default:
+                echo "找不到表格,可能是表格id未找到";
+                break;
+        }
+    }
+
+
+    /*
+     *   按月份查询数据
+     *   @param int status default null
+     *   @param int month default null
+     *   return array result
+     * */
+
+    private function monthSelect ($status = null, $month = null, $tableName)
+    {
+        if (is_null($status)) return false;
+        if (is_null($month)) return false;
+
+        $Model = new \Think\Model();
+
+        $monthdata = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = '{$status}' AND date_format(currentTime, '%Y-%m') = date_format(DATE_SUB(curdate(), INTERVAL {$month} MONTH), '%Y-%m')");
+
+        return $monthdata;
     }
 
 }
