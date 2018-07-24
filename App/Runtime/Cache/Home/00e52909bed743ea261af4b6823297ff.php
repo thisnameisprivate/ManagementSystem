@@ -535,7 +535,7 @@
                 // iframe 加载完成后执行
                 let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName('rowData');
                 /* 获取每行对象的update, delete, more 点击事件 */
-                let countRowIndex = 5;
+                let countRowIndex = 6;
                 for (var i = 0; i < countRow.length; i ++) {
                     /*
                     * 给每行的update, delete, more 添加点击事件。
