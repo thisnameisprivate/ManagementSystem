@@ -1430,4 +1430,130 @@ class IndexController extends Controller {
         }
     }
 
+
+    /*
+     *  就诊来源页面
+     *
+     * */
+
+    public function fromaddress ()
+    {
+        $this->access();
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        // 读取cookie
+        $username = cookie('username');
+        $this->assign('username', $username);
+
+        // 查询就诊来源信息表
+        $user = M('fromaddress');
+        $result = $user->select();
+
+        $this->assign('result', $result);
+        $this->display();
+    }
+
+    /*
+     *  就诊来源修改页面显示
+     *  @param int $id default null
+     * */
+
+    public function fromaddressUpdate ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        $username = cookie('username');
+
+        $user = M('fromaddress');
+        $result = $user->where("id = $id")->field('fromaddress')->select();
+
+        $this->assign('id', $id);
+        $this->assign('username', $username);
+        $this->assign('result', $result);
+
+        $this->display();
+    }
+
+
+    /*
+     *  就诊来源修改逻辑
+     *  @param int $id default null
+     * */
+
+    public function fromaddressSource ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+
+        $fromaddress['fromaddress'] = $_POST['fromaddress'];
+        $user = M('fromaddress');
+        $result = $user->where("id = $id")->save($fromaddress);
+        if ($result) {
+            echo "<p style='color:green;'>修改成功</p>";
+        } else {
+            echo "<p style='color:red;'>修改失败</p>";
+        }
+
+    }
+
+
+    /*
+     *  就诊来源删除逻辑
+     *  @param int id default null
+     * */
+
+    public function fromaddressDelete ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+
+        $user = M('fromaddress');
+        $result = $user->where("id = $id")->delete();
+        print_r($result);
+    }
+
+    /*
+     *
+     *   增加来源信息页面
+     *   @param int id default null
+     * */
+
+    public function fromaddressadd ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        $username = cookie('username');
+        $this->assign('username', $username);
+        $this->assign('id', $id);
+        $this->display();
+    }
+
+    /*
+     *  增加来源信息逻辑
+     *
+     * */
+
+    public function fromaddressaddSource ()
+    {
+        $this->assign();
+        $fromaddress['fromaddress'] = $_POST['fromaddress'];
+        $user = M('fromaddress');
+        $result = $user->add($fromaddress);
+        if ($result) {
+            echo "<p style='color:green;'>添加成功</p>";
+        } else {
+            echo "<p style='color:red;'>添加失败</p>";
+        }
+    }
 }

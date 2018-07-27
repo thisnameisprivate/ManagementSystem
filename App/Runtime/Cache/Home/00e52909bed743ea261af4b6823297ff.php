@@ -108,7 +108,7 @@
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">医生设置</a></dd>
             <dd><a class="active" href="javascript:;" onclick="diseases(this);">疾病设置</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="monthData(this);">就诊类型设置</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="fromaddress(this);">就诊类型设置</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">医院科室设置</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">搜索引擎设置</a></dd>
           </dl>
@@ -226,8 +226,9 @@
 
 
             /* 页面跳转传递给后台要添加数据的表格id */
-            /*
-                Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
+
+                /*
+                * Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status == 200) {
@@ -235,7 +236,9 @@
                         document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                     }
                 }
-            */
+                *
+                * */
+
 
             window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
 
@@ -353,7 +356,7 @@
         **/
         document.getElementById('page').onload = function () {
 
-            /* 获取当前页面数据的总条书的父级元素 :)其实我也不想，贼他妈麻烦 */
+            /* 获取当前页面数据的总条数的父级元素 :)其实我也不想，贼他妈麻烦 */
             let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName("rowData");
             /* 获取当前页码 */
             let pageIndex = parseInt(document.getElementById('page').contentWindow.document.getElementsByClassName('pageIndex')[0].innerText);
@@ -690,6 +693,75 @@
                     let id = parseInt(currElement.getAttribute('index'));
                     let Request = new XMLHttpRequest();
                     Request.open("GET", "<?php echo U('Home/Index/diseasesadd/id/"+ id +"');?>");
+                    Request.send();
+                    Request.onreadystatechange = function () {
+                        if (Request.readyState == 4 && Request.status == 200) {
+                            document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+    *
+    *   就诊来源
+    * */
+
+    function fromaddress (currElement) {
+        let Request = new XMLHttpRequest();
+        Request.open('GET', "<?php echo U('Home/Index/fromaddress');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+
+                let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName('rowData');
+                let add = document.getElementById('page').contentWindow.document.getElementById('fromaddress');
+                let countRowIndex = 3;
+
+                for (let i = 0; i < countRow.length; i ++) {
+                    for (let c = 0; c < countRow[0].children[countRowIndex].children.length; c ++) {
+                        countRow[i].children[countRowIndex].children[c].index = i;
+                    }
+
+
+                    // 修改这条信息
+                    countRow[i].children[countRowIndex].children[0].onclick = function () {
+                        let id = parseInt(countRow[this.index].getAttribute('idval'));
+                        let Request = new XMLHttpRequest();
+                        Request.open("GET", "<?php echo U('Home/Index/fromaddressUpdate/id/"+ id +"');?>");
+                        Request.send();
+                        Request.onreadystatechange = function () {
+                            if (Request.readyState == 4 && Request.status == 200) {
+                                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            }
+                        }
+                    }
+
+                    // 删除这条信息
+                    countRow[i].children[countRowIndex].children[1].onclick = function () {
+                        let id = parseInt(countRow[this.index].getAttribute('idval'));
+                        let msg = "你确定删除该就诊来源吗?";
+
+                        if (confirm(msg)) {
+                            let Request = new XMLHttpRequest();
+                            Request.open("GET", "<?php echo U('Home/Index/fromaddressDelete/id/"+ id +"');?>");
+                            Request.send();
+                            Request.onreadystatechange = function () {
+                                if (Request.readyState == 4 && Request.status) {
+                                    alter("删除成功ID为:" + id + ":)");
+                                    fromaddress();
+                                }
+                            }
+                        }
+                    }
+                }
+                add.onclick = function () {
+                    let id = parseInt(currElement.getAttribute('index'));
+                    let Request = new XMLHttpRequest();
+                    Request.open("GET", "<?php echo U('Home/Index/fromaddressadd/id/" + id + "');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
                         if (Request.readyState == 4 && Request.status == 200) {

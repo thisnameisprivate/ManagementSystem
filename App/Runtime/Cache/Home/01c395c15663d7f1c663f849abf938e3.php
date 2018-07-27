@@ -138,14 +138,12 @@
 </div>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 <script>
-window.onload = function () {
     // layui demo.
         layui.use(['form', 'laydate'], function(){
 
             var form = layui.form;
             var laydate = layui.laydate;
 
-            form.render();
             laydate.render({
                 elem: '#date'
             });
@@ -157,8 +155,12 @@ window.onload = function () {
             form.on('submit(formDemo)', function(data){
                 // layer.msg(JSON.stringify(data.field));
             });
+
+            form.render();
     });
-}
+
+
+
 </script>
 </body>
 </html>
