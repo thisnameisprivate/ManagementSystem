@@ -106,11 +106,11 @@
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-set-sm">&nbsp;&nbsp;</span>设置</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;" onclick="monthData(this);">医生设置</a></dd>
-            <dd><a href="javascript:;" onclick="monthData(this);">疾病设置</a></dd>
-            <dd><a href="javascript:;" onclick="monthData(this);">就诊类型设置</a></dd>
-            <dd><a href="javascript:;" onclick="monthData(this);">医院科室设置</a></dd>
-            <dd><a href="javascript:;" onclick="monthData(this);">搜索引擎设置</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthData(this);">医生设置</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="diseases(this);">疾病设置</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthData(this);">就诊类型设置</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthData(this);">医院科室设置</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthData(this);">搜索引擎设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -513,6 +513,8 @@
         xmlhttpReceive('monthData');
     }
 
+
+
     /*
      * 修改个人资料
      */
@@ -623,6 +625,78 @@
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
                 document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            }
+        }
+    }
+
+    /*
+    *
+    *   疾病选项管理
+    *
+    * */
+
+    function diseases (currElement) {
+        let index = parseInt(currElement.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "<?php echo U('Home/Index/diseases/id/"+ index +"');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+
+                // 页面加载完毕之后执行
+                let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName('rowData');
+                let add = document.getElementById('page').contentWindow.document.getElementById('diseasesadd');
+                let countRowIndex = 3;
+                for (let i = 0; i < countRow.length; i ++) {
+
+                    for (let c = 0; c < countRow[0].children[countRowIndex].children.length; c ++) {
+                        countRow[i].children[countRowIndex].children[c].index = i;
+                    }
+
+                    // 修改这条信息
+                    countRow[i].children[countRowIndex].children[0].onclick = function () {
+                        let id = parseInt(countRow[this.index].getAttribute('idval'));
+                        let Request = new XMLHttpRequest();
+                        Request.open("GET", "<?php echo ('Home/Index/diseasesUpdate/id/"+ id +"');?>");
+                        Request.send();
+                        Request.onreadystatechange = function () {
+                            if (Request.readyState == 4 && Request.status == 200) {
+                                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                            }
+                        }
+                    }
+                    // 删除这条信息
+                    countRow[i].children[countRowIndex].children[1].onclick = function () {
+                        let id = parseInt(countRow[this.index].getAttribute('idval'));
+                        let msg = "你确认删除该病种吗";
+
+                        if (confirm(msg) == true) {
+                            let Request = new XMLHttpRequest();
+                            Request.open("GET", "<?php echo U('Home/Index/diseasesDelete/id/"+ id +"');?>");
+                            Request.send();
+                            Request.onreadystatechange = function () {
+                                if (Request.readyState == 4 && Request.status == 200) {
+                                    alert("删除成功ID为:" + id + ":)");
+                                    diseases();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 添加新的信息
+                add.onclick = function () {
+                    let id = parseInt(currElement.getAttribute('index'));
+                    let Request = new XMLHttpRequest();
+                    Request.open("GET", "<?php echo U('Home/Index/diseasesadd/id/"+ id +"');?>");
+                    Request.send();
+                    Request.onreadystatechange = function () {
+                        if (Request.readyState == 4 && Request.status == 200) {
+                            document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                        }
+                    }
+                }
             }
         }
     }

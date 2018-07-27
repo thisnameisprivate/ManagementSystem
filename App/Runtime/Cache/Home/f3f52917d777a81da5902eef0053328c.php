@@ -14,7 +14,7 @@
     <div class="layui-card layui-anim layui-anim-up">
       <div class="layui-card-header table" table="<?php echo ($table); ?>"><?php echo ($tableFont); ?> - 预约列表</div>
       <div class="layui-card-body">
-        统计数据:</br>
+        统计数据:<br>
         总共: <?php echo ($dataCount); ?> 条&nbsp;&nbsp;&nbsp;已到: <?php echo ($arrival); ?>&nbsp;&nbsp;&nbsp;未到: <?php echo ($notArrival); ?>
       </div>
     </div>

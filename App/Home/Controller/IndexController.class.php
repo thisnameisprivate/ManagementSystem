@@ -1283,4 +1283,151 @@ class IndexController extends Controller {
         return $monthdata;
     }
 
+
+    /*
+     *  科室病种添加
+     *  @param int id default null
+     * */
+
+    public function diseases ($id = null)
+    {
+        if (is_null($id)) return false;
+
+        // 传入js/css资源文件路径
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        // 获取表名
+        $tableFont = $this->selectFont($id);
+
+        // 实例化表
+        $user = M('alldiseases');
+
+        $result = $user->where("pid = $id")->field(array('id', 'diseases', 'currTime'))->select();
+
+        if ($result) $this->assign('result', $result);
+
+        $this->access();
+
+        // 读取cookie
+        $username = cookie('username');
+        $this->assign('username', $username);
+        $this->assign('tableFont', $tableFont);
+
+        $this->display();
+    }
+
+    /*
+     *  删除疾病选项
+     *  @param int id default null
+     *  code ing ...
+     * */
+
+
+    public function diseasesDelete ($id = null)
+    {
+        // 传入js/css资源文件路径
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+
+        $this->access();
+        if (is_null($id)) return false;
+
+        $user = M('alldiseases');
+        $result = $user->where("id = $id")->delete();
+        print_r($result);
+    }
+
+
+    /*
+     *   修改疾病选项
+     *   @param int id default null
+     *   code ing ...
+     * */
+
+    public function diseasesUpdate ($id = null)
+    {
+        /// 传入js/css资源文件路径
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        $this->access();
+        $username = cookie('username');
+        $this->assign('username', $username);
+        if (is_null($id)) return false;
+
+        $this->assign();
+        // 实例化表
+        $user = M('alldiseases');
+        $result = $user->where("id = '$id'")->field('diseases')->select();
+
+        $this->assign('result', $result);
+        $this->assign('id', $id);
+        $this->display();
+    }
+
+
+    /*
+     *   疾病修改确认逻辑
+     *   @param int id default null
+     * */
+
+    public function diseaseSource ()
+    {
+        $diseases['diseases'] = $_POST['diseases'];
+        $id = $_GET['id'];
+
+        $user = M('alldiseases');
+        $result = $user->where("id = $id")->save($diseases);
+
+        if ($result) {
+            echo "<p style='color:green;'>修改成功</p>";
+        } else {
+            echo "<p style='color:red;'>修改失败</p>";
+        }
+
+    }
+
+    /*
+     *  疾病选项添加
+     * */
+
+    public function diseasesadd ($id = null)
+    {
+        // 传入js/cs资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        $this->access();
+
+        if (is_null($id)) return false;
+        $username = cookie('username');
+        $this->assign('username', $username);
+        $this->assign('id', $id);
+        $this->display();
+
+    }
+
+    /*
+     *  疾病选项添加确认
+     * */
+
+    public function diseaseaddSource ($id = null)
+    {
+        if (is_null($id)) return false;
+
+        $diseases['diseases'] = $_POST['diseases'];
+        $diseases['pid'] = $id;
+
+        // 实例化表
+        $user = M('alldiseases');
+        $result = $user->add($diseases);
+        if ($result) {
+            echo "<p style='color:green;'>添加成功</p>";
+        } else {
+            echo "<p style='color:red;'>添加失败</p>";
+        }
+    }
+
 }

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{$staticPath}/layui/css/layui.css">
+    <title>疾病列表</title>
+</head>
+<body>
+<div class="layui-card layui-anim layui-anim-up">
+    <div class="layui-card-header"><span style="font-weight:700; font-size:1rem; color:#FF5722;"><span class="layui-icon layui-icon-username"></span> {$username}</span>&nbsp;&nbsp;正在进行疾病选项管理</div>
+    <div class="layui-card-body">
+        <p>{$tableFont} - 疾病列表</p>
+        <button class="layui-btn" id="diseasesadd">新增病种选项</button>
+    </div>
+    <table class="layui-table layui-anim layui-anim-up" style="table-layout: fixed;" lay-size="sm">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>疾病名称</th>
+            <th>添加时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="result" item="vo" key="k">
+            <tr class="rowData" idval="{$vo['id']}">
+                <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{$vo['id']}</td>
+                <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{$vo['diseases']}</td>
+                <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{$vo['currTime']}</td>
+                <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+                    <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit update" style="color:#FFB800;"></a>
+                    <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete delete" style="color:#FF5722;"></a>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</div>
+<script src="{$staticPath}/layui/layui.js"></script>
+</body>
+</html>
