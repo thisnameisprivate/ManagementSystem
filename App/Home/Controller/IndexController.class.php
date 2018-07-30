@@ -1,5 +1,6 @@
 <?php
 namespace Home\Controller;
+use Org\Util\Date;
 use Think\Controller;
 class IndexController extends Controller {
 
@@ -94,34 +95,50 @@ class IndexController extends Controller {
         switch ($id) {
             case 1:
                 $result = $this->checkCountData('nk');
+                $nameList = $this->checkCountMonth('nk');
+                $this->yesterMonth('nk', $nameList);
                 $this->assign('item', '/ 广元协和医院男科');
                 break;
             case 2:
                 $result = $this->checkCountData('fk');
+                $nameList = $this->checkCountMonth('fk');
+                $this->yesterMonth('fk', $nameList);
                 $this->assign('item', '/ 广元协和医院妇科');
                 break;
             case 3:
                 $result = $this->checkCountData('byby');
+                $nameList = $this->checkCountMonth('byby');
+                $this->yesterMonth('byby', $nameList);
                 $this->assign('item', '/ 广元协和不孕不育科');
                 break;
             case 4:
                 $result = $this->checkCountData('other');
+                $nameList = $this->checkCountMonth('other');
+                $this->yesterMonth('other', $nameList);
                 $this->assign('item', '/ 广元协和医院其他');
                 break;
             case 5:
                 $result = $this->checkCountData('jhsy');
+                $nameList = $this->checkCountMonth('jhsy');
+                $this->yesterMonth('jhsy', $nameList);
                 $this->assign('item', '/ 广元协和医院计划生育科');
                 break;
             case 6:
                 $result = $this->checkCountData('gck');
+                $nameList = $this->checkCountMonth('gck');
+                $this->yseterMonth('gck', $nameList);
                 $this->assign('item', '/ 广元协和医院肛肠科');
                 break;
             case 7:
                 $result = $this->checkCountData('wcwk');
+                $nameList = $this->checkCountMonth('wcwk');
+                $this->yesterMonth('wcwk', $nameList);
                 $this->assign('item', '/ 广元协和医院微创外科');
                 break;
             case 8:
                 $result = $this->checkCountData('rxk');
+                $nameList = $this->checkCountMonth('rxk');
+                $this->yesterMonth('rxk', $nameList);
                 $this->assign('item', '/ 广元协和医院乳腺科');
                 break;
             default:
@@ -130,12 +147,34 @@ class IndexController extends Controller {
                 break;
         }
 
+
         if ($id) {
             $this->assign('result', $result);
+            $this->assign('nameList', $nameList);
             $this->display();
         } else {
-
             return false;
+        }
+    }
+
+
+    /*
+     *   上月到院排行方法
+     *
+     * */
+
+    private function yesterMonth ($table, $user)
+    {
+        $Model = new \Think\Model();
+        for ($i = 0; $i < count($user); $i ++) {
+            $countMonth[$user[$i]['username']] = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE expert = '{$user[$i]['username']}' AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
+        }
+
+        // 遍历查询的数据  是个3维数组
+        foreach ($countMonth as $key => $val) {
+            foreach ($val as $k => $v) {
+
+            }
         }
     }
 
@@ -1158,48 +1197,50 @@ class IndexController extends Controller {
         $month['currMonthAdvan'] = $currMonthAdvan;
         $month['currMonthArrival'] = $currMonthArrival;
         $month['currMonthOutArrival'] = $currMonthOutArrival;
-        $month['currMonth'] = "本月";
+        $month['currMonth'] = \date('Y-m');
 
         $month['oneMonthReser'] = $oneMonthReser;
         $month['oneMonthAdvan'] = $oneMonthAdvan;
         $month['oneMonthArrival'] = $oneMonthArrival;
         $month['oneMonthOutArrival'] = $oneMonthOutArrival;
-        $month['oneMonth'] = "上月";
+        $month['oneMonth'] = \date('Y-m', strtotime('-1 month'));
 
         $month['twoMonthReser'] = $twoMonthReser;
         $month['twoMonthAdvan'] = $twoMonthAdvan;
         $month['twoMonthArrival'] = $twoMonthArrival;
         $month['twoMonthOutArrival'] = $twoMonthOutArrival;
-        $month['twoMonth'] = "上上月";
+        $month['twoMonth'] = \date('Y-m', strtotime('-2 month'));
 
         $month['threeMonthReser'] = $threeMonthReser;
         $month['threeMonthAdvan'] = $threeMonthAdvan;
         $month['threeMonthArrival'] = $threeMonthArrival;
         $month['threeMonthOutArrival'] = $threeMonthOutArrival;
-        $month['threeMonth'] = "上上上月";
+        $month['threeMonth'] = \date('Y-m', strtotime('-3 month'));
 
         $month['fourMonthReser'] = $fourMonthReser;
         $month['fourMonthAdvan'] = $fourMonthAdvan;
         $month['fourMonthArrival'] = $fourMonthArrival;
         $month['fourMonthOutArrival'] = $fourMonthOutArrival;
-        $month['fourMonth'] = "上上上上月";
+        $month['fourMonth'] = \date('Y-m', strtotime('-4 month'));
 
 
         $month['fiveMonthReser'] = $fiveMonthReser;
         $month['fiveMonthAdvan'] = $fiveMonthAdvan;
         $month['fiveMonthArrival'] = $fiveMonthArrival;
         $month['fiveMonthOutArrival'] = $fiveMonthOutArrival;
-        $month['fiveMonth'] = "上上上上上月";
+        $month['fiveMonth'] = \date('Y-m', strtotime('-5 month'));
+
 
         $month['sixMonthReser'] = $sixMonthReser;
         $month['sixMonthAdvan'] = $sixMonthAdvan;
         $month['sixMonthArrival'] = $sixMonthArrival;
         $month['sixMonthOutArrival'] = $sixMonthOutArrival;
-        $month['sixMonth'] = "上上上上上上月";
+        $month['sixMonth'] = \date('Y-m', strtotime('-6 month'));
 
 
 
         $this->assign('month', $month);
+
         $this->assign('tableFont', $tableFont);
         $this->assign('data', $data);
         $this->display();
@@ -1555,5 +1596,37 @@ class IndexController extends Controller {
         } else {
             echo "<p style='color:red;'>添加失败</p>";
         }
+    }
+
+
+    /*
+     *  按性别查询
+     *  @param $id default null
+     * */
+
+    public function sex ($id = null)
+    {
+        $this->access();
+        if (is_null($id)) return false;
+        // 传入js/css资源文件
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+
+        $this->display();
+    }
+
+    /*
+     *  查询本月数据客服排行榜
+     *
+     * */
+
+    private function checkCountMonth ($table)
+    {
+        $this->access();
+        // 查询客服表
+        $user = M('user');
+        $nameList = $user->field('username')->select();
+        return $nameList;
     }
 }

@@ -33,7 +33,7 @@
         </li>
       <li class="layui-nav-item">
         <a href="javascript:;">
-          <img src="https://avatars0.githubusercontent.com/u/40999381?s=460&v=4" class="layui-nav-img">
+          <img src="http://run.gyxhyy.com/Public/statics/images/banner2.jpg" class="layui-nav-img">
           <?php echo ($username); ?>
         </a>
         <dl class="layui-nav-child">
@@ -94,7 +94,7 @@
           <a href="javascript:;"><span class="layui-icon layui-icon-form">&nbsp;&nbsp;</span>数据列表</a>
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="allTable(this);">总体报表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">性别</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="sex(this);">性别</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">年龄</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">病患类型</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">媒体来源</a></dd>
@@ -153,6 +153,7 @@
      <a href="javascript:;" title="发布日期: 2018/8/1日:) Github: https://github.com/thisnameisprivate"><span class="layui-icon layui-icon-website layui-anim layui-anim-fadein layui-anim-loop"></span>&nbsp;&nbsp;&nbsp;广元协和医院预约管理系统 ©</a>
   </div>
 <script type="text/javascript">
+
 
     /* 读取新的医院首页  */
     function readyHtml (currElement) {
@@ -769,6 +770,23 @@
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /*
+    *
+    *  按性别查询显示
+    * */
+
+    function sex (currElement) {
+        let index = parseInt(currElement.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+        Request.open('GET', "<?php echo U('Home/Index/sex/id/"+ index +"');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
             }
         }
     }

@@ -42,7 +42,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">本月到院排行</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span><?php echo ($k); ?> : <?php echo ($vo); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">本月预约排行榜</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($k); ?> : <?php echo ($vo); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">上月到院排行</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($k); ?> : <?php echo ($vo); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">上月预约排行榜</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($k); ?> : <?php echo ($vo); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
