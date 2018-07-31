@@ -42,8 +42,8 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">本月到院排行</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="nameList" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>{$vo['username']}</p>
+                  <foreach name="userSort" item="vo" key="k">
+                      <p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
                   </foreach>
               </div>
             </div>
@@ -52,8 +52,8 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">本月预约排行榜</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="nameList" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>{$vo['username']}</p>
+                  <foreach name="currUserSortRese" item="vo" key="k">
+                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
                   </foreach>
               </div>
             </div>
@@ -63,32 +63,13 @@
       <div class="layui-row">
         <div class="layui-col-md5">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据</div>
+              <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据统计</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                <p>
-                    明日:
-                    <foreach name="tommor" item="vo" key="k">
-                        {$k} : {$vo}
-                    </foreach>
-                </p>
-                <p>
-                    今日:
-                    <foreach name="toDay" item="vo" key="k">
-                         {$k} : {$vo}&nbsp;&nbsp;&nbsp;
-                    </foreach>
-                </p>
-                <p>
-                    昨日:
-                    <foreach name="prevDay" item="vo" key="k">
-                         {$k} : {$vo}&nbsp;&nbsp;&nbsp;
-                    </foreach>
-                </p>
-                <p>
-                    本月:
-                    <foreach name="currentMonth" item="vo" key="k">
-                         {$k} : {$vo}&nbsp;&nbsp;&nbsp;
-                    </foreach>
-                </p>
+                  <p>明日:&nbsp;&nbsp;&nbsp;{$checkCountRese['tommodayRese'][0]['count'] == null?'null':$checkCountRese['tommodayRese'][0]['count']}</p>
+                  <p>今日:&nbsp;&nbsp;&nbsp;{$checkCountRese['todayRese'][0]['count'] == null?'null':$checkCountRese['todayRese'][0]['count']}</p>
+                  <p>昨天:&nbsp;&nbsp;&nbsp;{$checkCountRese['terdayRese'][0]['count'] == null?'null':$checkCountRese['terdayRese'][0]['count']}</p>
+                  <p>本月:&nbsp;&nbsp;&nbsp;{$checkCountRese['currMonthRese'][0]['count'] == null?'null':$checkCountRese['currMonthRese'][0]['count']}</p>
+                  <p>上月:&nbsp;&nbsp;&nbsp;{$checkCountRese['yesterMonthRese'][0]['count'] == null?'null':$checkCountRese['yesterMonthRese'][0]['count']}</p>
               </div>
             </div>
         </div>
@@ -97,8 +78,8 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">上月到院排行</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="nameList" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>{$vo['username']}</p>
+                  <foreach name="yesterUserSortArrival" item="vo" key="k">
+                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
                   </foreach>
               </div>
             </div>
@@ -107,8 +88,8 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">上月预约排行榜</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="nameList" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>{$vo['username']}</p>
+                  <foreach name="yesterUserSortRese" item="vo" key="k">
+                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
                   </foreach>
               </div>
             </div>

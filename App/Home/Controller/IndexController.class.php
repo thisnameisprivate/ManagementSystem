@@ -96,49 +96,81 @@ class IndexController extends Controller {
             case 1:
                 $result = $this->checkCountData('nk');
                 $nameList = $this->checkCountMonth('nk');
-                $this->yesterMonth('nk', $nameList);
+                $userSort = $this->currUserSort('nk', $nameList);
+                $currUserSortRese = $this->currUserSortRese('nk', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortRese('nk', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('nk', $nameList);
+                $checkCountRese = $this->checkCountRese('nk');
                 $this->assign('item', '/ 广元协和医院男科');
                 break;
             case 2:
                 $result = $this->checkCountData('fk');
                 $nameList = $this->checkCountMonth('fk');
-                $this->yesterMonth('fk', $nameList);
+                $userSort = $this->currUserSort('fk', $nameList);
+                $currUserSortRese = $this->currUserSortRese('fk', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('fk', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('fk', $nameList);
+                $checkCountRese = $this->checkCountRese('fk');
                 $this->assign('item', '/ 广元协和医院妇科');
                 break;
             case 3:
                 $result = $this->checkCountData('byby');
                 $nameList = $this->checkCountMonth('byby');
-                $this->yesterMonth('byby', $nameList);
+                $userSort = $this->currUserSort('byby', $nameList);
+                $currUserSortRese = $this->currUserSortRese('byby', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('byby', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('byby', $nameList);
+                $checkCountRese = $this->checkCountRese('byby');
                 $this->assign('item', '/ 广元协和不孕不育科');
                 break;
             case 4:
                 $result = $this->checkCountData('other');
                 $nameList = $this->checkCountMonth('other');
-                $this->yesterMonth('other', $nameList);
+                $userSort = $this->currUserSort('other', $nameList);
+                $currUserSortRese = $this->currUserSortRese('other', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('other', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('other', $nameList);
+                $checkCountRese = $this->checkCountRese('other');
                 $this->assign('item', '/ 广元协和医院其他');
                 break;
             case 5:
                 $result = $this->checkCountData('jhsy');
                 $nameList = $this->checkCountMonth('jhsy');
-                $this->yesterMonth('jhsy', $nameList);
+                $userSort = $this->currUserSort('jhsy', $nameList);
+                $currUserSortRese = $this->currUserSortRese('jhsy', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('jhsy', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('jhsy', $nameList);
+                $checkCountRese = $this->checkCountRese('jhsy');
                 $this->assign('item', '/ 广元协和医院计划生育科');
                 break;
             case 6:
                 $result = $this->checkCountData('gck');
                 $nameList = $this->checkCountMonth('gck');
-                $this->yseterMonth('gck', $nameList);
+                $userSort = $this->currUserSort('gck', $nameList);
+                $currUserSortRese = $this->currUserSortRese('gck', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('gck', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('gck', $nameList);
+                $checkCountRese = $this->checkCountRese('gck');
                 $this->assign('item', '/ 广元协和医院肛肠科');
                 break;
             case 7:
                 $result = $this->checkCountData('wcwk');
                 $nameList = $this->checkCountMonth('wcwk');
-                $this->yesterMonth('wcwk', $nameList);
+                $userSort = $this->currUserSort('wcwk', $nameList);
+                $currUserSortRese = $this->currUserSortRese('wcwk', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('wcwk', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('wcwk', $nameList);
+                $checkCountRese = $this->checkCountRese('wcwk');
                 $this->assign('item', '/ 广元协和医院微创外科');
                 break;
             case 8:
                 $result = $this->checkCountData('rxk');
                 $nameList = $this->checkCountMonth('rxk');
-                $this->yesterMonth('rxk', $nameList);
+                $userSort = $this->currUserSort('rxk', $nameList);
+                $currUserSortRese = $this->currUserSortRese('rxk', $nameList);
+                $yesterUserSortArrival = $this->yesterUserSortArrival('rxk', $nameList);
+                $yesterUserSortRese = $this->yesterUserSortRese('rxk', $nameList);
+                $checkCountRese = $this->checkCountRese('rxk');
                 $this->assign('item', '/ 广元协和医院乳腺科');
                 break;
             default:
@@ -151,6 +183,12 @@ class IndexController extends Controller {
         if ($id) {
             $this->assign('result', $result);
             $this->assign('nameList', $nameList);
+            $this->assign('userSort', $userSort);
+            $this->assign('currUserSortRese', $currUserSortRese);
+            $this->assign('yesterUserSortArrival', $yesterUserSortArrival);
+            $this->assign('yesterUserSortRese', $yesterUserSortRese);
+            $this->assign('checkCountRese', $checkCountRese);
+            
             $this->display();
         } else {
             return false;
@@ -159,23 +197,111 @@ class IndexController extends Controller {
 
 
     /*
-     *   上月到院排行方法
-     *
+     *   本月到院排行方法
+     *  @param string $table
+     *  @param array $user
+     *  return 二维数组
      * */
 
-    private function yesterMonth ($table, $user)
+    private function currUserSort ($table, $user)
     {
         $Model = new \Think\Model();
         for ($i = 0; $i < count($user); $i ++) {
-            $countMonth[$user[$i]['username']] = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE expert = '{$user[$i]['username']}' AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
+            $countMonth[$user[$i]['username']] = $Model->query("SELECT COUNT(*) AS count, expert FROM $table WHERE expert = '{$user[$i]['username']}' AND status = 1 AND  DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
         }
-
-        // 遍历查询的数据  是个3维数组
+        // 遍历查询的数据  是个多维维数组
         foreach ($countMonth as $key => $val) {
             foreach ($val as $k => $v) {
-
+                $userSort[] = $v;
             }
         }
+
+
+
+        array_multisort(array_column($userSort, 'count'), SORT_DESC, $userSort);
+
+        return $userSort;
+    }
+
+    /*
+     *  本月预约未定
+     *  @param string $table
+     *  @param array $user
+     *  return 二维数组
+     * */
+
+    private function currUserSortRese  ($table, $user)
+    {
+
+        $Model = new \Think\Model();
+        for ($i = 0; $i < count($user); $i ++) {
+            $countMonth[$user[$i]['username']] = $Model->query("SELECT COUNT(*) AS count, expert FROM $table WHERE expert = '{$user[$i]['username']}' AND status = 3 AND  DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
+        }
+        // 遍历查询的数据  是个多维维数组
+        foreach ($countMonth as $key => $val) {
+            foreach ($val as $k => $v) {
+                $currUserSortRese[] = $v;
+            }
+        }
+
+
+        array_multisort(array_column($currUserSortRese, 'count'), SORT_DESC, $currUserSortRese);
+
+        return $currUserSortRese;
+    }
+
+
+    /*
+     *  上月到院排行
+     *  @param string $table
+     *  @param array $user
+     *  return 二维数组
+     * */
+
+    private function yesterUserSortArrival ($table, $user)
+    {
+        $Model = new \Think\Model();
+        for ($i = 0; $i < count($user); $i ++) {
+            $countMonth[$user[$i]['username']] = $Model->query("SELECT COUNT(*) AS count, expert FROM $table WHERE expert = '{$user[$i]['username']}' AND status = 1 AND PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1");
+        }
+        // 遍历查询的数据  是个多维维数组
+        foreach ($countMonth as $key => $val) {
+            foreach ($val as $k => $v) {
+                $yesterUserSortArrival[] = $v;
+            }
+        }
+
+
+        array_multisort(array_column($yesterUserSortArrival, 'count'), SORT_DESC, $yesterUserSortArrival);
+
+        return $yesterUserSortArrival;
+    }
+
+    /*
+     *
+     *  上月预约排行
+     *  @param string $table
+     *  @param array $user
+     *  return 二位数组
+     * */
+
+    private function yesterUserSortRese ($table, $user)
+    {
+        $Model = new \Think\Model();
+        for ($i = 0; $i < count($user); $i ++) {
+            $countMonth[$user[$i]['username']] = $Model->query("SELECT COUNT(*) AS count, expert FROM $table WHERE expert = '{$user[$i]['username']}' AND status = 3 AND PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1");
+        }
+        // 遍历查询的数据  是个多维维数组
+        foreach ($countMonth as $key => $val) {
+            foreach ($val as $k => $v) {
+                $yesterUserSortRese[] = $v;
+            }
+        }
+
+
+        array_multisort(array_column($yesterUserSortRese, 'count'), SORT_DESC, $yesterUserSortRese);
+
+        return $yesterUserSortRese;
     }
 
     /*
@@ -610,12 +736,12 @@ class IndexController extends Controller {
 
     /*
     *
-    *   首页信息展示封装
+    *   首页信息展示封装[到院信息统计]
     *   @param string $table 要查询的表 default null
     *   return array $dataCount 二维数组
     **/
 
-    public function checkCountData ($table = null)
+    private function checkCountData ($table = null)
     {
         $this->access();
         if (is_null($table)) return false;
@@ -679,6 +805,47 @@ class IndexController extends Controller {
         $dataCount['yesterMonthOutArrived'] = $yesterMonthOutArrived;
 
         // 数据->数组 :)  返回二维数组
+        if ($dataCount) return $dataCount;
+    }
+
+    /*
+    *
+    *   首页信息展示封装[预约信息统计]
+    *   @param string $table 要查询的表 default null
+    *   return array $dataCount 二维数组
+    **/
+
+    private function checkCountRese ($table = null)
+    {
+        $this->access();
+        if (is_null($table)) return false;
+
+        /* 声明一个数组接收值 */
+        $dataCount = [];
+
+        /* 实例化一个空的Model对象 */
+        $Model = new \Think\Model();
+
+        /* 获取今天的信息 */
+        $todayRese = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE status = 3 AND to_days(oldDate) = to_days(now())");
+        /* 获取昨天的信息 */
+        $terdayRese = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE status = 3 AND to_days(now()) - to_days(oldDate) = 1");
+        /* 获取明天的信息 */
+        $tommodayRese = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE status = 3 AND to_days(oldDate) - to_days(now()) = 1");
+        /* 获取本月的信息 */
+        $currMonthRese = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE status = 3 AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')");
+        /* 获取上月信息 */
+        $yseterMonthRese = $Model->query("SELECT COUNT(*) AS count FROM $table WHERE status = 3 AND PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1");
+
+
+        // 整理数据到数组
+        $dataCount['todayRese'] = $todayRese;
+        $dataCount['terdayRese'] = $terdayRese;
+        $dataCount['tommodayRese'] = $tommodayRese;
+        $dataCount['currMonthRese'] = $currMonthRese;
+        $dataCount['yesterMonthRese'] = $yseterMonthRese;
+
+
         if ($dataCount) return $dataCount;
     }
 
@@ -1617,7 +1784,7 @@ class IndexController extends Controller {
     }
 
     /*
-     *  查询本月数据客服排行榜
+     *  查询user表
      *
      * */
 

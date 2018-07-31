@@ -42,7 +42,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">本月到院排行</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($userSort)): foreach($userSort as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'null':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">本月预约排行榜</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($currUserSortRese)): foreach($currUserSortRese as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'null':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
@@ -59,24 +59,13 @@
       <div class="layui-row">
         <div class="layui-col-md5">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据</div>
+              <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据统计</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                <p>
-                    明日:
-                    <?php if(is_array($tommor)): foreach($tommor as $k=>$vo): echo ($k); ?> : <?php echo ($vo); endforeach; endif; ?>
-                </p>
-                <p>
-                    今日:
-                    <?php if(is_array($toDay)): foreach($toDay as $k=>$vo): echo ($k); ?> : <?php echo ($vo); ?>&nbsp;&nbsp;&nbsp;<?php endforeach; endif; ?>
-                </p>
-                <p>
-                    昨日:
-                    <?php if(is_array($prevDay)): foreach($prevDay as $k=>$vo): echo ($k); ?> : <?php echo ($vo); ?>&nbsp;&nbsp;&nbsp;<?php endforeach; endif; ?>
-                </p>
-                <p>
-                    本月:
-                    <?php if(is_array($currentMonth)): foreach($currentMonth as $k=>$vo): echo ($k); ?> : <?php echo ($vo); ?>&nbsp;&nbsp;&nbsp;<?php endforeach; endif; ?>
-                </p>
+                  <p>明日:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['tommodayRese'][0]['count'] == null?'null':$checkCountRese['tommodayRese'][0]['count']); ?></p>
+                  <p>今日:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['todayRese'][0]['count'] == null?'null':$checkCountRese['todayRese'][0]['count']); ?></p>
+                  <p>昨天:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['terdayRese'][0]['count'] == null?'null':$checkCountRese['terdayRese'][0]['count']); ?></p>
+                  <p>本月:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['currMonthRese'][0]['count'] == null?'null':$checkCountRese['currMonthRese'][0]['count']); ?></p>
+                  <p>上月:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['yesterMonthRese'][0]['count'] == null?'null':$checkCountRese['yesterMonthRese'][0]['count']); ?></p>
               </div>
             </div>
         </div>
@@ -85,7 +74,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">上月到院排行</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($yesterUserSortArrival)): foreach($yesterUserSortArrival as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'null':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
@@ -93,7 +82,7 @@
             <div class="layui-card">
               <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">上月预约排行榜</div>
               <div class="layui-card-body layui-anim layui-anim-up">
-                  <?php if(is_array($nameList)): foreach($nameList as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span><?php echo ($vo['username']); ?></p><?php endforeach; endif; ?>
+                  <?php if(is_array($yesterUserSortRese)): foreach($yesterUserSortRese as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'null':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
               </div>
             </div>
         </div>
