@@ -528,7 +528,7 @@
     }
 
     /*
-    *   人员管理
+    *   权限管理
     * */
 
     function systemPeople () {
@@ -540,30 +540,38 @@
                 document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
                 // iframe 加载完成后执行
                 let countRow = document.getElementById('page').contentWindow.document.getElementsByClassName('rowData');
-                /* 获取每行对象的update, delete, more 点击事件 */
-                let countRowIndex = 6;
+                /* 获取每行对象的update, delete  点击事件 */
+
+                /*
+                *   date:  2018/8/3 update new function.
+                *
+                * console.log(countRow[0].lastElementChild.firstElementChild);
+                * console.log(countRow[0].lastElementChild.lastElementChild);
+                * */
+
                 for (var i = 0; i < countRow.length; i ++) {
                     /*
                     * 给每行的update, delete, more 添加点击事件。
-                    * countRow[0].children[16].children.length 此处可以写 < 2 , 不要问我为什么。
+                    * countRow[0].lastElementChild.length. 最后一个td的长度
                     * 我也不知道在干什么。
                     *
                      */
-                    for (var c = 0; c < countRow[0].children[countRowIndex].children.length; c ++) {
-                        countRow[i].children[countRowIndex].children[c].index = i;
+                    for (var c = 0; c < countRow[0].lastElementChild.length; c ++) {
+                        countRow[i].lastElementChild.children[c].index = i;
                     }
 
 
                     /* 修改当前这条信息 */
-                    countRow[i].children[countRowIndex].children[0].onclick = function () {
-                        let id = parseInt(countRow[this.index].getAttribute('index'));
+                    countRow[i].lastElementChild.children[0].onclick = function () {
+                        // 获取当前父级元素tr的Index值
+                        let id = parseInt(this.parentNode.parentNode.getAttribute('index'));
                         // 跳转至新的页面修改信息
                         window.open("{:U('Home/Index/updatePeople/id/"+ id +"')}");
                     }
 
                     /* 删除当前点击这条数据 */
-                    countRow[i].children[countRowIndex].children[1].onclick = function () {
-                        let id = parseInt(countRow[this.index].getAttribute('index'));
+                    countRow[i].lastElementChild.children[1].onclick = function () {
+                        let id = parseInt(this.parentNode.parentNode.getAttribute('index'));
                         let msg = "你确定要删除此成员的信息包括登录信息吗？";
                         if (confirm(msg) == true) {
                             let Request = new XMLHttpRequest();
@@ -662,7 +670,7 @@
                     countRow[i].children[countRowIndex].children[0].onclick = function () {
                         let id = parseInt(countRow[this.index].getAttribute('idval'));
                         let Request = new XMLHttpRequest();
-                        Request.open("GET", "{:('Home/Index/diseasesUpdate/id/"+ id +"')}");
+                        Request.open("GET", "{:U('Home/Index/diseasesUpdate/id/"+ id +"')}");
                         Request.send();
                         Request.onreadystatechange = function () {
                             if (Request.readyState == 4 && Request.status == 200) {

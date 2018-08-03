@@ -7,4 +7,13 @@ return array(
     'TMPL_ACTION_SUCCESS'=>'Public:dispatch_jump',
     'TMPL_ACTION_ERROR'=>'Public:dispatch_jump',
     'URL_MODEL' => 3,
+    'LOAD_EXT_FILE' => 'i_array_column',
 );
+
+
+/*
+ *
+ * PAGE_SELF => 'http://run.gyxhyy.com/index.php?s=Home/Index/showTab',
+    PAGE_SEARCH => 'http://run.gyxhyy.com/index.php?s=Home/Index/checkPeople',
+   server: hange top link
+ * */

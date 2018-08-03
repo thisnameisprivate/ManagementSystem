@@ -42,16 +42,16 @@
       <div class="layui-form-item">
         <label class="layui-form-label">电话</label>
         <div class="layui-input-inline">
-          <input type="number" name="phone" required lay-verify="required" placeholder="请输入电话" autocomplete="off" class="layui-input">
+          <input type="number" name="phone" required lay-verify="required" placeholder="请输入电话" value="000000" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-form-mid layui-word-aux">必填(如果没有请填null)</div>
+        <div class="layui-form-mid layui-word-aux"></div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">QQ</label>
         <div class="layui-input-inline">
-          <input type="number" name="qq" required lay-verify="required" placeholder="请输入QQ" autocomplete="off" class="layui-input">
+          <input type="number" name="qq" required lay-verify="required" placeholder="请输入QQ" value="000000" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-form-mid layui-word-aux">必填(如果没有请填null)</div>
+        <div class="layui-form-mid layui-word-aux"></div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">病患类型</label>
@@ -89,7 +89,7 @@
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">咨询内容</label>
         <div class="layui-input-block">
-          <textarea name="desc1" placeholder="请输入内容" required lay-verify="required" class="layui-textarea"></textarea>
+          <textarea name="desc1" placeholder="请输入内容" value="默认为空" required lay-verify="required" class="layui-textarea"></textarea>
         </div>
       </div>
       <div class="layui-form-item">

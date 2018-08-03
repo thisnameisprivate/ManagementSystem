@@ -18,26 +18,115 @@
 </div>
 
 <form class="layui-form layui-card layui-anim layui-anim-up" action="{:U('Home/Index/updateSoure/id/' . $id)}" method="post">
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户</label>
-        <div class="layui-input-inline">
-            <input type="text" name="username" required lay-verify="required" value="{$result[0]['username']}" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">此字段为登录用户信息</div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
-        <div class="layui-input-inline">
-            <input type="text" name="password" required lay-verify="required" value="{$result[0]['password']}" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">此信息为32位MD5加密，新密码输入数字或字母即可</div>
-    </div>
-    <div class="layui-form-item">
+   <div class="layui-card">
+       <div class="layui-form-item">
+           <label class="layui-form-label">用户</label>
+           <div class="layui-input-inline">
+               <input type="text" name="username" required lay-verify="required" value="{$result[0]['username']}" autocomplete="off" class="layui-input">
+           </div>
+           <div class="layui-form-mid layui-word-aux">此字段为登录用户信息</div>
+       </div>
+       <div class="layui-form-item">
+           <label class="layui-form-label">密码</label>
+           <div class="layui-input-inline">
+               <input type="text" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
+           </div>
+           <div class="layui-form-mid layui-word-aux">此信息为32位MD5加密，新密码输入数字或字母即可</div>
+       </div>
+   </div>
+    <!--
+     <div class="layui-form-item">
         <label class="layui-form-label">权限修改</label>
         <div class="layui-input-block">
             <input type="checkbox" name="like[0]" title="删除预约信息" {$result[0]['deletedata']==1?checked:""}>
             <input type="checkbox" name="like[1]" title="修改预约信息" {$result[0]['updatedata']==1?checked:""}>
             <input type="checkbox" name="like[2]" title="修改成员信息" {$result[0]['updateuser']==1?checked:""}>
+            <input type="checkbox" name="like[3]" title="导出数据信息" {$result[0]['exportdata']==1?checked:""}>
+        </div>
+    </div>
+     -->
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">病人预约管理</label>
+            <input type="checkbox" name="rese[0]" title="预约登记列表" {$result[0]['yydj']==1?checked:""}>
+            <input type="checkbox" name="rese[1]" title="预约病人搜索" {$result[0]['yybr']==1?checked:""}>
+            <input type="checkbox" name="rese[2]" title="重复病人查询" {$result[0]['cfbr']==1?checked:""}>
+            <input type="checkbox" name="rese[3]" title="客服明细报表" {$result[0]['kfmx']==1?checked:""}>
+            <input type="checkbox" name="rese[4]" title="月趋势报表" {$result[0]['yqs']==1?checked:""}>
+            <input type="checkbox" name="rese[5]" title="自定义图像报表" {$result[0]['zdy']==1?checked:""}>
+            <input type="checkbox" name="rese[6]" title="导出病人数据" {$result[0]['dcbr']==1?checked:""}>
+            <input type="checkbox" name="rese[7]" title="数据横向对比" {$result[0]['sjdb']==1?checked:""}>
+        </div>
+    </div>
+
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">访客数据统计</label>
+            <input type="checkbox" name="access[0]" title="数据明细(网络)" {$result[0]['sjmxwl']==1?checked:""}>
+            <input type="checkbox" name="access[1]" title="医院项目设置(网络)" {$result[0]['yyxmwl']==1?checked:""}>
+            <input type="checkbox" name="access[2]" title="数据明细(电话)" {$result[0]['sjmxdh']==1?checked:""}>
+            <input type="checkbox" name="access[3]" title="医院项目设置(电话)" {$result[0]['yyxmdh']==1?checked:""}>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">网站挂号管理</label>
+            <input type="checkbox" name="website[0]" title="网站挂号列表" {$result[0]['wzghlb']==1?checked:""}>
+            <input type="checkbox" name="website[1]" title="网站挂号设置" {$result[0]['wzghsz']==1?checked:""}>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据报表</label>
+            <input type="checkbox" name="data[0]" title="总体报表" {$result[0]['ztbb']==1?checked:""}>
+            <input type="checkbox" name="data[1]" title="性别" {$result[0]['sex']==1?checked:""}>
+            <input type="checkbox" name="data[2]" title="年龄" {$result[0]['old']==1?checked:""}>
+            <input type="checkbox" name="data[3]" title="病患类型" {$result[0]['diseases']==1?checked:""}>
+            <input type="checkbox" name="data[4]" title="媒体来源" {$result[0]['fromaddress']==1?checked:""}>
+            <input type="checkbox" name="data[5]" title="来院状态" {$result[0]['status']==1?checked:""}>
+            <input type="checkbox" name="data[6]" title="接待医生" {$result[0]['doctor']==1?checked:""}>
+            <input type="checkbox" name="data[7]" title="客服" {$result[0]['kf']==1?checked:""}>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">设置</label>
+            <input type="checkbox" name="setting[0]" title="医生设置" {$result[0]['doctorsett']==1?checked:""}>
+            <input type="checkbox" name="setting[1]" title="疾病设置" {$result[0]['diseasessett']==1?checked:""}>
+            <input type="checkbox" name="setting[2]" title="就诊类型设置" {$result[0]['sortsett']==1?checked:""}>
+            <input type="checkbox" name="setting[3]" title="医院科室设置" {$result[0]['hospitaldepart']==1?checked:""}>
+            <input type="checkbox" name="setting[4]" title="搜索引擎设置" {$result[0]['seosetting']==1?checked:""}>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">我的资料</label>
+            <input type="checkbox" name="personal[0]" title="修改我的资料" {$result[0]['personal']==1?checked:""}>
+            <input type="checkbox" name="personal[1]" title="修改密码" {$result[0]['changepass']==1?checked:""}>
+            <input type="checkbox" name="personal[2]" title="选项设置" {$result[0]['changeoption']==1?checked:""}>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">系统管理</label>
+            <input type="checkbox" name="systemManage[0]" title="人员管理" {$result[0]['peoplesystem']==1?checked:""} >
+            <input type="checkbox" name="systemManage[1]" title="权限管理" {$result[0]['accsystem']==1?checked:""}>
+            <input type="checkbox" name="systemManage[2]" title="医院列表" {$result[0]['hospitallist']==1?checked:""}>
+            <input type="checkbox" name="systemManage[3]" title="通知管理" {$result[0]['ps']==1?checked:""}>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">日志记录</label>
+            <input type="checkbox" name="log[0]" title="操作日志" {$result[0]['log']==1?checked:""}>
+            <input type="checkbox" name="log[1]" title="登录错误日志" {$result[0]['errorlog']==1?checked:""}>
         </div>
     </div>
     <div class="layui-form-item">

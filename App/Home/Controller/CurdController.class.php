@@ -210,6 +210,12 @@ class CurdController extends Controller {
 
         if (is_null($pid)) return false;
 
+        // 权限验证
+        if (!$this->accSystem('kfmx')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
+
         /* 根据$pid 判断当前查看的医院科室 */
         switch ($pid) {
             case 1:
@@ -369,4 +375,42 @@ class CurdController extends Controller {
             $this->error('请先登录', U("Home/Index/login"));
         }
     }
+
+
+    /*
+     *  权限控制
+     *  @param $field 要查询的权限字段
+     * */
+
+    public function accSystem ($field = null)
+    {
+        if (is_null($field)) return false;
+
+        // 读取cookie
+
+        $this->access();
+        $username = cookie('username');
+
+        $user = M('user');
+
+        $result = $user->where("username = '{$username}'")->select();
+        if ($result[0]["$field"] != 1 ) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
+    /*
+    *
+    *     权限不足打开的模板
+    */
+
+    private function notSystemAccess ()
+    {
+        $this->display();
+    }
+
 }

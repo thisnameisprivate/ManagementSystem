@@ -188,7 +188,7 @@ class IndexController extends Controller {
             $this->assign('yesterUserSortArrival', $yesterUserSortArrival);
             $this->assign('yesterUserSortRese', $yesterUserSortRese);
             $this->assign('checkCountRese', $checkCountRese);
-            
+
             $this->display();
         } else {
             return false;
@@ -318,6 +318,11 @@ class IndexController extends Controller {
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
+
+        if (!$this->accSystem('yydj')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
 
 
         /* 根据发送的id查询表单 */
@@ -548,6 +553,11 @@ class IndexController extends Controller {
         $staticPath = C(STATIC_PATH);
         $this->assign("staticPath", $staticPath);
 
+        if (!$this->accSystem('yydj')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
+
         // 根据发送的id选择表实例化
         switch ($id) {
             case 1:
@@ -642,8 +652,11 @@ class IndexController extends Controller {
 
         /* 分页查询详情表数据 */
         $pageSize = 50;
-        $result = $user->where("name = '$field'")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+//        $result = $user->where("name = '$field'")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
 
+        // 模糊查询
+        $like['name'] = array('like', "%". $field ."%");
+        $result = $user->where($like)->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
 
         /* 查询符合要求的总数 */
         $dataCount = $user->where("name = '$field'")->count();
@@ -659,6 +672,8 @@ class IndexController extends Controller {
             $prev = "<a href=". $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . '/pageIndex/' . ($pageIndex - 1) .">上一页</a>";
             $home = "<a href=". $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . "/pageIndex/1>首页</a>";
         }
+
+
 
         if ($pageIndex < $total_pages) {
             $next = "<a href=". $pagePath . '/field/' . $field . '/table/' . $table . '/id/' . $id . '/pageIndex/' . ($pageIndex + 1) .">下一页</a>";
@@ -727,10 +742,16 @@ class IndexController extends Controller {
 
     public function monthData ()
     {
-        $this->access();
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
+        $this->access();
+
+        // 权限验证
+        if (!$this->accSystem('yqs')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
         $this->display();
     }
 
@@ -852,7 +873,6 @@ class IndexController extends Controller {
     /**
      *  安全设置
      *
-     *
      */
 
     public function systeminfo ()
@@ -861,6 +881,12 @@ class IndexController extends Controller {
         /* 传入js/css资源文件路径 */
         $staticPath = C(STATIC_PATH);
         $this->assign("staticPath", $staticPath);
+
+        // 权限验证
+        if (!$this->accSystem('personal')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
 
         /* 读取cookie */
         $username = cookie('username');
@@ -935,9 +961,9 @@ class IndexController extends Controller {
 
         /* 查询所有用户 */
         $user = M('user');
-        $system = $user->where("username = '$username'")->field("updateuser")->select();
+        $system = $user->where("username = '$username'")->field("accsystem")->select();
         // 判断是否有权限查看所有成员
-        if ($system[0]['updateuser'] == 1) {
+        if ($system[0]['accsystem'] == 1) {
             $result = $user->select();
             $this->assign('result', $result);
             $this->assign('username', $username);
@@ -995,21 +1021,114 @@ class IndexController extends Controller {
         $userData = $_POST;
 
         // 替换复选项框的字母为数字方便储存
-        for ($i = 0; $i < count($userData['like']); $i ++) {
-            if ($userData['like'][$i] == 'on') {
-                $userData['like'][$i] = 1;
-            } else {
-                $userData['like'][$i] = 0;
+        /* 在总长度小于单独复选框时此循环无效 */
+        for ($i = 0; $i < count($userData); $i ++) {
+            if ($userData['rese'][$i] != null) {
+                if ($userData['rese'][$i] == 'on') {
+                    $userData['rese'][$i] = 1;
+                } else {
+                    $userData['rese'][$i] = 0;
+                }
+            }
+
+            if ($userData['access'][$i] != null) {
+                if ($userData['access'][$i] == 'on') {
+                    $userData['access'][$i] = 1;
+                } else {
+                    $userData['access'][$i] = 0;
+                }
+            }
+
+            if ($userData['website'][$i] != null) {
+                if ($userData['website'][$i] == 'on') {
+                    $userData['website'][$i] = 1;
+                } else {
+                    $userData['website'][$i] = 0;
+                }
+            }
+
+            if ($userData['data'][$i] != null) {
+                if ($userData['data'][$i] == 'on') {
+                    $userData['data'][$i] = 1;
+                } else {
+                    $userData['data'][$i] = 0;
+                }
+            }
+
+
+            if ($userData['setting'][$i] != null) {
+                if ($userData['setting'][$i] == 'on') {
+                    $userData['setting'][$i] = 1;
+                } else {
+                    $userData['setting'][$i] = 0;
+                }
+            }
+
+
+            if ($userData['personal'][$i] != null) {
+                if ($userData['personal'][$i] == 'on') {
+                    $userData['personal'][$i] = 1;
+                } else {
+                    $userData['personal'][$i] = 0;
+                }
+            }
+
+            if ($userData['systemManage'][$i] != null) {
+                if ($userData['systemManage'][$i] == 'on') {
+                    $userData['systemManage'][$i] = 1;
+                } else {
+                    $userData['systemManage'][$i] = 0;
+                }
+            }
+
+            if ($userData['log'][$i] != null) {
+                if ($userData['log'][$i] == 'on') {
+                    $userData['log'][$i] = 1;
+                } else {
+                    $userData['log'][$i] = 0;
+                }
             }
         }
 
         //  储存数据准备
         $data['username'] = $userData['username'];
         $data['password'] = md5($userData['password']);
-        $data['deletedata'] = $userData['like'][0];
-        $data['updatedata'] = $userData['like'][1];
-        $data['updateuser'] = $userData['like'][2];
-
+        $data['yydj'] = $userData['rese'][0];
+        $data['yybr'] = $userData['rese'][1];
+        $data['cfbr'] = $userData['rese'][2];
+        $data['kfmx'] = $userData['rese'][3];
+        $data['yqs'] = $userData['rese'][4];
+        $data['zdy'] = $userData['rese'][5];
+        $data['dcbr'] = $userData['rese'][6];
+        $data['sjdb'] = $userData['rese'][7];
+        $data['sjmxwl'] = $userData['access'][0];
+        $data['yyxmwl'] = $userData['access'][1];
+        $data['sjmxdh'] = $userData['access'][2];
+        $data['yyxmdh'] = $userData['access'][3];
+        $data['wzghlb'] = $userData['website'][0];
+        $data['wzghsz'] = $userData['website'][1];
+        $data['ztbb'] = $userData['data'][0];
+        $data['sex'] = $userData['data'][1];
+        $data['old'] = $userData['data'][2];
+        $data['diseases'] = $userData['data'][3];
+        $data['fromaddress'] = $userData['data'][4];
+        $data['status'] = $userData['data'][5];
+        $data['doctor'] = $userData['data'][6];
+        $data['kf'] = $userData['data'][7];
+        $data['doctorsett'] = $userData['setting'][0];
+        $data['diseasessett'] = $userData['setting'][1];
+        $data['sortsett'] = $userData['setting'][2];
+        $data['hospitaldepart'] = $userData['setting'][3];
+        $data['seosetting'] = $userData['setting'][4];
+        $data['personal'] = $userData['personal'][0];
+        $data['changepass'] = $userData['personal'][1];
+        $data['changeoption'] = $userData['personal'][2];
+        $data['peoplesystem'] = $userData['systemManage'][0];
+        $data['accsystem'] = $userData['systemManage'][1];
+        $data['hospitallist'] = $userData['systemManage'][2];
+        $data['ps'] = $userData['systemManage'][3];
+        $data['log'] = $userData['log'][0];
+        $data['errorlog'] = $userData['log'][1];
 
         // 实例化表
         $user = M('user');
@@ -1051,12 +1170,13 @@ class IndexController extends Controller {
         $this->assign('staticPath', $staticPath);
         // 读取cookie并判断
         $username = cookie('username');
-        if (is_null($username)) {
-            $this->assign('请先登录.cookie时效过期', U("Home/Index/login"), 1);
-        } else {
+        if ($this->accSystem('peoplesystem')) {
             $this->assign('username', $username);
+            $this->display();
+        } else {
+            $this->display('notSystemAccess');
         }
-        $this->display();
+
     }
 
     /*
@@ -1095,21 +1215,17 @@ class IndexController extends Controller {
 
         if (is_null($id)) return false;
 
-        // 读取当前登录用户
-        $username = cookie('username');
-        $user = M('user');
-        $result = $user->where("username = '$username'")->select();
+        if ($this->accSystem('dcbr')) {
 
-
-        // 检查当前用户权限
-        if ($result[0]['exportdata'] != 1) {
-//            redirect("Home/Index/notSystemAccess");
-            $this->display('notSystemAccess');
-        } else {
             $this->assign('id', $id);
-
             $this->display();
+
+        } else {
+
+            $this->display('notSystemAccess');
         }
+
+
 
     }
 
@@ -1233,8 +1349,11 @@ class IndexController extends Controller {
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
 
-        // 这他妈这个页面为什么是权限不足的gif???谁改了老子代码。
-        $this->display('notSystemAccess');
+        if ($this->accSystem('sjdb')) {
+            $this->display();
+        } else {
+            $this->display('notSystemAccess');
+        }
     }
 
     /*
@@ -1249,6 +1368,15 @@ class IndexController extends Controller {
         $this->access();
 
         if (is_null($id)) return false;
+
+        // 传入js/css资源文件路径
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        if (!$this->accSystem('ztbb')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
 
         // 调用表格选择方法
         $tableName = $this->selectTableName($id);
@@ -1505,6 +1633,12 @@ class IndexController extends Controller {
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
 
+        // 权限验证
+        if (!$this->accSystem('diseasessett')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
+
         // 获取表名
         $tableFont = $this->selectFont($id);
 
@@ -1651,6 +1785,12 @@ class IndexController extends Controller {
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
 
+        // 权限验证
+        if (!$this->accSystem('sortsett')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
+
         // 读取cookie
         $username = cookie('username');
         $this->assign('username', $username);
@@ -1779,6 +1919,11 @@ class IndexController extends Controller {
         $staticPath = C(STATIC_PATH);
         $this->assign('staticPath', $staticPath);
 
+        // 权限验证
+        if (!$this->accSystem('sex')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
 
         $this->display();
     }
@@ -1795,5 +1940,30 @@ class IndexController extends Controller {
         $user = M('user');
         $nameList = $user->field('username')->select();
         return $nameList;
+    }
+
+    /*
+     *  权限控制
+     *  @param $field 要查询的权限字段
+     * */
+
+    public function accSystem ($field = null)
+    {
+        if (is_null($field)) return false;
+
+        // 读取cookie
+
+        $this->access();
+        $username = cookie('username');
+
+        $user = M('user');
+
+        $result = $user->where("username = '{$username}'")->select();
+        if ($result[0]["$field"] != 1 ) {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 }
