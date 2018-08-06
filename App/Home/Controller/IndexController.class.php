@@ -1,4 +1,15 @@
 <?php
+
+
+/*
+ *
+ * AUTHOR: KEXIN
+ * IDE:    PHPSTROM
+ * DATE:   2018/7/9
+ *
+ * */
+
+
 namespace Home\Controller;
 use Org\Util\Date;
 use Think\Controller;
@@ -736,7 +747,7 @@ class IndexController extends Controller {
 
     /*
     *
-    *   月趋势报表，自定义图像报表
+    *   多个开发中跳转页面
     *
     **/
 
@@ -1263,15 +1274,15 @@ class IndexController extends Controller {
 
             // 不限制状态查询
             if ($arrived == 0) {
-                $sql = "SELECT $field currentTime FROM $tableName WHERE unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+                $sql = "SELECT $field newDate FROM $tableName WHERE unix_timestamp(newDate) > unix_timestamp('{$startTime}') AND unix_timestamp(newDate) < unix_timestamp('{$endTime}')";
             }
             // 查询已到
             if ($arrived == 1) {
-                $sql = "SELECT $field currentTime FROM $tableName WHERE status = 1 AND unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+                $sql = "SELECT $field newDate FROM $tableName WHERE status = 1 AND unix_timestamp(newDate) > unix_timestamp('{$startTime}') AND unix_timestamp(newDate) < unix_timestamp('{$endTime}')";
             }
             // 查询未到
             if ($arrived == 2) {
-                $sql = "SELECT $field currentTime FROM $tableName WHERE status != 1 AND unix_timestamp(currentTime) > unix_timestamp('{$startTime}') AND unix_timestamp(currentTime) < unix_timestamp('{$endTime}')";
+                $sql = "SELECT $field newDate FROM $tableName WHERE status != 1 AND unix_timestamp(newDate) > unix_timestamp('{$startTime}') AND unix_timestamp(newDate) < unix_timestamp('{$endTime}')";
             }
 
         }
@@ -1293,7 +1304,7 @@ class IndexController extends Controller {
             }
 
         }
-
+        print_r($result);
         // 执行sql
         $result = $Model->query($sql);
         if ($result) $this->assign('result', $result);
@@ -1964,6 +1975,160 @@ class IndexController extends Controller {
         } else {
             return true;
         }
+
+    }
+
+    /*
+     *
+     *   月趋势报表
+     *   @param int $id 选择表格的依据
+     *
+     * */
+
+    public function monthlyTrend ($id)
+    {
+
+        if (is_null($id)) return false;
+        // 传入资源js/css文件路径
+        $staticPath = C(STATIC_PATH);
+        $this->assign('staticPath', $staticPath);
+
+        $tableName = $this->selectTableName($id);
+        $tableFont = $this->selectFont($id);
+
+
+        $Model = new \Think\Model();
+        // 本月预约
+        $currMonthReser = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 3 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 本月预到
+        $currMonthAdvan = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 0 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 本月已到
+        $currMonthArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 1 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 本月未到
+        $currMonthOutArrival = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 2 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 全流失
+        $currMonthTotal = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 4 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 半流失
+        $currMonthHalf = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 5 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+        // 已诊治
+        $currMonthTreat = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE status = 6 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+
+
+
+        // 第1个月信息
+        $oneMonthReser =  $this->monthSelect(3, 1, $tableName);
+        $oneMonthAdvan = $this->monthSelect(0, 1, $tableName);
+        $oneMonthArrival = $this->monthSelect(1, 1, $tableName);
+        $oneMonthOutArrival = $this->monthSelect(2, 1, $tableName);
+        $oneMonthTotal = $this->monthSelect(4, 1, $tableName);
+        $oneMonthHalf = $this->monthSelect(5, 1, $tableName);
+        $oneMonthTreat = $this->monthSelect(6, 1, $tableName);
+
+        // 第2个月信息
+        $twoMonthReser =  $this->monthSelect(3, 2, $tableName);
+        $twoMonthAdvan = $this->monthSelect(0, 2, $tableName);
+        $twoMonthArrival = $this->monthSelect(1, 2, $tableName);
+        $twoMonthOutArrival = $this->monthSelect(2, 2, $tableName);
+        $twoMonthTotal = $this->monthSelect(4, 2, $tableName);
+        $twoMonthHalf = $this->monthSelect(5, 2, $tableName);
+        $twoMonthTreat = $this->monthSelect(6, 2, $tableName);
+
+        // 第3个月信息
+        $threeMonthReser =  $this->monthSelect(3, 3, $tableName);
+        $threeMonthAdvan = $this->monthSelect(0, 3, $tableName);
+        $threeMonthArrival = $this->monthSelect(1, 3, $tableName);
+        $threeMonthOutArrival = $this->monthSelect(2, 3, $tableName);
+        $threeMonthTotal = $this->monthSelect(4, 3, $tableName);
+        $threeMonthHalf = $this->monthSelect(5, 3, $tableName);
+        $threeMonthTreat = $this->monthSelect(6, 3, $tableName);
+
+        // 第4个月信息
+        $fourMonthReser =  $this->monthSelect(3, 4, $tableName);
+        $fourMonthAdvan = $this->monthSelect(0, 4, $tableName);
+        $fourMonthArrival = $this->monthSelect(1, 4, $tableName);
+        $fourMonthOutArrival = $this->monthSelect(2, 4, $tableName);
+        $fourMonthTotal = $this->monthSelect(4, 4, $tableName);
+        $fourMonthHalf = $this->monthSelect(5, 4, $tableName);
+        $fourMonthTreat = $this->monthSelect(6, 4, $tableName);
+
+        // 第5个月信息
+        $fiveMonthReser =  $this->monthSelect(3, 5, $tableName);
+        $fiveMonthAdvan = $this->monthSelect(0, 5, $tableName);
+        $fiveMonthArrival = $this->monthSelect(1, 5, $tableName);
+        $fiveMonthOutArrival = $this->monthSelect(2, 5, $tableName);
+        $fiveMonthTotal = $this->monthSelect(4, 5, $tableName);
+        $fiveMonthHalf = $this->monthSelect(5, 5, $tableName);
+        $fiveMonthTreat = $this->monthSelect(6, 5, $tableName);
+
+        // 第6个月信息
+        $sixMonthReser =  $this->monthSelect(3, 6, $tableName);
+        $sixMonthAdvan = $this->monthSelect(0, 6, $tableName);
+        $sixMonthArrival = $this->monthSelect(1, 6, $tableName);
+        $sixMonthOutArrival = $this->monthSelect(2, 6, $tableName);
+        $sixMonthTotal = $this->monthSelect(4, 6, $tableName);
+        $sixMonthHalf = $this->monthSelect(5, 6, $tableName);
+        $sixMonthTreat = $this->monthSelect(6, 6, $tableName);
+
+
+        // 近6月的信息
+        $month['currMonthReser'] = $currMonthReser;
+        $month['currMonthAdvan'] = $currMonthAdvan;
+        $month['currMonthArrival'] = $currMonthArrival;
+        $month['currMonthOutArrival'] = $currMonthOutArrival;
+        $month['currMonth'] = date('Y-m');
+
+        $month['oneMonthReser'] = $oneMonthReser;
+        $month['oneMonthAdvan'] = $oneMonthAdvan;
+        $month['oneMonthArrival'] = $oneMonthArrival;
+        $month['oneMonthOutArrival'] = $oneMonthOutArrival;
+        $month['oneMonth'] = date('Y-m', strtotime('-1 month'));
+
+        $month['twoMonthReser'] = $twoMonthReser;
+        $month['twoMonthAdvan'] = $twoMonthAdvan;
+        $month['twoMonthArrival'] = $twoMonthArrival;
+        $month['twoMonthOutArrival'] = $twoMonthOutArrival;
+        $month['twoMonth'] = date('Y-m', strtotime('-2 month'));
+
+        $month['threeMonthReser'] = $threeMonthReser;
+        $month['threeMonthAdvan'] = $threeMonthAdvan;
+        $month['threeMonthArrival'] = $threeMonthArrival;
+        $month['threeMonthOutArrival'] = $threeMonthOutArrival;
+        $month['threeMonth'] = date('Y-m', strtotime('-3 month'));
+
+        $month['fourMonthReser'] = $fourMonthReser;
+        $month['fourMonthAdvan'] = $fourMonthAdvan;
+        $month['fourMonthArrival'] = $fourMonthArrival;
+        $month['fourMonthOutArrival'] = $fourMonthOutArrival;
+        $month['fourMonth'] = date('Y-m', strtotime('-4 month'));
+
+
+        $month['fiveMonthReser'] = $fiveMonthReser;
+        $month['fiveMonthAdvan'] = $fiveMonthAdvan;
+        $month['fiveMonthArrival'] = $fiveMonthArrival;
+        $month['fiveMonthOutArrival'] = $fiveMonthOutArrival;
+        $month['fiveMonth'] = date('Y-m', strtotime('-5 month'));
+
+
+        $month['sixMonthReser'] = $sixMonthReser;
+        $month['sixMonthAdvan'] = $sixMonthAdvan;
+        $month['sixMonthArrival'] = $sixMonthArrival;
+        $month['sixMonthOutArrival'] = $sixMonthOutArrival;
+        $month['sixMonth'] = date('Y-m', strtotime('-6 month'));
+
+
+
+        $this->assign('month', $month);
+
+        $this->assign('id', $id);
+        $this->assign('currMonthReser', $currMonthReser);
+        $this->assign('currMonthAdvan', $currMonthAdvan);
+        $this->assign('currMonthArrival', $currMonthArrival);
+        $this->assign('currMonthOutArrival', $currMonthOutArrival);
+        $this->assign('currMonthTotal', $currMonthTotal);
+        $this->assign('currMonthHalf', $currMonthHalf);
+        $this->assign('currMonthTreat', $currMonthTreat);
+        $this->display();
+
 
     }
 }

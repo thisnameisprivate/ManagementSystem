@@ -67,7 +67,7 @@
             <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">预约病人搜索</a></dd>
             <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">重复病人查询</a></dd>
             <dd><a class="active" href="javascript:;" onclick="detailReport(this);">客服明细报表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="monthData(this);">月趋势报表</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthlyTrend(this);">月趋势报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthData(this);">自定义图像报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="exportData(this);">导出病人数据</a></dd>
             <dd><a class="active" href="javascript:;" onclick="contrast(this);">数据横向对比</a></dd>
@@ -509,14 +509,13 @@
 
     /*
     *
-    *  月趋势报表，自定义图像报表
+    *  多个开发中方法
     *
     **/
 
-    function monthData (monthData) {
+    function monthData () {
         xmlhttpReceive('monthData');
     }
-
 
 
     /*
@@ -812,6 +811,16 @@
                     document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
             }
         }
+    }
+
+
+    function monthlyTrend (monthlyTrend) {
+        let index = parseInt(monthlyTrend.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+
+        if (isNaN(index)) {alert("请先选择医院!"); return false}
+
+        window.open("<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
     }
 
 
