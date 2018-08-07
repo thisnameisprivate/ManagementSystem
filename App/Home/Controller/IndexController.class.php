@@ -2071,16 +2071,14 @@ class IndexController extends Controller {
 
 
         // 近6月的信息
-        $month['currMonthReser'] = $currMonthReser;
-        $month['currMonthAdvan'] = $currMonthAdvan;
-        $month['currMonthArrival'] = $currMonthArrival;
-        $month['currMonthOutArrival'] = $currMonthOutArrival;
-        $month['currMonth'] = date('Y-m');
 
         $month['oneMonthReser'] = $oneMonthReser;
         $month['oneMonthAdvan'] = $oneMonthAdvan;
         $month['oneMonthArrival'] = $oneMonthArrival;
         $month['oneMonthOutArrival'] = $oneMonthOutArrival;
+        $month['oneMonthTotal'] = $oneMonthTotal;
+        $month['oneMonthHalf'] = $oneMonthHalf;
+        $month['oneMonthTreat'] = $oneMonthTreat;
         $month['oneMonth'] = date('Y-m', strtotime('-1 month'));
 
         $month['twoMonthReser'] = $twoMonthReser;
@@ -2118,6 +2116,7 @@ class IndexController extends Controller {
 
 
         $this->assign('month', $month);
+
 
         $this->assign('id', $id);
         $this->assign('currMonthReser', $currMonthReser);

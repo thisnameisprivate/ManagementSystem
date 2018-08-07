@@ -29,15 +29,32 @@
     let myChartPie = echarts.init(document.getElementById('pie'), 'macarons');
     let myChartBar = echarts.init(document.getElementById('bar'), 'macarons');
     let myChartLine = echarts.init(document.getElementById('line'), 'macarons');
+    let date = new Date();
+    // 获取月份封装
+    function getTime (x) {
+        let date = new Date();
+        date.setMonth((date.getMonth() + 1) - x);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        return year + '-' + month;
+    }
 
 
 
     // 使用刚指定的配置项和数据显示图表。
     myChartPie.setOption({
+        title: {
+            text: '本月数据'
+        },
         tooltip: {},
         legend: {
             orient: 'vertical',
-            x: 'left',
+            x: 'right',
             data: ['预约', '预到', '已到', '未到', '全流失', '半流失', '已诊治'],
         },
         series: [
@@ -78,7 +95,7 @@
     // 趋势线性图
     myChartLine.setOption({
         title: {
-            text: '近6个月的数据'
+            text: '近7个月的数据'
         },
         tooltip: {
             trigger: 'axis'
@@ -100,7 +117,7 @@
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: [<?php echo ($month['currMonth']); ?>, <?php echo ($month['oneMonth']); ?>, <?php echo ($month['twoMonth']); ?>, <?php echo ($month['threeMonth']); ?>, <?php echo ($month['fourMonth']); ?>, <?php echo ($month['fiveMonth']); ?>, <?php echo ($month['sixMonth']); ?>]
+            data: [getTime(7), getTime(6), getTime(5), getTime(4), getTime(3), getTime(2), getTime(1)]
         },
         yAxis: {
             type: 'value'
@@ -110,25 +127,43 @@
                 name:'预约',
                 type:'line',
                 stack: '总量',
-                data:[$currMonthReser[0]['count']}, 132, 101, 134, 90, 230, 210]
+                data:[<?php echo ($month['sixMonthReser'][0]['count']); ?>, <?php echo ($month['fiveMonthReser'][0]['count']); ?>, <?php echo ($month['fourMonthReser'][0]['count']); ?>, <?php echo ($month['threeMonthReser'][0]['count']); ?>, <?php echo ($month['twoMonthReser'][0]['count']); ?>, <?php echo ($month['oneMonthReser'][0]['count']); ?>, <?php echo ($currMonthReser[0]['count']); ?>]
             },
             {
                 name:'预到',
                 type:'line',
                 stack: '总量',
-                data:[<?php echo ($currMonthAdvan[0]['count']); ?>, 182, 191, 234, 290, 330, 310]
+                data:[<?php echo ($month['sixMonthAdvan'][0]['count']); ?>, <?php echo ($month['fiveMonthAdvan'][0]['count']); ?>, <?php echo ($month['fourMonthAdvan'][0]['count']); ?>, <?php echo ($month['threeMonthAdvan'][0]['count']); ?>, <?php echo ($month['twoMonthAdvan'][0]['count']); ?>, <?php echo ($month['oneMonthAdvan'][0]['count']); ?>, <?php echo ($currMonthAdvan[0]['count']); ?>,]
             },
             {
                 name:'已到',
                 type:'line',
                 stack: '总量',
-                data:[<?php echo ($currMonthArrival[0]['count']); ?>, 232, 201, 154, 190, 330, 410]
+                data:[<?php echo ($month['sixMonthArrival'][0]['count']); ?>, <?php echo ($month['fiveMonthArrival'][0]['count']); ?>, <?php echo ($month['fourMonthArrival'][0]['count']); ?>, <?php echo ($month['threeMonthArrival'][0]['count']); ?>, <?php echo ($month['twoMonthArrival'][0]['count']); ?>, <?php echo ($month['oneMonthArrival'][0]['count']); ?>, <?php echo ($currMonthArrival[0]['count']); ?>,]
             },
             {
                 name:'未到',
                 type:'line',
                 stack: '总量',
-                data:[<?php echo ($currMonthOutArrival[0]['count']); ?>, 332, 301, 334, 390, 330, 320]
+                data:[<?php echo ($month['sixMonthOutArrival'][0]['count']); ?>, <?php echo ($month['fiveMonthOutArrival'][0]['count']); ?>, <?php echo ($month['fourMonthOutArrival'][0]['count']); ?>, <?php echo ($month['threeMonthOutArrival'][0]['count']); ?>, <?php echo ($month['twoMonthOutArrival'][0]['count']); ?>, <?php echo ($month['oneMonthOutArrival'][0]['count']); ?>, <?php echo ($currMonthOutArrival[0]['count']); ?>]
+            },
+            {
+                name:'全流失',
+                type:'line',
+                stack: '总量',
+                data:[<?php echo ($month['sixMonthTotal'][0]['count']); ?>, <?php echo ($month['fiveMonthTotal'][0]['count']); ?>, <?php echo ($month['fourMonthTotal'][0]['count']); ?>, <?php echo ($month['threeMonthTotal'][0]['count']); ?>, <?php echo ($month['twoMonthTotal'][0]['count']); ?>, <?php echo ($month['oneMonthTotal'][0]['count']); ?>, <?php echo ($currMonthTotal[0]['count']); ?>]
+            },
+            {
+                name: '半流失',
+                type: 'line',
+                stack: '总量',
+                data:[<?php echo ($month['sixMonthHalf'][0]['count']); ?>, <?php echo ($month['fiveMonthHalf'][0]['count']); ?>, <?php echo ($month['fourMonthHalf'][0]['count']); ?>, <?php echo ($month['threeMonthHalf'][0]['count']); ?>, <?php echo ($month['twoMonthHalf'][0]['count']); ?>, <?php echo ($month['oneMonthHalf'][0]['count']); ?>, <?php echo ($currMonthHalf[0]['count']); ?>]
+            },
+            {
+                name: '已诊治',
+                type: 'line',
+                stack: '总量',
+                data:[<?php echo ($month['sixMonthTreat'][0]['count']); ?>, <?php echo ($month['fiveMonthTreat'][0]['count']); ?>, <?php echo ($month['fourMonthTreat'][0]['count']); ?>, <?php echo ($month['threeMonthTreat'][0]['count']); ?>, <?php echo ($month['twoMonthTreat'][0]['count']); ?>, <?php echo ($month['oneMonthTreat'][0]['count']); ?>, <?php echo ($currMonthTreat[0]['count']); ?>]
             }
         ]
     });
