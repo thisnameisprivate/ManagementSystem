@@ -1988,6 +1988,11 @@ class IndexController extends Controller {
     public function monthlyTrend ($id)
     {
 
+        if (! $this->accSystem('yqs')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
+
         if (is_null($id)) return false;
         // 传入资源js/css文件路径
         $staticPath = C(STATIC_PATH);
@@ -2085,18 +2090,27 @@ class IndexController extends Controller {
         $month['twoMonthAdvan'] = $twoMonthAdvan;
         $month['twoMonthArrival'] = $twoMonthArrival;
         $month['twoMonthOutArrival'] = $twoMonthOutArrival;
+        $month['twoMonthTotal'] = $twoMonthTotal;
+        $month['twoMonthHalf'] = $twoMonthHalf;
+        $month['twoMonthTreat'] = $twoMonthTreat;
         $month['twoMonth'] = date('Y-m', strtotime('-2 month'));
 
         $month['threeMonthReser'] = $threeMonthReser;
         $month['threeMonthAdvan'] = $threeMonthAdvan;
         $month['threeMonthArrival'] = $threeMonthArrival;
         $month['threeMonthOutArrival'] = $threeMonthOutArrival;
+        $month['threeMonthTotal'] = $threeMonthTotal;
+        $month['threeMonthHalf'] = $threeMonthHalf;
+        $month['threeMonthTreat'] = $threeMonthTreat;
         $month['threeMonth'] = date('Y-m', strtotime('-3 month'));
 
         $month['fourMonthReser'] = $fourMonthReser;
         $month['fourMonthAdvan'] = $fourMonthAdvan;
         $month['fourMonthArrival'] = $fourMonthArrival;
         $month['fourMonthOutArrival'] = $fourMonthOutArrival;
+        $month['fourMonthTotal'] = $fourMonthTotal;
+        $month['fourMonthHalf'] = $fourMonthHalf;
+        $month['fourMonthTreat'] = $fourMonthTreat;
         $month['fourMonth'] = date('Y-m', strtotime('-4 month'));
 
 
@@ -2104,6 +2118,9 @@ class IndexController extends Controller {
         $month['fiveMonthAdvan'] = $fiveMonthAdvan;
         $month['fiveMonthArrival'] = $fiveMonthArrival;
         $month['fiveMonthOutArrival'] = $fiveMonthOutArrival;
+        $month['fiveMonthTotal'] = $fiveMonthTotal;
+        $month['fiveMonthHalf'] = $fiveMonthHalf;
+        $month['fiveMonthTreat'] = $fiveMonthTreat;
         $month['fiveMonth'] = date('Y-m', strtotime('-5 month'));
 
 
@@ -2111,6 +2128,9 @@ class IndexController extends Controller {
         $month['sixMonthAdvan'] = $sixMonthAdvan;
         $month['sixMonthArrival'] = $sixMonthArrival;
         $month['sixMonthOutArrival'] = $sixMonthOutArrival;
+        $month['sixMonthTotal'] = $sixMonthTotal;
+        $month['sixMonthHalf'] = $sixMonthHalf;
+        $month['sixMonthTreat'] = $sixMonthTreat;
         $month['sixMonth'] = date('Y-m', strtotime('-6 month'));
 
 
