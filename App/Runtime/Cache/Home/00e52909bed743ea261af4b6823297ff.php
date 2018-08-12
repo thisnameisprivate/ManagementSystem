@@ -298,7 +298,7 @@
 
                 /* 获取当前ID所对应的信息数据 */
                 let Request = new XMLHttpRequest();
-                Request.open("GET", "<?php echo U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"');?>");
+                Request.open("GET", "<?php echo U('Home/Curd/Curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status) {
@@ -386,7 +386,7 @@
 
                     /* 获取当前ID所对应的信息数据 */
                     let Request = new XMLHttpRequest();
-                    Request.open("GET", "<?php echo U('Home/Curd/curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"');?>");
+                    Request.open("GET", "<?php echo U('Home/Curd/Curd/id/"+ id +"/table/"+ tableName +"/pid/"+ pid +"');?>");
                     Request.send();
                     Request.onreadystatechange = function () {
                         if (Request.readyState == 4 && Request.status) {

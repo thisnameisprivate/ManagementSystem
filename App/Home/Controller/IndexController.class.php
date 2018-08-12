@@ -74,7 +74,7 @@ class IndexController extends Controller {
             $password = md5($_POST['password']);
 
             // 防止sql注入查询登录信息是否正确
-            $result = $user->where("username = '%s' and password = '%s'", [$username, $password])->select();
+            $result = $user->where("username = '%s' and password = '%s'", array($username, $password))->select();
 
             // 登录成功或失败的逻辑处理
             if ($result) {
@@ -208,7 +208,7 @@ class IndexController extends Controller {
 
 
     /*
-     *   本月到院排行方法
+     *  本月到院排行方法
      *  @param string $table
      *  @param array $user
      *  return 二维数组
@@ -256,6 +256,7 @@ class IndexController extends Controller {
         }
 
 
+        // array_column 在php5.4下不兼容
         array_multisort(array_column($currUserSortRese, 'count'), SORT_DESC, $currUserSortRese);
 
         return $currUserSortRese;
@@ -446,7 +447,6 @@ class IndexController extends Controller {
         $this->assign('arrival', $arrival);
         $this->assign('notArrival', $notArrival);
         $this->assign('dataCount', $dataCount);
-        $this->assign('pageIndex', $pageIndex);
         $this->assign('total_pages', $total_pages);
         $this->assign('pageSize', $pageSize);
         $this->assign('pageIndex', $pageIndex);
@@ -778,7 +778,7 @@ class IndexController extends Controller {
         $this->access();
         if (is_null($table)) return false;
         /* 声明一个数组接收值 */
-        $dataCount = [];
+        $dataCount = array();
 
         /* 实例化一个空的Model对象 */
         $Model = new \Think\Model();
@@ -853,7 +853,7 @@ class IndexController extends Controller {
         if (is_null($table)) return false;
 
         /* 声明一个数组接收值 */
-        $dataCount = [];
+        $dataCount = array();
 
         /* 实例化一个空的Model对象 */
         $Model = new \Think\Model();

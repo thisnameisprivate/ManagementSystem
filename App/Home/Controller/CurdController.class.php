@@ -267,9 +267,8 @@ class CurdController extends Controller {
     }
 
     /*
- *
- *  功能打开权限
- */
+     *  功能打开权限
+     * */
 
     public function system ()
     {
