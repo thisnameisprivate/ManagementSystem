@@ -21,14 +21,11 @@
         <li class="layui-nav-item">
           <a href="javascript:;" class="layui-anim layui-anim-up layui-this" id="classification">选择医院科室</a>
           <dl class="layui-nav-child">
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="1">广元协和医院男科</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="2">广元协和医院妇科</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="3">广元协和医院不孕不育科</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="4">广元协和医院其他</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="5">广元协和医院计划生育科</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="6">广元协和医院肛肠科</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="7">广元协和医院微创外科</a></dd>
-              <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="8">广元协和医院乳腺科</a></dd>
+
+            <foreach name="departmentList" item="vo" key="index">
+              <dd class="layui-amin layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="{$index + 1}">{$vo['username']}</a></dd>
+            </foreach>
+
           </dl>
         </li>
       <li class="layui-nav-item">
@@ -126,7 +123,7 @@
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" onclick="systeminsert(this);">人员管理</a></dd>
             <dd><a href="javascript:;" onclick="systemPeople(this);">权限管理</a></dd>
-            <dd><a href="javascript:;" onclick="monthData(this);">医院列表</a></dd>
+            <dd><a href="javascript:;" onclick="hospital(this);">医院列表</a></dd>
             <dd><a href="javascript:;" onclick="monthData(this);">通知列表</a></dd>
           </dl>
         </li>
@@ -798,6 +795,20 @@
         }
     }
 
+    /*
+    *
+    *  医院科室列表
+    * */
+    function hospital () {
+        let Request = new XMLHttpRequest();
+        Request.open('GET', 'Home/Index/hospital');
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            }
+        }
+    }
     /*
     *  ajax 封装
     *  显示页面到iframe

@@ -18,6 +18,7 @@
                     <th>预到</th>
                     <th>已到</th>
                     <th>未到</th>
+                    <th>到院比例</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['currYearAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['currYearArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['currYearOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['currYearArrival'][0]['count']/$data['currYearOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['lastYear']); ?></td>
@@ -34,6 +36,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['lastYearAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['lastYearArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['lastYearOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['lastYearArrival'][0]['count']/$data['lastYearOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['beforeYear']); ?></td>
@@ -41,6 +44,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['beforeYearAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['beforeYearArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['beforeYearOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($data['beforeYearArrival'][0]['count']/$data['beforeYearOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 </tbody>
             </table>
@@ -59,6 +63,7 @@
                     <th>预到</th>
                     <th>已到</th>
                     <th>未到</th>
+                    <th>到院比例</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,6 +73,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['currMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['currMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['currMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['currMonthArrival'][0]['count']/$month['currMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['oneMonth']); ?></td>
@@ -75,6 +81,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['oneMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['oneMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['oneMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['oneMonthArrival'][0]['count']/$month['oneMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['twoMonth']); ?></td>
@@ -82,6 +89,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['twoMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['twoMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['twoMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['twoMonthArrival'][0]['count']/$month['twoMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['threeMonth']); ?></td>
@@ -89,6 +97,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['threeMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['threeMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['threeMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['threeMonthArrival'][0]['count']/$month['threeMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fourMonth']); ?></td>
@@ -96,6 +105,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fourMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fourMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fourMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fourMonthArrival'][0]['count']/$month['fourMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fiveMonth']); ?></td>
@@ -103,6 +113,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fiveMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fiveMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fiveMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['fiveMonthArrival'][0]['count']/$month['fiveMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 <tr class="rowData">
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['sixMonth']); ?></td>
@@ -110,6 +121,7 @@
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['sixMonthAdvan'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['sixMonthArrival'][0]['count']); ?></td>
                     <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['sixMonthOutArrival'][0]['count']); ?></td>
+                    <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($month['sixMonthArrival'][0]['count']/$month['sixMonthOutArrival'][0]['count']*100); ?>%</td>
                 </tr>
                 </tbody>
             </table>

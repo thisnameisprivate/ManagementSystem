@@ -39,6 +39,10 @@ class IndexController extends Controller {
                 /* 传入js/css资源文件路径 */
                 $staticPath = C(STATIC_PATH);
                 $this->assign('staticPath', $staticPath);
+                /* 查询科室表 */
+                $user = M('department');
+                $departmentList = $user->select();
+                $this->assign('departmentList', $departmentList);
 
                 // 发送管理员信息到前端
                 $this->assign('username', $result[0]['username']);
@@ -1976,6 +1980,26 @@ class IndexController extends Controller {
             return true;
         }
 
+    }
+
+    /*
+     *  医院列表页
+     *
+     * */
+
+    public function hospital () {
+        if (! $this->accSystem('hospitallist')) {
+            $this->display('notSystemAccess');
+            exit;
+        }
+        $department = M('department');
+        $departmentList = $department->select();
+        if ($departmentList) {
+            $staticPath = C('STATIC_PATH');
+            $this->assign('staticpath', $staticPath);
+            $this->assign('departmentList', $departmentList);
+            $this->display();
+        }
     }
 
     /*
