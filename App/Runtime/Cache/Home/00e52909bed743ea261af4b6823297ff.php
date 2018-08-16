@@ -616,7 +616,15 @@
     * */
 
     function contrast (currElement) {
-        xmlhttpReceive('contrast');
+        let index = parseInt(currElement.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+        Request.open("GET", "<?php echo U('Home/Index/contrast/id/" + index + "');?>");
+        Request.send();
+        Request.onreadystatechange = function () {
+            if (Request.readyState == 4 && Request.status == 200) {
+                window.open("<?php echo U('Home/Index/contrast/id/" + index + "');?>");
+            }
+        }
     }
 
     /*

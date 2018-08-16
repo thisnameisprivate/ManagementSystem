@@ -1365,10 +1365,42 @@ class IndexController extends Controller {
         $this->assign('staticPath', $staticPath);
 
         if ($this->accSystem('sjdb')) {
+            $arrival = $this->contrastSelect();
+            $this->assign('arrival', $arrival);
             $this->display();
         } else {
             $this->display('notSystemAccess');
         }
+    }
+
+
+    /*
+     *   分月份查询各个科室斤6个月的到院信息
+     *   @return $countData
+     * */
+
+    private function contrastSelect ()
+    {
+        $Model = new \Think\Model();
+        $arrival = array();
+        $diseasesList = array('nk', 'fk', 'byby', 'other', 'jhsy', 'gck', 'wcwk', 'rxk');
+        for ($i = 0; $i < count($diseasesList); $i ++) {
+            $currArrival[$diseasesList[$i]] = $Model->query("SELECT COUNT(*) AS count FROM $diseasesList[$i] WHERE status = 1 AND date_format(currentTime, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')");
+            $oneArrival[$diseasesList[$i]] = $this->monthSelect(1, 1, $diseasesList[$i]);
+            $twoArrival[$diseasesList[$i]] = $this->monthSelect(1, 2, $diseasesList[$i]);
+            $threeArrival[$diseasesList[$i]] = $this->monthSelect(1, 3, $diseasesList[$i]);
+            $fourArrival[$diseasesList[$i]] = $this->monthSelect(1, 4, $diseasesList[$i]);
+            $fiveArrival[$diseasesList[$i]] = $this->monthSelect(1, 5, $diseasesList[$i]);
+            $sixArrival[$diseasesList[$i]] = $this->monthSelect(1, 6, $diseasesList[$i]);
+        }
+        $arrival['currArrival'] = $currArrival;
+        $arrival['oneArrival'] = $oneArrival;
+        $arrival['twoArrival'] = $twoArrival;
+        $arrival['threeArrival'] = $threeArrival;
+        $arrival['fourArrival'] = $fourArrival;
+        $arrival['fiveArrival'] = $fiveArrival;
+        $arrival['sixArrival'] = $sixArrival;
+        return $arrival;
     }
 
     /*
