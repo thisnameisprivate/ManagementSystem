@@ -1,71 +1,113 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="http://localhost/Thinkphp/Public/statics/layui/css/layui.css">
-    <link rel="icon" href="http://localhost/ThinkPHP/Public/statics/images/hospital.ico" type="image/x-icon">
-    <title>广元协和医院预约系统登录</title>
-    <style media="screen">
-        .login-from{position:fixed; top:0; left:0; right:0; bottom:0; margin:auto; height:200px; width:400px;}
-        .layui-carousel{height:100%; width:100%; position:fixed; z-index:0;}
-        .layui-carousel img{height:100%; width:100%;}
-    </style>
-</head>
-<body>
-<div class="layui-carousel" id="test1">
-    <div carousel-item>
-        <div><img src="http://localhost/ThinkPHP/Public/statics/images/banner1.jpg" alt=""></div>
-        <div><img src="http://localhost/ThinkPHP/Public/statics/images/banner2.jpg" alt=""></div>
-        <div><img src="http://localhost/ThinkPHP/Public/statics/images/banner3.jpg" alt=""></div>
-        <div><img src="http://localhost/ThinkPHP/Public/statics/images/banner4.jpg" alt=""></div>
-    </div>
-</div>
-        <div class="login-from layui-anim layui-anim-up">
-            <form class="layui-form" action="<?php echo U('Home/Index/logincheck');?>" method="post">
-                <div class="layui-form-item">
-                  <label class="layui-form-label"><span class="layui-icon layui-icon-user"></span></label>
-                  <div class="layui-input-inline">
-                    <input type="text" name="username" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
-                  </div>
-                  <div class="layui-form-mid layui-word-aux"></div>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>广元协和医院</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="http://localhost/ThinkPHP/Public/statics/assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://localhost/ThinkPHP/Public/statics/assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="http://localhost/ThinkPHP/Public/statics/assets/css/form-elements.css">
+        <link rel="stylesheet" href="http://localhost/ThinkPHP/Public/statics/assets/css/style.css">
+        <link rel="icon" href="http://localhost/ThinkPHP/Public/statics/images/hospital.ico" type="image/x-icon">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost/ThinkPHP/Public/statics/assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost/ThinkPHP/Public/statics/assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost/ThinkPHP/Public/statics/assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="http://localhost/ThinkPHP/Public/statics/assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body>
+
+        <!-- Top content -->
+        <div class="top-content">
+        	
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>广元协和医院</strong> 预约登录系统</h1>
+                            <div class="description">
+                            	<p>
+
+                                    Appointment registration system <a href="#"><strong></strong></a>, Guangyuan Union Hospital !
+                            	</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3>登录你的账户</h3>
+                            		<p>在下方输入你的账号和密码：</p>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-lock"></i>
+                        		</div>
+                            </div>
+                            <div class="form-bottom">
+			                    <form role="form" action="<?php echo U('Home/Index/logincheck');?>" method="post" class="login-form">
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">Username</label>
+			                        	<input type="text" name="username" placeholder="账 号 ..." class="form-username form-control" id="form-username">
+			                        </div>
+			                        <div class="form-group">
+			                        	<label class="sr-only" for="form-password">Password</label>
+			                        	<input type="password" name="password" placeholder="密 码 ..." class="form-password form-control" id="form-password">
+			                        </div>
+			                        <button type="submit" class="btn">Sign in!</button>
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 social-login">
+                        	<h3>...or login with:</h3>
+                        	<div class="social-login-buttons">
+	                        	<a class="btn btn-link-2" href="#">
+	                        		<i class="fa fa-facebook"></i> Facebook
+	                        	</a>
+	                        	<a class="btn btn-link-2" href="#">
+	                        		<i class="fa fa-twitter"></i> Twitter
+	                        	</a>
+	                        	<a class="btn btn-link-2" href="#">
+	                        		<i class="fa fa-google-plus"></i> Google Plus
+	                        	</a>
+                        	</div>
+                        </div>
+                    </div>
                 </div>
-                  <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="layui-icon layui-icon-password"></span></label>
-                    <div class="layui-input-inline">
-                      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-form-mid layui-word-aux"></div>
-                  </div>
-                  <div class="layui-form-item">
-                    <div class="layui-input-block">
-                      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    </div>
-                  </div>
-            </form>
+            </div>
+            
         </div>
-</body>
-<script src="http://localhost/Thinkphp/Public/statics/layui/layui.js"></script>
-<script>
-    layui.use(['form', 'carousel'], function(){
-      var form = layui.form;
-      var carousel = layui.carousel;
 
-      carousel.render({
-          elem: '#test1',
-          width: '100%', //设置容器宽度
-          height: '100%',
-          arrow: 'none', //始终显示箭头
-          interval: '3000',
-          indicator: 'none',
-          //,anim: 'updown' //切换动画方式
-      });
 
-      form.on('submit(formDemo)', function(data){
-        // layer.msg(JSON.stringify(data.field));
-      });
-    });
-</script>
+        <!-- Javascript -->
+        <script src="http://localhost/ThinkPHP/Public/statics/assets/js/jquery-1.11.1.min.js"></script>
+        <script src="http://localhost/ThinkPHP/Public/statics/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="http://localhost/ThinkPHP/Public/statics/assets/js/jquery.backstretch.min.js"></script>
+        <script src="http://localhost/ThinkPHP/Public/statics/assets/js/scripts.js"></script>
+        
+        <!--[if lt IE 10]>
+            <script src="http://localhost/ThinkPHP/Public/statics/assets/js/placeholder.js"></script>
+        <![endif]-->
+
+    </body>
+
 </html>

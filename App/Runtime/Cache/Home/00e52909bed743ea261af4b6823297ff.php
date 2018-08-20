@@ -63,7 +63,7 @@
             <dd><a class="active" href="javascript:;" onclick="searchPeople(this);">重复病人查询</a></dd>
             <dd><a class="active" href="javascript:;" onclick="detailReport(this);">客服明细报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="monthlyTrend(this);">月趋势报表</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="monthData(this);">自定义图像报表</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="monthlyTrend(this);">自定义图像报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="exportData(this);">导出病人数据</a></dd>
             <dd><a class="active" href="javascript:;" onclick="contrast(this);">数据横向对比</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">添加新的病人资料</a></dd>
@@ -90,7 +90,6 @@
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="allTable(this);">总体报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="sex(this);">性别</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">年龄</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">病患类型</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">媒体来源</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">来院状态</a></dd>

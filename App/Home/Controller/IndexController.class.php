@@ -1971,7 +1971,11 @@ class IndexController extends Controller {
             $this->display('notSystemAccess');
             exit;
         }
-
+        $tableName = $this->selectFont($id);
+        $tableFont = $this->selectTableName($id);
+        $yeardata = $this->sexyear($tableFont);
+        $this->assign('tableName', $tableName);
+        $this->assign('yeardata', $yeardata);
         $this->display();
     }
 
@@ -2205,5 +2209,51 @@ class IndexController extends Controller {
         $this->display();
 
 
+    }
+
+    /*
+     *
+     *   查询近三年月份的数据
+     *   @param $tableFont default null
+     *   @@return yeardata 数组
+     * */
+    private function sexyear ($tableName)
+    {
+
+        $yearSex = [];
+        // 实例化Model()
+        $Model = new \Think\Model();
+        // 查询今年总数
+        $currSex = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE YEAR(currentTime) = YEAR(NOW())");
+        // 查询今年男
+        $currBoy = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE sex = '男' AND YEAR(currentTime) = YEAR(NOW())");
+        // 查询今年女
+        $currGirl = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE sex = '女' AND YEAR(currentTime) = YEAR(NOW())");
+
+        // 查询去年总数
+        $lastSex = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+        // 查询去年男
+        $lastBoy = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE sex = '男' AND YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+        // 查询去年女
+        $lastGirl = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE sex = '女' AND YEAR(currentTime) = YEAR(date_sub(now(), interval 1 year))");
+
+        // 查询前年总数
+        $beforeSex = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+        // 查询前年男
+        $beforeBoy = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE sex = '男' AND YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+        // 查询前年女
+        $beforeGirl = $Model->query("SELECT COUNT(*) AS count FROM $tableName WHERE sex = '女' AND YEAR(currentTime) = YEAR(date_sub(now(), interval 2 year))");
+
+        $yearSex['currSex'] = $currSex;
+        $yearSex['currBoy'] = $currBoy;
+        $yearSex['currGirl'] = $currGirl;
+        $yearSex['lastSex'] = $lastSex;
+        $yearSex['lastBoy'] = $lastBoy;
+        $yearSex['lastGirl'] = $lastGirl;
+        $yearSex['beforeSex'] = $beforeSex;
+        $yearSex['beforeBoy'] = $beforeBoy;
+        $yearSex['beforeGirl'] = $beforeGirl;
+
+        if ($yearSex != null) return $yearSex;
     }
 }
