@@ -223,16 +223,17 @@
             /* 页面跳转传递给后台要添加数据的表格id */
 
                 /*
+                *
                 * Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status == 200) {
                         console.log(Request.responseText);
-                        document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                        document.getElementById('page').contentWindow.document.body.innerHTML = Request.reponseText;
                     }
                 }
-                *
                 * */
+
 
 
             window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
@@ -842,8 +843,10 @@
 
 </script>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
+<script src="http://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js">
+</script>
 <script>
-    layui.use(['element', 'layer'], function(){
+    layui.use(['element', 'layer', 'form'], function(){
       var element = layui.element;
       var layer = layui.layer;
       layer.msg("请先选择医院");

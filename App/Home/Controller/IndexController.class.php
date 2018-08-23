@@ -51,12 +51,16 @@ class IndexController extends Controller {
 
             } else {
                 // 错误的Cookie,跳转到登录页login
-                $this->error("错误的Cookie", U("Home/Index/login"), 1);
+//                $this->error("错误的Cookie", U("Home/Index/login"), 1);
+//                $this->U("Home/Index/login");
+                $this->display('login');
             }
 
         } else {
             // 跳转至登录页面
-            $this->error("请先登录", U("Home/Index/login"), 1);
+//            $this->error("请先登录", U("Home/Index/login"), 1);
+//            $this->U("Home/Index/login");
+            $this->display('login');
         }
     }
 
