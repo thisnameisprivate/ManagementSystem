@@ -2036,7 +2036,7 @@ class IndexController extends Controller {
         $departmentList = $department->select();
         if ($departmentList) {
             $staticPath = C('STATIC_PATH');
-            $this->assign('staticpath', $staticPath);
+            $this->assign('staticPath', $staticPath);
             $this->assign('departmentList', $departmentList);
             $this->display();
         }
