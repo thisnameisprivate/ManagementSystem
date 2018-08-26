@@ -222,20 +222,21 @@
 
             /* 页面跳转传递给后台要添加数据的表格id */
 
-                Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
+                /*
+                *
+                * Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status == 200) {
                         console.log(Request.responseText);
-                        // document.getElementById('page').contentWindow.document.body.innerHTML = Request.reponseText;
-                        document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/insertShow/id/" + index + "');?>");
+                        document.getElementById('page').contentWindow.document.body.innerHTML = Request.reponseText;
                     }
                 }
+                * */
 
 
 
-
-            // window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
+            window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
 
         } else {
 
@@ -603,8 +604,7 @@
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                // window.open("<?php echo U('Home/Index/exportData/id/"+ index +"');?>");
-                document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/exportData/id/"+ index +"');?>");
+                window.open("<?php echo U('Home/Index/exportData/id/"+ index +"');?>");
             }
         }
 
@@ -622,8 +622,7 @@
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/contrast/id/" + index + "');?>");
-                // window.open("<?php echo U('Home/Index/contrast/id/" + index + "');?>");
+                window.open("<?php echo U('Home/Index/contrast/id/" + index + "');?>");
             }
         }
     }
@@ -808,12 +807,11 @@
     * */
     function hospital () {
         let Request = new XMLHttpRequest();
-        Request.open('GET', '<?php echo U("Home/Index/hospital");?>');
+        Request.open('GET', 'Home/Index/hospital');
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
                 document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-                
             }
         }
     }
@@ -839,8 +837,7 @@
 
         if (isNaN(index)) {alert("请先选择医院!"); return false}
 
-        // window.open("<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
-        document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
+        window.open("<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
     }
 
 
