@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>广元协和医院新媒体</title>
     <link rel="stylesheet" href="{$staticPath}/layui/css/layui.css">
+    <script src="{$staticPath}/js/echart.js"></script>
+    <script src="{$staticPath}/js/macarons.js"></script>
     <style media="screen">
         /* 关闭iframe线条 */
         body{border:0px;}
@@ -14,88 +16,91 @@
         /* 面包屑*/
         .layui-breadcrumb{visibility:visible;}
         .breadCrumbs{padding:10px; margin-bottom:20px;}
+        #img{width:100%; height:100%; position:fixed; top:0; left:0; right:0; bottom:0; margin:auto; z-index:-1;}
     </style>
 </head>
 <body>
-    <div class="breadCrumbs">
+<img id="img" src="{$staticPath}/assets/img/backgrounds/3.jpg">
+<div class="breadCrumbs">
         <span class="layui-breadcrumb" lay-separator="/">
           <a class="layui-anim-upbit" href="javascript:;">首页</a>
           <a><cite> {$item}</cite></a>
         </span>
-    </div>
-    <div class="layui-container">
-      <div class="layui-row">
+</div>
+<div class="layui-container">
+    <div class="layui-row">
         <div class="layui-col-md5">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-green layui-anim layui-anim-up">挂号数据统计</div>
-              <div class="layui-card-body layui-anim layui-anim-up">
-                <p>明日:&nbsp;&nbsp;预计: {$result['tommorday'][0]['count']}</p>
-                <p>今日:&nbsp;&nbsp;总共: {$result['terday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['terdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['terdayOutArrived'][0]['count']}</p>
-                <p>昨天:&nbsp;&nbsp;总共: {$result['yesterday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterdayOutArrived'][0]['count']}</p>
-                <p>本月:&nbsp;&nbsp;总共: {$result['currMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['currMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['currMonthOutArrived'][0]['count']}</p>
-                <p>上月:&nbsp;&nbsp;总共: {$result['yesterMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterMonthOutArrived'][0]['count']}</p>
-              </div>
+                <div class="layui-card-header layui-bg-green layui-anim layui-anim-up">挂号数据统计</div>
+                <div class="layui-card-body layui-anim layui-anim-up">
+                    <p>明日:&nbsp;&nbsp;预计: {$result['tommorday'][0]['count']}</p>
+                    <p>今日:&nbsp;&nbsp;总共: {$result['terday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['terdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['terdayOutArrived'][0]['count']}</p>
+                    <p>昨天:&nbsp;&nbsp;总共: {$result['yesterday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterdayOutArrived'][0]['count']}</p>
+                    <p>本月:&nbsp;&nbsp;总共: {$result['currMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['currMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['currMonthOutArrived'][0]['count']}</p>
+                    <p>上月:&nbsp;&nbsp;总共: {$result['yesterMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterMonthOutArrived'][0]['count']}</p>
+                </div>
             </div>
         </div>
         <div class="layui-col-md1">&nbsp;</div>
         <div class="layui-col-md3">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">本月到院排行</div>
-              <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="userSort" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
-                  </foreach>
-              </div>
+                <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">本月到院排行</div>
+                <div class="layui-card-body layui-anim layui-anim-up">
+                    <foreach name="userSort" item="vo" key="k">
+                        <p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'暂无数据':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
+                    </foreach>
+                </div>
             </div>
         </div>
         <div class="layui-col-md3">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">本月预约排行榜</div>
-              <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="currUserSortRese" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
-                  </foreach>
-              </div>
+                <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">本月预约排行榜</div>
+                <div class="layui-card-body layui-anim layui-anim-up">
+                    <foreach name="currUserSortRese" item="vo" key="k">
+                        <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'暂无数据':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
+                    </foreach>
+                </div>
             </div>
         </div>
-      </div>
+    </div>
 
-      <div class="layui-row">
+    <div class="layui-row">
         <div class="layui-col-md5">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据统计</div>
-              <div class="layui-card-body layui-anim layui-anim-up">
-                  <p>明日:&nbsp;&nbsp;&nbsp;{$checkCountRese['tommodayRese'][0]['count'] == null?'null':$checkCountRese['tommodayRese'][0]['count']}</p>
-                  <p>今日:&nbsp;&nbsp;&nbsp;{$checkCountRese['todayRese'][0]['count'] == null?'null':$checkCountRese['todayRese'][0]['count']}</p>
-                  <p>昨天:&nbsp;&nbsp;&nbsp;{$checkCountRese['terdayRese'][0]['count'] == null?'null':$checkCountRese['terdayRese'][0]['count']}</p>
-                  <p>本月:&nbsp;&nbsp;&nbsp;{$checkCountRese['currMonthRese'][0]['count'] == null?'null':$checkCountRese['currMonthRese'][0]['count']}</p>
-                  <p>上月:&nbsp;&nbsp;&nbsp;{$checkCountRese['yesterMonthRese'][0]['count'] == null?'null':$checkCountRese['yesterMonthRese'][0]['count']}</p>
-              </div>
+                <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据统计</div>
+                <div class="layui-card-body layui-anim layui-anim-up">
+                    <p>明日:&nbsp;&nbsp;&nbsp;{$checkCountRese['tommodayRese'][0]['count'] == null?'暂无数据':$checkCountRese['tommodayRese'][0]['count']}</p>
+                    <p>今日:&nbsp;&nbsp;&nbsp;{$checkCountRese['todayRese'][0]['count'] == null?'暂无数据':$checkCountRese['todayRese'][0]['count']}</p>
+                    <p>昨天:&nbsp;&nbsp;&nbsp;{$checkCountRese['terdayRese'][0]['count'] == null?'暂无数据':$checkCountRese['terdayRese'][0]['count']}</p>
+                    <p>本月:&nbsp;&nbsp;&nbsp;{$checkCountRese['currMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['currMonthRese'][0]['count']}</p>
+                    <p>上月:&nbsp;&nbsp;&nbsp;{$checkCountRese['yesterMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['yesterMonthRese'][0]['count']}</p>
+                </div>
             </div>
         </div>
         <div class="layui-col-md1">&nbsp;</div>
         <div class="layui-col-md3">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">上月到院排行</div>
-              <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="yesterUserSortArrival" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
-                  </foreach>
-              </div>
+                <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">上月到院排行</div>
+                <div class="layui-card-body layui-anim layui-anim-up">
+                    <foreach name="yesterUserSortArrival" item="vo" key="k">
+                        <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'暂无数据':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
+                    </foreach>
+                </div>
             </div>
         </div>
         <div class="layui-col-md3">
             <div class="layui-card">
-              <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">上月预约排行榜</div>
-              <div class="layui-card-body layui-anim layui-anim-up">
-                  <foreach name="yesterUserSortRese" item="vo" key="k">
-                      <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'null':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
-                  </foreach>
-              </div>
+                <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">上月预约排行榜</div>
+                <div class="layui-card-body layui-anim layui-anim-up">
+                    <foreach name="yesterUserSortRese" item="vo" key="k">
+                        <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;{$vo['expert'] == null?'暂无数据':$vo['expert']}&nbsp;&nbsp;&nbsp; {$vo['count']}</p>
+                    </foreach>
+                </div>
             </div>
         </div>
-      </div>
     </div>
+</div>
 </body>
 <script src="{$staticPath}/layui/layui.js"></script>
 </html>
+

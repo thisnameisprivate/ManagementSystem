@@ -69,7 +69,9 @@
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">添加新的病人资料</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item">
+        <!--
+        访客数据统计功能
+         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-chart">&nbsp;&nbsp;</span>访客数据统计</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" onclick="monthData(this);">数据明细（网络）</a></dd>
@@ -78,6 +80,7 @@
             <dd><a href="javascript:;" onclick="monthData(this);">医院项目设置（电话）</a></dd>
           </dl>
         </li>
+         -->
         <li class="layui-nav-item">
           <a href="javascript:;"><span class="layui-icon layui-icon-chart-screen">&nbsp;&nbsp;</span>网站挂号管理</a>
           <dl class="layui-nav-child">
@@ -90,7 +93,7 @@
           <dl class="layui-nav-child">
             <dd><a class="active" href="javascript:;" onclick="allTable(this);">总体报表</a></dd>
             <dd><a class="active" href="javascript:;" onclick="sex(this);">性别</a></dd>
-            <dd><a class="active" href="javascript:;" onclick="readytab(this);">病患类型</a></dd>
+            <dd><a class="active" href="javascript:;" onclick="typedata(this);">病患类型</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">媒体来源</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">来院状态</a></dd>
             <dd><a class="active" href="javascript:;" onclick="readytab(this);">接待医生</a></dd>
@@ -128,7 +131,7 @@
           <a href="javascript:;"><span class="layui-icon layui-icon-log">&nbsp;&nbsp;</span>日志记录</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" onclick="monthData(this);">操作日志</a></dd>
-            <dd><a href="javascript:;" onclick="monthData(this);">登录错误日志</a></dd>
+            <dd><a href="javascript:;" onclick="errorlog(this);">登录错误日志</a></dd>
           </dl>
         </li>
       </ul>
@@ -222,21 +225,19 @@
 
             /* 页面跳转传递给后台要添加数据的表格id */
 
-                /*
-                *
-                * Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
+                Request.open("GET", "<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
                 Request.send();
                 Request.onreadystatechange = function () {
                     if (Request.readyState == 4 && Request.status == 200) {
-                        console.log(Request.responseText);
-                        document.getElementById('page').contentWindow.document.body.innerHTML = Request.reponseText;
+                        // document.getElementById('page').contentWindow.document.body.innerHTML = Request.reponseText;
+                        document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/insertShow/id/" + index + "');?>");
                     }
                 }
-                * */
 
 
 
-            window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
+
+            // window.open("<?php echo U('Home/Index/insertShow/id/"+ index +"');?>");
 
         } else {
 
@@ -500,6 +501,7 @@
         document.getElementById('page').onload = function () {
             getCountRow();
         }
+
     }
 
     /*
@@ -604,7 +606,8 @@
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                window.open("<?php echo U('Home/Index/exportData/id/"+ index +"');?>");
+                // window.open("<?php echo U('Home/Index/exportData/id/"+ index +"');?>");
+                document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/exportData/id/"+ index +"');?>");
             }
         }
 
@@ -622,7 +625,8 @@
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                window.open("<?php echo U('Home/Index/contrast/id/" + index + "');?>");
+                document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/contrast/id/" + index + "');?>");
+                // window.open("<?php echo U('Home/Index/contrast/id/" + index + "');?>");
             }
         }
     }
@@ -638,7 +642,8 @@
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/allTable/id/"+ index +"');?>");
             }
         }
     }
@@ -796,7 +801,8 @@
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
-                document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                // document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+                document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/sex/id/"+ index +"');?>");
             }
         }
     }
@@ -807,7 +813,7 @@
     * */
     function hospital () {
         let Request = new XMLHttpRequest();
-        Request.open('GET', 'Home/Index/hospital');
+        Request.open('GET', '<?php echo U("Home/Index/hospital");?>');
         Request.send();
         Request.onreadystatechange = function () {
             if (Request.readyState == 4 && Request.status == 200) {
@@ -837,10 +843,27 @@
 
         if (isNaN(index)) {alert("请先选择医院!"); return false}
 
-        window.open("<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
+        // window.open("<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
+        document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/monthlyTrend/id/"+ index +"');?>");
     }
 
+    /*
+    *
+    *  病患类型
+    * */
+    function typedata (currElement) {
+        let index = parseInt(currElement.getAttribute('index'));
+        let Request = new XMLHttpRequest();
+        document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/type/id/"+ index +"');?>");
+    }
 
+    /*
+    *
+    *   errorlog
+    * */
+    function errorlog () {
+        document.getElementById('page').setAttribute('src', "<?php echo U('Home/Index/errorlog');?>")
+    }
 </script>
 <script src="<?php echo ($staticPath); ?>/layui/layui.js"></script>
 <script src="http://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js">
