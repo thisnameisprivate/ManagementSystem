@@ -56,6 +56,7 @@
         <th>通知管理</th>
         <th>操作日志</th>
         <th>登录错误日志</th>
+        <th>添加/修改时状态</th>
 
         <th>操作</th>
     </tr>
@@ -99,6 +100,7 @@
             <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['ps']==1? 是:否); ?></td>
             <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['log']==1? 是:否); ?></td>
             <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['errorlog']==1? 是:否); ?></td>
+            <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['modstat']==1? 是:否); ?></td>
             <td>
                 <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit update" style="color:#FFB800;"></a>
                 <a href="javascript:;" title="删除此行" class="layui-icon layui-icon-delete delete" style="color:#FF5722;"></a>

@@ -500,8 +500,14 @@ class IndexController extends Controller {
         // 查询来源下拉列表
         $address = $user->table('fromaddress')->select();
 
-        // 查询状态下拉列表
-        $status = $user->table('status')->select();
+        $cookieName = cookie('username');
+        $cookieStatus = $user->table('user')->field('modstat')->where("username='{$cookieName}'")->select();
+        if ($cookieStatus[0]['modstat'] == 0) {
+            $status = $user->table('member')->select();
+        } else {
+            // 查询状态下拉列表
+            $status = $user->table('status')->select();
+        }
 
         // 把字段发送到前端
         $this->assign('diseases', $diseases);
@@ -1118,6 +1124,14 @@ class IndexController extends Controller {
             }
         }
 
+        if ($userData['modstat'] != null) {
+            if ($userData['modstat'] == 'on') {
+                $userData['modstat'] = 1;
+            } else {
+                $userData['modstat'] = 0;
+            }
+        }
+
         //  储存数据准备
         $data['username'] = $userData['username'];
         $data['password'] = md5($userData['password']);
@@ -1157,6 +1171,7 @@ class IndexController extends Controller {
         $data['ps'] = $userData['systemManage'][3];
         $data['log'] = $userData['log'][0];
         $data['errorlog'] = $userData['log'][1];
+        $data['modstat'] = $userData['modstat'];
 
         // 实例化表
         $user = M('user');

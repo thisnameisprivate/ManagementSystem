@@ -118,7 +118,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">赴约状态</label>
         <div class="layui-input-inline">
-          <select name="status" lay-verify="required">
+          <select name="status" lay-verify="required" <?php echo ($checked ? disabled : ''); ?>>
             <!-- foreach 病种选择 -->
             <?php if(is_array($status)): foreach($status as $k=>$vo): ?><option value="<?php echo ($k); ?>" <?php echo ($data[0]['status'] == $vo['status'] ? selected : ""); ?>><?php echo ($vo['status']); ?></option><?php endforeach; endif; ?>
           </select>

@@ -122,7 +122,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">赴约状态</label>
         <div class="layui-input-inline">
-          <select name="status" lay-verify="required">
+          <select name="status" lay-verify="required" {$checked ? disabled : ''}>
             <!-- foreach 病种选择 -->
             <foreach name="status" item="vo" key="k">
                 <option value="{$k}" {$data[0]['status'] == $vo['status'] ? selected : ""}>{$vo['status']}</option>

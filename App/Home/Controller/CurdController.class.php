@@ -121,6 +121,14 @@ class CurdController extends Controller {
         /* 查询id对应的病种表单 */
         $diseases = $user->table("alldiseases")->where("pid = $pid")->field("diseases")->select();
 
+        $cookieVal = cookie('username');
+        $cookieModStat = $user->table('user')->field('modstat')->where("username='{$cookieVal}'")->select();
+        if ($cookieModStat[0]['modstat'] == 1) {
+            $checked = false;
+        } else {
+            $checked = true;
+        }
+
         /* 遍历数据替换数组中的数字发送到前端 */
         for ($i = 0; $i < count($data); $i ++) {
 
@@ -158,6 +166,7 @@ class CurdController extends Controller {
         $this->assign('diseases', $diseases);
         $this->assign('address', $address);
         $this->assign('status', $status);
+        $this->assign('checked', $checked);
         $this->display();
     }
 

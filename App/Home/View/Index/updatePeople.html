@@ -129,6 +129,12 @@
             <input type="checkbox" name="log[1]" title="登录错误日志" {$result[0]['errorlog']==1?checked:""}>
         </div>
     </div>
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">添加/修改时状态</label>
+            <input type="checkbox" name="modstat" title="添加/修改时状态" {$result[0]['modstat']==1?checked:""}>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
