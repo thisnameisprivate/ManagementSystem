@@ -167,12 +167,12 @@ function readyHtml(currElement) {
 	Request.onreadystatechange = function() {
 		if (Request.readyState == 4 && Request.status == 200) {
 			document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-            readytableName(id);
+            readytableName(currElement, id);
 		}
 	}
 }
 // 2018/10/8 Update Start. if ... onclick select jump to data table.
-function  readytableName (currElement) {
+function  readytableName (currElement, id) {
     var doc = document.getElementById('page').contentWindow.document;
     // 把要点击的元素储存到对象.
     onclickIden = {
@@ -195,32 +195,33 @@ function  readytableName (currElement) {
         bt17: doc.getElementsByClassName('currMonthRese')[0],
         bt18: doc.getElementsByClassName('yesterMonthRese')[0],
     };
-    onclickIden.bt1.onclick = () => { getIdenDataTab(currElement, 1); }
-    onclickIden.bt2.onclick = () => { getIdenDataTab(currElement, 2); }
-    onclickIden.bt3.onclick = () => { getIdenDataTab(currElement, 3); }
-    onclickIden.bt4.onclick = () => { getIdenDataTab(currElement, 4); }
-    onclickIden.bt5.onclick = () => { getIdenDataTab(currElement, 5); }
-    onclickIden.bt6.onclick = () => { getIdenDataTab(currElement, 6); }
-    onclickIden.bt7.onclick = () => { getIdenDataTab(currElement, 7); }
-    onclickIden.bt8.onclick = () => { getIdenDataTab(currElement, 8); }
-    onclickIden.bt9.onclick = () => { getIdenDataTab(currElement, 9); }
-    onclickIden.bt10.onclick = () => { getIdenDataTab(currElement, 10); }
-    onclickIden.bt11.onclick = () => { getIdenDataTab(currElement, 11); }
-    onclickIden.bt12.onclick = () => { getIdenDataTab(currElement, 12); }
-    onclickIden.bt13.onclick = () => { getIdenDataTab(currElement, 13); }
-    onclickIden.bt14.onclick = () => { getIdenDataTab(currElement, 14); }
-    onclickIden.bt15.onclick = () => { getIdenDataTab(currElement, 15); }
-    onclickIden.bt16.onclick = () => { getIdenDataTab(currElement, 16); }
-    onclickIden.bt17.onclick = () => { getIdenDataTab(currElement, 17); }
-    onclickIden.bt18.onclick = () => { getIdenDataTab(currElement, 18); }
+    onclickIden.bt1.onclick = () => { getIdenDataTab(currElement, id, 1); }
+    onclickIden.bt2.onclick = () => { getIdenDataTab(currElement, id, 2); }
+    onclickIden.bt3.onclick = () => { getIdenDataTab(currElement, id, 3); }
+    onclickIden.bt4.onclick = () => { getIdenDataTab(currElement, id, 4); }
+    onclickIden.bt5.onclick = () => { getIdenDataTab(currElement, id, 5); }
+    onclickIden.bt6.onclick = () => { getIdenDataTab(currElement, id, 6); }
+    onclickIden.bt7.onclick = () => { getIdenDataTab(currElement, id, 7); }
+    onclickIden.bt8.onclick = () => { getIdenDataTab(currElement, id, 8); }
+    onclickIden.bt9.onclick = () => { getIdenDataTab(currElement, id, 9); }
+    onclickIden.bt10.onclick = () => { getIdenDataTab(currElement, id, 10); }
+    onclickIden.bt11.onclick = () => { getIdenDataTab(currElement, id, 11); }
+    onclickIden.bt12.onclick = () => { getIdenDataTab(currElement, id, 12); }
+    onclickIden.bt13.onclick = () => { getIdenDataTab(currElement, id, 13); }
+    onclickIden.bt14.onclick = () => { getIdenDataTab(currElement, id, 14); }
+    onclickIden.bt15.onclick = () => { getIdenDataTab(currElement, id, 15); }
+    onclickIden.bt16.onclick = () => { getIdenDataTab(currElement, id, 16); }
+    onclickIden.bt17.onclick = () => { getIdenDataTab(currElement, id, 17); }
+    onclickIden.bt18.onclick = () => { getIdenDataTab(currElement, id, 18); }
 }
-function getIdenDataTab (id, iden) {
+function getIdenDataTab (currElement, id, iden) {
     var Request = new XMLHttpRequest();
     Request.open('GET', "{:U('Home/Index/showTab/id/"+ id +"/iden/"+ iden +"')}");
     Request.send();
     Request.onreadystatechange = () => {
         if (Request.readyState == 4 && Request.status == 200) {
             document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            getCountRow(currElement);
         }
     }
 }
@@ -232,7 +233,7 @@ function detailReport(detailReport) {
 	Request.send();
 	Request.onreadystatechange = function () {
 		if (Request.readyState == 4 && Request.status == 200) {
-			document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText
+			document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
 		}
 	}
 }
