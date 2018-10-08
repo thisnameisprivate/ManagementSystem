@@ -23,7 +23,7 @@
           <dl class="layui-nav-child">
 
             <foreach name="departmentList" item="vo" key="index">
-              <dd class="layui-amin layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="{$index + 1}">{$vo['username']}</a></dd>
+              <dd class="layui-amin layui-anim-scaleSpring"><a href="javascript:;" onclick="readyHtml(this);" index="{$index + 1}" tableName="{$vo['iden']}">{$vo['username']}</a></dd>
             </foreach>
 
           </dl>
@@ -34,7 +34,7 @@
           {$username}
         </a>
         <dl class="layui-nav-child">
-          <dd class="layui-anim layui-anim-scaleSpring"><a href="https://github.com/thisnameisprivate" target="_blank">基本资料</a></dd>
+          <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;">基本资料</a></dd>
           <dd class="layui-anim layui-anim-scaleSpring"><a href="javascript:;" onclick="systeminfo(this);">安全设置</a></dd>
         </dl>
       </li>
@@ -166,16 +166,71 @@ function readyHtml(currElement) {
 	Request.send();
 	Request.onreadystatechange = function() {
 		if (Request.readyState == 4 && Request.status == 200) {
-			document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText
+			document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+            readytableName(id);
 		}
 	}
 }
+// 2018/10/8 Update Start. if ... onclick select jump to data table.
+function  readytableName (currElement) {
+    var doc = document.getElementById('page').contentWindow.document;
+    // 把要点击的元素储存到对象.
+    onclickIden = {
+        bt1: doc.getElementsByClassName('tommorday')[0],
+        bt2: doc.getElementsByClassName('terday')[0],
+        bt3: doc.getElementsByClassName('terdayArrived')[0],
+        bt4: doc.getElementsByClassName('terdayOutArrived')[0],
+        bt5: doc.getElementsByClassName('yesterday')[0],
+        bt6: doc.getElementsByClassName('yesterdayArrived')[0],
+        bt7: doc.getElementsByClassName('yesterdayOutArrived')[0],
+        bt8: doc.getElementsByClassName('currMonth')[0],
+        bt9: doc.getElementsByClassName('currMonthArrived')[0],
+        bt10: doc.getElementsByClassName('currMonthOutArrived')[0],
+        bt11: doc.getElementsByClassName('yesterMonth')[0],
+        bt12: doc.getElementsByClassName('yesterMonthArrived')[0],
+        bt13: doc.getElementsByClassName('yesterMonthOutArrived')[0],
+        bt14: doc.getElementsByClassName('tommodayRese')[0],
+        bt15: doc.getElementsByClassName('todayRese')[0],
+        bt16: doc.getElementsByClassName('terdayRese')[0],
+        bt17: doc.getElementsByClassName('currMonthRese')[0],
+        bt18: doc.getElementsByClassName('yesterMonthRese')[0],
+    };
+    onclickIden.bt1.onclick = () => { getIdenDataTab(currElement, 1); }
+    onclickIden.bt2.onclick = () => { getIdenDataTab(currElement, 2); }
+    onclickIden.bt3.onclick = () => { getIdenDataTab(currElement, 3); }
+    onclickIden.bt4.onclick = () => { getIdenDataTab(currElement, 4); }
+    onclickIden.bt5.onclick = () => { getIdenDataTab(currElement, 5); }
+    onclickIden.bt6.onclick = () => { getIdenDataTab(currElement, 6); }
+    onclickIden.bt7.onclick = () => { getIdenDataTab(currElement, 7); }
+    onclickIden.bt8.onclick = () => { getIdenDataTab(currElement, 8); }
+    onclickIden.bt9.onclick = () => { getIdenDataTab(currElement, 9); }
+    onclickIden.bt10.onclick = () => { getIdenDataTab(currElement, 10); }
+    onclickIden.bt11.onclick = () => { getIdenDataTab(currElement, 11); }
+    onclickIden.bt12.onclick = () => { getIdenDataTab(currElement, 12); }
+    onclickIden.bt13.onclick = () => { getIdenDataTab(currElement, 13); }
+    onclickIden.bt14.onclick = () => { getIdenDataTab(currElement, 14); }
+    onclickIden.bt15.onclick = () => { getIdenDataTab(currElement, 15); }
+    onclickIden.bt16.onclick = () => { getIdenDataTab(currElement, 16); }
+    onclickIden.bt17.onclick = () => { getIdenDataTab(currElement, 17); }
+    onclickIden.bt18.onclick = () => { getIdenDataTab(currElement, 18); }
+}
+function getIdenDataTab (id, iden) {
+    var Request = new XMLHttpRequest();
+    Request.open('GET', "{:U('Home/Index/showTab/id/"+ id +"/iden/"+ iden +"')}");
+    Request.send();
+    Request.onreadystatechange = () => {
+        if (Request.readyState == 4 && Request.status == 200) {
+            document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
+        }
+    }
+}
+// 2018/10/8 Update End.
 function detailReport(detailReport) {
 	let pid = parseInt(detailReport.getAttribute('index'));
 	let Request = new XMLHttpRequest();
 	Request.open("GET", "{:U('Home/Curd/detailReport/pid/" + pid + "')}");
 	Request.send();
-	Request.onreadystatechange = function() {
+	Request.onreadystatechange = function () {
 		if (Request.readyState == 4 && Request.status == 200) {
 			document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText
 		}
@@ -203,7 +258,7 @@ function readytab(currElement) {
 		Request.onreadystatechange = function() {
 			if (Request.readyState == 4 && Request.status == 200) {
 				document.getElementById('page').contentWindow.document.body.innerHTML = Request.responseText;
-				getCountRow(currElement)
+				getCountRow(currElement);
 			}
 		}
 	}
@@ -216,8 +271,15 @@ function getCountRow(currElement) {
 	let countRowIndex = 16;
 	for (var i = 0; i < countRow.length; i++) {
 		for (var c = 0; c < countRow[0].children[16].children.length; c++) {
-			countRow[i].children[countRowIndex].children[c].index = i
-		}
+            countRow[i].children[countRowIndex].children[c].index = i
+            // 2018/10/8 Update. if arivaled add tr color is red. Hope to rebuild the project on the third day
+            if (countRow[i].children[14].innerText == '已到') {
+                countRow[i].style.color = '#FF5722';
+            } else {
+                countRow[i].style.color = '#01AAED';
+            }
+            // 2018/10/8 Update End.
+        }
 		countRow[i].children[countRowIndex].children[0].onclick = function() {
 			let id = parseInt(countRow[this.index].getAttribute('index'));
 			let tableName = table.getAttribute('table');

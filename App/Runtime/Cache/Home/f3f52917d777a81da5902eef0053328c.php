@@ -45,9 +45,9 @@
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['name']); ?></td>
                   <td><?php echo ($vo['sex']); ?></td>
                   <td><?php echo ($vo['old']); ?></td>
-                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['phone']); ?></td>
+                  <td><?php echo ($vo['phone']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['qq']); ?></td>
-                  <td><?php echo ($vo['expert']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['expert']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc1']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['oldDate']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['diseases']); ?></td>

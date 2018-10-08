@@ -33,11 +33,19 @@
             <div class="layui-card">
                 <div class="layui-card-header layui-bg-green layui-anim layui-anim-up">挂号数据统计</div>
                 <div class="layui-card-body layui-anim layui-anim-up">
-                    <p>明日:&nbsp;&nbsp;预计: {$result['tommorday'][0]['count']}</p>
-                    <p>今日:&nbsp;&nbsp;总共: {$result['terday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['terdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['terdayOutArrived'][0]['count']}</p>
-                    <p>昨天:&nbsp;&nbsp;总共: {$result['yesterday'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterdayArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterdayOutArrived'][0]['count']}</p>
-                    <p>本月:&nbsp;&nbsp;总共: {$result['currMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['currMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['currMonthOutArrived'][0]['count']}</p>
-                    <p>上月:&nbsp;&nbsp;总共: {$result['yesterMonth'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;已到: {$result['yesterMonthArrived'][0]['count']}&nbsp;&nbsp;&nbsp;&nbsp;未到: {$result['yesterMonthOutArrived'][0]['count']}</p>
+                    <p>明日:&nbsp;&nbsp;预计: <a href="javascript:;" class="tommorday">{$result['tommorday'][0]['count']}</a></p>
+                    <p>今日:&nbsp;&nbsp;总共: <a href="javascript:;" class="terday">{$result['terday'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;已到: <a
+                            href="javascript:;" class="terdayArrived">{$result['terdayArrived'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
+                            href="javascript:;" class="terdayOutArrived">{$result['terdayOutArrived'][0]['count']}</a></p>
+                    <p>昨天:&nbsp;&nbsp;总共: <a href="javascript:;" class="yesterday">{$result['yesterday'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;已到:
+                        <a href="javascript:;" class="yesterdayArrived">{$result['yesterdayArrived'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
+                                href="javascript:;" class="yesterdayOutArrived">{$result['yesterdayOutArrived'][0]['count']}</a></p>
+                    <p>本月:&nbsp;&nbsp;总共: <a href="javascript:;" class="currMonth">{$result['currMonth'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;已到:
+                        <a href="javascript:;" class="currMonthArrived">{$result['currMonthArrived'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
+                                href="javascript:;" class="currMonthOutArrived">{$result['currMonthOutArrived'][0]['count']}</a></p>
+                    <p>上月:&nbsp;&nbsp;总共: <a href="javascript:;" class="yesterMonth">{$result['yesterMonth'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;已到:
+                        <a href="javascript:;" class="yesterMonthArrived">{$result['yesterMonthArrived'][0]['count']}</a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
+                                href="javascript:;" class="yesterMonthOutArrived">{$result['yesterMonthOutArrived'][0]['count']}</a></p>
                 </div>
             </div>
         </div>
@@ -69,11 +77,11 @@
             <div class="layui-card">
                 <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据统计</div>
                 <div class="layui-card-body layui-anim layui-anim-up">
-                    <p>明日:&nbsp;&nbsp;&nbsp;{$checkCountRese['tommodayRese'][0]['count'] == null?'暂无数据':$checkCountRese['tommodayRese'][0]['count']}</p>
-                    <p>今日:&nbsp;&nbsp;&nbsp;{$checkCountRese['todayRese'][0]['count'] == null?'暂无数据':$checkCountRese['todayRese'][0]['count']}</p>
-                    <p>昨天:&nbsp;&nbsp;&nbsp;{$checkCountRese['terdayRese'][0]['count'] == null?'暂无数据':$checkCountRese['terdayRese'][0]['count']}</p>
-                    <p>本月:&nbsp;&nbsp;&nbsp;{$checkCountRese['currMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['currMonthRese'][0]['count']}</p>
-                    <p>上月:&nbsp;&nbsp;&nbsp;{$checkCountRese['yesterMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['yesterMonthRese'][0]['count']}</p>
+                    <p>明日:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="tommodayRese">{$checkCountRese['tommodayRese'][0]['count'] == null?'暂无数据':$checkCountRese['tommodayRese'][0]['count']}</a></p>
+                    <p>今日:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="todayRese">{$checkCountRese['todayRese'][0]['count'] == null?'暂无数据':$checkCountRese['todayRese'][0]['count']}</a></p>
+                    <p>昨天:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="terdayRese">{$checkCountRese['terdayRese'][0]['count'] == null?'暂无数据':$checkCountRese['terdayRese'][0]['count']}</a></p>
+                    <p>本月:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="currMonthRese">{$checkCountRese['currMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['currMonthRese'][0]['count']}</a></p>
+                    <p>上月:&nbsp;&nbsp;<a href="javascript:;" class="yesterMonthRese">{$checkCountRese['yesterMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['yesterMonthRese'][0]['count']}</a></p>
                 </div>
             </div>
         </div>

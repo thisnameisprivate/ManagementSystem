@@ -400,20 +400,111 @@ class IndexController extends Controller {
                 echo "找不到表格,可能是表格id未找到";
                 break;
         }
-        /* 查询已到和未到 */
-        $arrival = $user->where("status = 1")->count('id');
-        $notArrival = $user->where("status != 1")->count('id');
-
+        // 2018/10/8 Update. add select where ...
+        if (! is_null($_GET['iden'])) {
+            if ($_GET['iden'] == 1) {
+                $data = $user->where("TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1 and status = 1")->count('id');
+                $notArrival = $user->where("TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1 and status != 1")->count('id');
+                $dataCount = $user->where("TO_DAYS(oldDate) - TO_DAYS(NOW()) = 1")->count();
+            } else if ($_GET['iden'] == 2) {
+                $data = $user->where("to_days(oldDate) = to_days(now())")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("to_days(oldDate) = to_days(now()) and status = 1")->count('id');
+                $notArrival = $user->where("to_days(oldDate) = to_days(now()) and status != 1")->count('id');
+                $dataCount = $user->where("to_days(oldDate) = to_days(now())")->count();
+            } else if ($_GET['iden'] == 3) {
+                $data = $user->where("to_days(oldDate) = to_days(now()) AND status = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("to_days(oldDate) = to_days(now()) and status = 1")->count('id');
+                $notArrival = 0;
+                $dataCount = $user->where("to_days(oldDate) = to_days(now()) AND status = 1")->count();
+            } else if ($_GET['iden'] == 4) {
+                $data = $user->where("to_days(oldDate) = to_days(now()) AND status != 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = $user->where("to_days(oldDate) = to_days(now()) and status != 1")->count('id');
+                $arrival = 0;
+                $dataCount = $user->where("to_days(oldDate) = to_days(now())")->count();
+            } else if ($_GET['iden'] == 5) {
+                $data = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 and status = 1")->count('id');
+                $notArrival = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 and status != 1")->count('id');
+                $dataCount = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1")->count();
+            } else if ($_GET['iden'] == 6) {
+                $data = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 and status = 1")->count('id');
+                $notArrival = 0;
+                $dataCount = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1")->count();
+            } else if ($_GET['iden'] == 7) {
+                $data = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status != 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = 0;
+                $notArrival = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 and status != 1")->count('id');
+                $dataCount = $user->where("to_days(NOW()) - TO_DAYS(oldDate) = 1 AND status = 1")->count();
+            } else if ($_GET['iden'] == 8) {
+                $data = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status = 1")->count('id');
+                $notArrival = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status != 1")->count('id');
+                $dataCount = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')")->count();
+            } else if ($_GET['iden'] == 9) {
+                $data = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status = 1")->count('id');
+                $notArrival = 0;
+                $dataCount = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status = 1")->count();
+            } else if ($_GET['iden'] == 10) {
+                $data = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') AND status != 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status != 1")->count('id');
+                $arrival = 0;
+                $dataCount = $user->where("DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status != 1")->count();
+            } else if ($_GET['iden'] == 11) {
+                $data = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1 and status = 1")->count('id');
+                $notArrival = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1 and status != 1")->count('id');
+                $dataCount = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1")->count();
+            } else if ($_GET['iden'] == 12) {
+                $data = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $arrival = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1 and status = 1")->count('id');
+                $notArrival = 0;
+                $dataCount = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1")->count();
+            } else if ($_GET['iden'] == 13) {
+                $data = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(oldDate, '%Y%m')) = 1 AND status != 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1 and status != 1")->count('id');
+                $arrival = 0;
+                $dataCount = $user->where("PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'), DATE_FORMAT(oldDate,'%Y%m')) = 1")->count();
+            } else if ($_GET['iden'] == 14) {
+                $data = $user->where("status = 3 AND to_days(oldDate) - to_days(now()) = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = 0;
+                $arrival = 0;
+                $dataCount = $user->where("status = 3 AND to_days(oldDate) - to_days(now()) = 1")->count();
+            } else if ($_GET['iden'] == 15) {
+                $data = $user->where("status = 3 AND to_days(oldDate) = to_days(now())")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = 0;
+                $arrival = 0;
+                $dataCount = $user->where("status = 3 AND to_days(oldDate) = to_days(now())")->count();
+            } else if ($_GET['iden'] == 16) {
+                $data = $user->where("status = 3 AND to_days(now()) - to_days(oldDate) = 1")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = 0;
+                $arrival = 0;
+                $dataCount = $user->where("status = 3 AND to_days(now()) - to_days(oldDate) = 1")->count();
+            } else if ($_GET['iden'] == 17) {
+                $data = $user->where("status = 3 AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = 0;
+                $arrival = 0;
+                $dataCount = $user->where("status = 3 AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')")->count();
+            } else if ($_GET['iden'] == 18) {
+                $data = $user->where("status = 3 AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+                $notArrival = 0;
+                $arrival = 0;
+                $dataCount = $user->where("status = 3 AND DATE_FORMAT(oldDate, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')")->count();
+            }
+            // 2018/10/8 Update End.
+        } else {
+            $data = $user->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
+            /* 查询已到和未到 */
+            $arrival = $user->where("status = 1")->count('id');
+            $notArrival = $user->where("status != 1")->count('id');
+            /* 计算显示总条数等 */
+            $dataCount = $user->count("id");
+        }
         /* 分页查询详情表数据 */
         $pageSize = 50;
-        $data = $user->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
-
-
-        /* 计算显示总条数等 */
-        $dataCount = $user->count("id");
         $total_pages = ceil($dataCount/$pageSize);
-
-
         /* 读取分页配置信息 */
         /* PAGE_SELF => 'http://localhost/ThinkPHP/index.php/Home/Index/showTab' config 定义 */
         $pagePath = C(PAGE_SELF);
@@ -2316,6 +2407,7 @@ class IndexController extends Controller {
 
     /*
      *  errorLog
+     *  return $this->display();
      * */
     public function errorlog ()
     {
