@@ -329,7 +329,14 @@ function getCountRow(currElement) {
 		let countRowIndex = 16;
 		for (var i = 0; i < countRow.length; i++) {
 			for (var c = 0; c < countRow[0].children[16].children.length; c++) {
-				countRow[i].children[countRowIndex].children[c].index = i
+				countRow[i].children[countRowIndex].children[c].index = i;
+                // 2018/10/8 Update. if arivaled add tr color is red. Hope to rebuild the project on the third day
+                if (countRow[i].children[14].innerText == '已到') {
+                    countRow[i].style.color = '#FF5722';
+                } else {
+                    countRow[i].style.color = '#01AAED';
+                }
+                // 2018/10/8 Update End.
 			}
 			countRow[i].children[countRowIndex].children[0].onclick = function() {
 				let id = parseInt(countRow[this.index].getAttribute('index'));

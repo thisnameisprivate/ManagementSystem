@@ -400,6 +400,7 @@ class IndexController extends Controller {
                 echo "找不到表格,可能是表格id未找到";
                 break;
         }
+        $pageSize = 20;
         // 2018/10/8 Update. add select where ...
         if (! is_null($_GET['iden'])) {
             if ($_GET['iden'] == 1) {
@@ -503,7 +504,6 @@ class IndexController extends Controller {
             $dataCount = $user->count("id");
         }
         /* 分页查询详情表数据 */
-        $pageSize = 50;
         $total_pages = ceil($dataCount/$pageSize);
         /* 读取分页配置信息 */
         /* PAGE_SELF => 'http://localhost/ThinkPHP/index.php/Home/Index/showTab' config 定义 */
@@ -776,7 +776,7 @@ class IndexController extends Controller {
         }
 
         /* 分页查询详情表数据 */
-        $pageSize = 50;
+        $pageSize = 20;
 //        $result = $user->where("name = '$field'")->limit(($pageIndex - 1) * $pageSize, $pageSize)->order('id desc')->select();
 
         // 模糊查询
