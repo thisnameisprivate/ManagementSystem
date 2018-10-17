@@ -45,19 +45,19 @@
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['name']); ?></td>
                   <td><?php echo ($vo['sex']); ?></td>
                   <td><?php echo ($vo['old']); ?></td>
-                  <td><?php echo ($vo['phone']); ?></td>
+                  <td title="<?php echo ($vo['phone']); ?>"><?php echo ($vo['phone']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['qq']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['expert']); ?></td>
-                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc1']); ?></td>
-                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['oldDate']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" title="<?php echo ($vo['disc1']); ?>"><?php echo ($vo['desc1']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" title="<?php echo ($vo['oldDate']); ?>"><?php echo ($vo['oldDate']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['diseases']); ?></td>
                   <td><?php echo ($vo['fromAddress']); ?></td>
                   <td><?php echo ($vo['switch']); ?></td>
-                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['desc2']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" title="<?php echo ($vo['desc2']); ?>"><?php echo ($vo['desc2']); ?></td>
                   <td><?php echo ($vo['custService']); ?></td>
                   <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['newDate']); ?></td>
                   <td><?php echo ($vo['status']); ?></td>
-                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><?php echo ($vo['currentTime']); ?></td>
+                  <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" title="<?php echo ($vo['currentTime']); ?>"><?php echo ($vo['currentTime']); ?></td>
                   <td>
                       <a href="javascript:;" title="查看详情" class="layui-icon layui-icon-form more" style="color:#1E9FFF;"></a>
                       <a href="javascript:;" title="更改内容" class="layui-icon layui-icon-edit update" style="color:#FFB800;"></a>

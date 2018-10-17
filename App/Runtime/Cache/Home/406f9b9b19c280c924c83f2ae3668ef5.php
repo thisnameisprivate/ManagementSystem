@@ -33,19 +33,11 @@
             <div class="layui-card">
                 <div class="layui-card-header layui-bg-green layui-anim layui-anim-up">挂号数据统计</div>
                 <div class="layui-card-body layui-anim layui-anim-up">
-                    <p>明日:&nbsp;&nbsp;预计: <a href="javascript:;" class="tommorday"><?php echo ($result['tommorday'][0]['count']); ?></a></p>
-                    <p>今日:&nbsp;&nbsp;总共: <a href="javascript:;" class="terday"><?php echo ($result['terday'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;已到: <a
-                            href="javascript:;" class="terdayArrived"><?php echo ($result['terdayArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
-                            href="javascript:;" class="terdayOutArrived"><?php echo ($result['terdayOutArrived'][0]['count']); ?></a></p>
-                    <p>昨天:&nbsp;&nbsp;总共: <a href="javascript:;" class="yesterday"><?php echo ($result['yesterday'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;已到:
-                        <a href="javascript:;" class="yesterdayArrived"><?php echo ($result['yesterdayArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
-                                href="javascript:;" class="yesterdayOutArrived"><?php echo ($result['yesterdayOutArrived'][0]['count']); ?></a></p>
-                    <p>本月:&nbsp;&nbsp;总共: <a href="javascript:;" class="currMonth"><?php echo ($result['currMonth'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;已到:
-                        <a href="javascript:;" class="currMonthArrived"><?php echo ($result['currMonthArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
-                                href="javascript:;" class="currMonthOutArrived"><?php echo ($result['currMonthOutArrived'][0]['count']); ?></a></p>
-                    <p>上月:&nbsp;&nbsp;总共: <a href="javascript:;" class="yesterMonth"><?php echo ($result['yesterMonth'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;已到:
-                        <a href="javascript:;" class="yesterMonthArrived"><?php echo ($result['yesterMonthArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;未到: <a
-                                href="javascript:;" class="yesterMonthOutArrived"><?php echo ($result['yesterMonthOutArrived'][0]['count']); ?></a></p>
+                    <p>明日:&nbsp;&nbsp;<a href="javascript:;" class="tommorday">预计: <?php echo ($result['tommorday'][0]['count']); ?></a></p>
+                    <p>今日:&nbsp;&nbsp;<a href="javascript:;" class="terday">总共: <?php echo ($result['terday'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="terdayArrived">&nbsp;已到: <?php echo ($result['terdayArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="terdayOutArrived">&nbsp;未到: <?php echo ($result['terdayOutArrived'][0]['count']); ?></a></p>
+                    <p>昨天:&nbsp;&nbsp;<a href="javascript:;" class="yesterday">总共: <?php echo ($result['yesterday'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="yesterdayArrived">已到: <?php echo ($result['yesterdayArrived'][0]['count']); ?></a>&nbsp;&nbsp;<a href="javascript:;" class="yesterdayOutArrived">&nbsp;&nbsp;未到: <?php echo ($result['yesterdayOutArrived'][0]['count']); ?></a></p>
+                    <p>本月:&nbsp;&nbsp;<a href="javascript:;" class="currMonth">总共: <?php echo ($result['currMonth'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="currMonthArrived">已到:<?php echo ($result['currMonthArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="currMonthOutArrived">未到: <?php echo ($result['currMonthOutArrived'][0]['count']); ?></a></p>
+                    <p>上月:&nbsp;&nbsp;<a href="javascript:;" class="yesterMonth">总共: <?php echo ($result['yesterMonth'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="yesterMonthArrived">已到: <?php echo ($result['yesterMonthArrived'][0]['count']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="yesterMonthOutArrived">未到: <?php echo ($result['yesterMonthOutArrived'][0]['count']); ?></a></p>
                 </div>
             </div>
         </div>
@@ -54,7 +46,7 @@
             <div class="layui-card">
                 <div class="layui-card-header layui-bg-blue layui-anim layui-anim-up">本月到院排行</div>
                 <div class="layui-card-body layui-anim layui-anim-up">
-                    <?php if(is_array($userSort)): foreach($userSort as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'暂无数据':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
+                    <?php if(is_array($userSort)): foreach($userSort as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid layui-anim layui-anim-up" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'暂无数据':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p>
                 </div>
             </div>
         </div>
@@ -62,7 +54,8 @@
             <div class="layui-card">
                 <div class="layui-card-header layui-bg-orange layui-anim layui-anim-up">本月预约排行榜</div>
                 <div class="layui-card-body layui-anim layui-anim-up">
-                    <?php if(is_array($currUserSortRese)): foreach($currUserSortRese as $k=>$vo): ?><p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'暂无数据':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
+                    <foreach name="currUserSortRese" item="vo" key="k">
+                        <p><span class="layui-icon layui-icon-rate-solid" style="color:#FF5722;"></span>&nbsp;&nbsp;&nbsp;<?php echo ($vo['expert'] == null?'暂无数据':$vo['expert']); ?>&nbsp;&nbsp;&nbsp; <?php echo ($vo['count']); ?></p><?php endforeach; endif; ?>
                 </div>
             </div>
         </div>
@@ -73,11 +66,11 @@
             <div class="layui-card">
                 <div class="layui-card-header layui-bg-red layui-anim layui-anim-up">预约未定数据统计</div>
                 <div class="layui-card-body layui-anim layui-anim-up">
-                    <p>明日:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="tommodayRese"><?php echo ($checkCountRese['tommodayRese'][0]['count'] == null?'暂无数据':$checkCountRese['tommodayRese'][0]['count']); ?></a></p>
-                    <p>今日:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="todayRese"><?php echo ($checkCountRese['todayRese'][0]['count'] == null?'暂无数据':$checkCountRese['todayRese'][0]['count']); ?></a></p>
-                    <p>昨天:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="terdayRese"><?php echo ($checkCountRese['terdayRese'][0]['count'] == null?'暂无数据':$checkCountRese['terdayRese'][0]['count']); ?></a></p>
-                    <p>本月:&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="currMonthRese"><?php echo ($checkCountRese['currMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['currMonthRese'][0]['count']); ?></a></p>
-                    <p>上月:&nbsp;&nbsp;<a href="javascript:;" class="yesterMonthRese"><?php echo ($checkCountRese['yesterMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['yesterMonthRese'][0]['count']); ?></a></p>
+                    <p><a href="javascript:;" class="tommodayRese">明日:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['tommodayRese'][0]['count'] == null?'暂无数据':$checkCountRese['tommodayRese'][0]['count']); ?></a></p>
+                    <p><a href="javascript:;" class="todayRese">今日:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['todayRese'][0]['count'] == null?'暂无数据':$checkCountRese['todayRese'][0]['count']); ?></a></p>
+                    <p><a href="javascript:;" class="terdayRese">昨天:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['terdayRese'][0]['count'] == null?'暂无数据':$checkCountRese['terdayRese'][0]['count']); ?></a></p>
+                    <p><a href="javascript:;" class="currMonthRese">本月:&nbsp;&nbsp;&nbsp;<?php echo ($checkCountRese['currMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['currMonthRese'][0]['count']); ?></a></p>
+                    <p><a href="javascript:;" class="yesterMonthRese">上月:&nbsp;&nbsp;<?php echo ($checkCountRese['yesterMonthRese'][0]['count'] == null?'暂无数据':$checkCountRese['yesterMonthRese'][0]['count']); ?></a></p>
                 </div>
             </div>
         </div>
